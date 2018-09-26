@@ -2,7 +2,7 @@
 A web tool to unbiasly remap congressional districts
 
 # Installation
-- Have yarn installed on machine
+- Install yarn on your machine
 
 # Development Setup
 - Clone the repo
