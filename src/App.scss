@@ -1,3 +1,9 @@
+$red: #bf0a30;
+$white: #ffffff;
+$blue: #0a369d;
+$light-grey: #e0e0e0;
+$dark-grey: #939393;
+
 .App {
   text-align: center;
 }
@@ -9,9 +15,7 @@
 
 .App-header {
   background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+  color: $white;
 }
 
 .App-title {
@@ -26,3 +30,11 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.Header {
+  background-color: $dark-grey;
+  button {
+    color: $red;
+  }
+}
+
