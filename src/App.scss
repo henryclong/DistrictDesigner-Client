@@ -1,8 +1,13 @@
+
+// Primary Color Scheme
 $red: #bf0a30;
 $white: #ffffff;
 $blue: #0a369d;
 $light-grey: #e0e0e0;
 $dark-grey: #939393;
+
+// Font
+$default-font: Bitter;
 
 .App {
   text-align: center;
@@ -12,6 +17,9 @@ $dark-grey: #939393;
   background-color: $dark-grey;
   button {
     color: $red;
+    font-family: $default-font;
+    border-radius: 40px;
+    padding: 6px 4px 6px 4px;
   }
 }
 
