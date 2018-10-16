@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 
+
 class Header extends Component {
 
   render() {
     return (
       <div className="Header">
-        <h1>Header Component</h1>
+        {/*<h1>Header Component</h1>*/}
+        <img src={'/DDLogo_slanted.svg'} alt=""></img>
         {
           this.props.nav.map((item) => (
-            <div key={item.id}>
-              <button onClick={() => this.props.onToggle(item.id)}>
+              <button key={item.id} onClick={() => this.props.onToggle(item.id)}>
                 {item.label}
               </button>
-            </div>
           ))
         }
       </div>
