@@ -14,12 +14,32 @@ $default-font: Bitter;
 }
 
 .Header {
-  background-color: $dark-grey;
+  position: absolute;
+  top:0px;
+  left:0px;
+  width:100%;
+  background-color: transparent;
+  img {
+    height:auto;
+    width:30%;
+    float: left;
+  }
   button {
-    color: $red;
     font-family: $default-font;
-    border-radius: 40px;
-    padding: 6px 4px 6px 4px;
+    color: $red;
+    background-color: $white;
+    border: 0;
+    border-radius: 15px;
+    margin: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-transition: background-color 0.25s; /* For Safari 3.1 to 6.0 */
+    transition: background-color 0.25s;
+    float: right;
+  }
+  button:hover {
+    background-color: $red;
+    color:$white;
   }
 }
 
