@@ -17,7 +17,7 @@ class ToolModal extends Component {
 
   render() {
     return (
-      <div>
+      <div className="Modal ToolModal">
         <h1>ToolModal Component</h1>
         <button onClick={() => this.onStart()}>Start</button>
         <button onClick={() => this.onPause()}>Pause</button>

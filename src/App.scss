@@ -19,6 +19,25 @@ $default-font: Bitter;
   width:100%;
 }
 
+.Modal {
+  z-index: 1;
+  position:absolute;
+  bottom: 40px;
+  height: 80%;
+  width: 20%;
+  background-color: $white;
+  border-radius: 15px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
+}
+
+.DisplayModal{
+  right: 20px;
+}
+
+.ToolModal{
+  left: 20px;
+}
+
 .Header {
   z-index: 1;
   position: absolute;
