@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class DisplayModal extends Component {
     render() {
         return (
-            <div>
+            <div className="Modal DisplayModal">
                 <h1>DisplayModal Component</h1>
             </div>
         );
