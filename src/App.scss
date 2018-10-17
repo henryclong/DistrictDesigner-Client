@@ -38,8 +38,8 @@ $default-font: Bitter;
     float: right;
   }
   button:hover {
-    background-color: #800000;
-    color:#ffffff;
+    background-color: $red;
+    color:$white;
   }
 }
 
