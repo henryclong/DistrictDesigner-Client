@@ -1,0 +1,1 @@
+export const URL = process.env.REACT_APP_DISCTRICT_DESIGNER_SERVER_URL;
