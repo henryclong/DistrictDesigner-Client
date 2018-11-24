@@ -4,6 +4,7 @@ import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
 const SLIDER_COUNT = 3;
+const SLIDER_MAX = 10;
 
 class ToolModal extends Component {
 
@@ -13,7 +14,7 @@ class ToolModal extends Component {
   }
 
   onStart = () => {
-    startAlgorithm(this.weights, null, null);
+    startAlgorithm(this.normalizeWeights(this.weights), null, null);
   }
 
   onPause = () => {
@@ -30,7 +31,7 @@ class ToolModal extends Component {
       sliders.push(
         <div>
           <label name={"weightLabel" + i}>weight{i}</label>
-          <Slider id={"weightSlider" + i} min={0} max={10} defaultValue={5} onAfterChange={(value) => {this.updateWeight(i, value)}}></Slider>
+          <Slider id={"weightSlider" + i} min={0} max={SLIDER_MAX} defaultValue={SLIDER_MAX/2} onAfterChange={(value) => {this.updateWeight(i, value)}}></Slider>
         </div>
       );
       this.weights[i] = 5;
@@ -38,8 +39,17 @@ class ToolModal extends Component {
     return sliders;
   }
 
-  normalizeWeights() {
-
+  normalizeWeights(weights) {
+    let normalWeights = [];
+    let totalWeight = 0;
+    for(let i = 0; i < weights.length; i++) {
+      totalWeight += weights[i];
+    }
+    let scaleFactor = SLIDER_MAX / totalWeight;
+    for(let i = 0; i < weights.length; i++) {
+      normalWeights[i] = weights[i] * scaleFactor;
+    }
+    return normalWeights;
   }
 
   updateWeight = (sliderId, newWeight) => {
