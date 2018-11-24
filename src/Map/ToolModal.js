@@ -3,6 +3,8 @@ import { startAlgorithm, pauseAlgirithm, stopAlgorithm } from '../helpers/distri
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
+const SLIDER_COUNT = 3;
+
 class ToolModal extends Component {
 
   onStart = () => {
@@ -38,7 +40,7 @@ class ToolModal extends Component {
     return (
       <div className="Modal ToolModal">
         <h1>ToolModal Component</h1>
-        {this.createSliders(3)}
+        {this.createSliders(SLIDER_COUNT)}
         <button onClick={() => this.onStart()}>Start</button>
         <button onClick={() => this.onPause()}>Pause</button>
         <button onClick={() => this.onStop()}>Stop</button>
