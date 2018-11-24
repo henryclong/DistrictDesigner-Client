@@ -24,7 +24,7 @@ class ToolModal extends Component {
     for(let i = 0; i < sliderCount; i++){
       sliders.push(
         <div>
-          <label name={"weightlLabel" + i}>weight{i}</label>
+          <label name={"weightLabel" + i}>weight{i}</label>
           <Slider id={"weightSlider" + i} min={0} max={10} defaultValue={5}></Slider>
         </div>
       );
