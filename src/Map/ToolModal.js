@@ -8,7 +8,7 @@ const SLIDER_MAX = 10;
 
 class ToolModal extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
     this.weights = [];
   }
@@ -27,7 +27,7 @@ class ToolModal extends Component {
 
   createSliders(sliderCount) {
     let sliders = [];
-    for(let i = 0; i < sliderCount; i++){
+    for(let i = 0; i < sliderCount; i++) {
       sliders.push(
         <div>
           <label name={"weightLabel" + i}>weight{i}</label>
