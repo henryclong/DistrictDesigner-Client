@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { startAlgorithm, pauseAlgirithm, stopAlgorithm } from '../helpers/district-designer';
+import Slider from 'rc-slider';
+import 'rc-slider/assets/index.css';
 
 class ToolModal extends Component {
 
@@ -21,7 +23,7 @@ class ToolModal extends Component {
       sliders.push(
         <div>
           <label name={"weightlLabel" + i}>weight{i}</label>
-          <input type="range" id={"weightSlider" + i} name={"weightSlider" + i} min="0" max="10" defaultValue="5" step="1"></input>
+          <Slider id={"weightSlider" + i} min={0} max={10} defaultValue={5}></Slider>
         </div>
       );
     }
