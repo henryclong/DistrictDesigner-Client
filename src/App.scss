@@ -36,6 +36,18 @@ $default-font: Bitter;
 
 .ToolModal{
   left: 20px;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: flex-start;
+  padding: 10px;
+  input[type="range"]{
+    margin: 0;
+    width:100%;
+  }
+  button{
+    width: 100%;
+  }
 }
 
 .Header {
