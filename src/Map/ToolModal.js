@@ -7,8 +7,13 @@ const SLIDER_COUNT = 3;
 
 class ToolModal extends Component {
 
+  constructor(props){
+    super(props);
+    this.weights = [];
+  }
+
   onStart = () => {
-    startAlgorithm();
+    startAlgorithm(this.weights, null, null);
   }
 
   onPause = () => {
@@ -25,15 +30,21 @@ class ToolModal extends Component {
       sliders.push(
         <div>
           <label name={"weightLabel" + i}>weight{i}</label>
-          <Slider id={"weightSlider" + i} min={0} max={10} defaultValue={5}></Slider>
+          <Slider id={"weightSlider" + i} min={0} max={10} defaultValue={5} onAfterChange={(value) => {this.updateWeight(i, value)}}></Slider>
         </div>
       );
+      this.weights[i] = 5;
     }
     return sliders;
   }
 
   normalizeWeights() {
 
+  }
+
+  updateWeight = (sliderId, newWeight) => {
+    console.log('updating weight for weight # ' + sliderId + ' from ' + this.weights[sliderId] + ' to ' + newWeight);
+    this.weights[sliderId] = newWeight;
   }
 
   render() {
