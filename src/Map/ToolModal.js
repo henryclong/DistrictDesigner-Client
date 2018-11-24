@@ -15,7 +15,7 @@ class ToolModal extends Component {
     stopAlgorithm();
   }
 
-  createSliders = (sliderCount) => {
+  createSliders(sliderCount) {
     let sliders = [];
     for(let i = 0; i < sliderCount; i++){
       sliders.push(
@@ -26,6 +26,10 @@ class ToolModal extends Component {
       );
     }
     return sliders;
+  }
+
+  normalizeWeights() {
+
   }
 
   render() {
