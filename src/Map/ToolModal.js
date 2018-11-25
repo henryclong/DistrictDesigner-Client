@@ -47,7 +47,7 @@ class ToolModal extends Component {
     }
     let scaleFactor = SLIDER_MAX / totalWeight;
     for(let i = 0; i < weights.length; i++) {
-      normalWeights[i] = weights[i] * scaleFactor;
+      normalWeights[i] = (weights[i] * scaleFactor).toFixed(5);
     }
     return normalWeights;
   }
