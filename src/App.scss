@@ -23,29 +23,18 @@ $default-font: Bitter;
   font-family: $default-font;
   z-index: 1;
   position:absolute;
-  bottom: 40px;
+  top: 80px;
+  //min-height: 20%;
   height: 80%;
   width: 20%;
   background-color: $white;
   border-radius: 15px;
+  padding: 10px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
-}
-
-.DisplayModal{
-  right: 20px;
-}
-
-.ToolModal{
-  left: 20px;
   display: flex;
   flex-direction: column;
   align-content: center;
   justify-content: flex-start;
-  padding: 10px;
-  input[type="range"]{
-    margin: 0;
-    width:100%;
-  }
   label {
     color: $blue;
   }
@@ -62,12 +51,20 @@ $default-font: Bitter;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.1);
     -webkit-transition: background-color 0.25s; /* For Safari 3.1 to 6.0 */
     transition: background-color 0.25s;
-    float: right;
   }
   button:hover {
     background-color: $blue;
     color: $white;
   }
+}
+
+.DisplayModal{
+  right: 20px;
+}
+
+.ToolModal{
+  left: 20px;
+  
   .rc-slider {
     margin-bottom: 10px;
     .rc-slider-handle {
