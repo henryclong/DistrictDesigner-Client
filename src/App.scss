@@ -45,8 +45,40 @@ $default-font: Bitter;
     margin: 0;
     width:100%;
   }
-  button{
-    width: 100%;
+  label {
+    color: $blue;
+  }
+  button {
+    font-family: $default-font;
+    color: $blue;
+    background-color: $white;
+    //border: 0;
+    border-style: solid;
+    border-width: 1px;
+    border-color: $blue;
+    border-radius: 10px;
+    margin: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.1);
+    -webkit-transition: background-color 0.25s; /* For Safari 3.1 to 6.0 */
+    transition: background-color 0.25s;
+    float: right;
+  }
+  button:hover {
+    background-color: $blue;
+    color: $white;
+  }
+  .rc-slider {
+    margin-bottom: 10px;
+    .rc-slider-handle {
+      border-color: $blue;
+    }
+    .rc-slider-rail {
+      background-color: $light-grey;
+    }
+    .rc-slider-track {
+      background-color: $blue;
+    }
   }
 }
 
@@ -70,14 +102,14 @@ $default-font: Bitter;
     border-radius: 15px;
     margin: 10px;
     padding: 10px;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
     -webkit-transition: background-color 0.25s; /* For Safari 3.1 to 6.0 */
     transition: background-color 0.25s;
     float: right;
   }
   button:hover {
     background-color: $red;
-    color:$white;
+    color: $white;
   }
 }
 
