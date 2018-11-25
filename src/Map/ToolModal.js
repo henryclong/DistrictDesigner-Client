@@ -4,7 +4,7 @@ import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
 const SLIDER_COUNT = 3;
-const SLIDER_MAX = 10;
+const SLIDER_MAX = 20;
 
 class ToolModal extends Component {
 
@@ -45,7 +45,7 @@ class ToolModal extends Component {
     for(let i = 0; i < weights.length; i++) {
       totalWeight += weights[i];
     }
-    let scaleFactor = SLIDER_MAX / totalWeight;
+    let scaleFactor = 1 / totalWeight;
     for(let i = 0; i < weights.length; i++) {
       normalWeights[i] = (weights[i] * scaleFactor).toFixed(5);
     }
