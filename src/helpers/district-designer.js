@@ -7,19 +7,19 @@ export const getUpdate = () => {
 
 export const startAlgorithm = (weights, shortName, algoType) => {
   console.log("Algorithm Started: \nWeights: ", weights, "\nState: ", shortName, "\nAlgorithm Type:", algoType);
-  appendOutput('algorithm started');
+  appendOutput("Algorithm Started:<br>Weights: " + weights + "<br>State: " + shortName + "<br>Algorithm Type: " + algoType);
   return true;
 }
 
 export const stopAlgorithm = () => {
   console.log("Algorithm Stopped");
-  appendOutput('algorithm stopped');
+  appendOutput('Algorithm Stopped');
   return true;
 }
 
 export const pauseAlgirithm = () => {
   console.log("Algorithm Paused");  
-  appendOutput('algorithm paused');
+  appendOutput('Algorithm Paused');
   return true;
 }
 
@@ -29,5 +29,7 @@ export const clearOutput = () => {
 
 export const appendOutput = (text) => {
   let currentText = document.getElementById('outputTextArea').innerHTML;
-  document.getElementById('outputTextArea').innerHTML = (currentText += (text += '<br>'));
+  let outputTextArea = document.getElementById('outputTextArea');
+  outputTextArea.innerHTML = (currentText += (text += '<br><br>'));
+  outputTextArea.scrollTop = outputTextArea.scrollHeight;
 }
