@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
+import { clearOutput } from '../helpers/district-designer';
 
 class DisplayModal extends Component {
+
+  clear = () => {
+    clearOutput();
+  }
+
     render() {
         return (
             <div className="Modal DisplayModal">
-                <h1>DisplayModal Component</h1>
+                <p id="outputTextArea" class="outputTextarea"></p>
+                <button onClick={() => {this.clear()}}>Clear</button>
             </div>
         );
     }

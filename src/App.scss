@@ -60,6 +60,15 @@ $default-font: Bitter;
 
 .DisplayModal{
   right: 20px;
+  .outputTextarea{
+    height: 75%;
+    border-style: solid;
+    border-width: 1px;
+    border-color: $blue;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 75%;
+  }
 }
 
 .ToolModal{
