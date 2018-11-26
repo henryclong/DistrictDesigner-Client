@@ -13,6 +13,10 @@ class StateSelector extends Component {
     this.setState({ searching: true });
   }
 
+  endSearch = () => {
+    this.setState({ searching: false });
+  }
+
   selectState = () => {
     this.setState({ searching: false });
   }
@@ -25,7 +29,10 @@ class StateSelector extends Component {
     }
     else {
       return (
-        <button onClick={() => this.selectState()}>Searching</button>
+        <div className="StateSelector">
+          <button onClick={() => this.endSearch()}>← Close</button>
+          <input type="text" placeholder="Search"></input>
+        </div>
       )
     }
   }

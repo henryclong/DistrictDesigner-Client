@@ -102,6 +102,21 @@ $default-font: Bitter;
       margin-left: 10px;
     }
   }
+  .StateSelector {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    input[type="text"] {
+      font-family: $default-font;
+      background-color: $white;
+      border-style: solid;
+      border-width: 1px;
+      border-color: $blue;
+      border-radius: 10px;
+      margin: 10px;
+      padding: 10px;
+    }
+  }
 }
 
 .Header {

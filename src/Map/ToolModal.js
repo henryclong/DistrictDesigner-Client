@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Slider from 'rc-slider';
+import StateSelector from "./StateSelector"
 import { resetZoom, stateZoom } from '../Map/index';
 import { startAlgorithm, pauseAlgirithm, stopAlgorithm, clearOutput } from '../helpers/district-designer';
 import 'rc-slider/assets/index.css';
@@ -70,7 +71,8 @@ class ToolModal extends Component {
     else {
       return (
         <div className="Modal ToolModal">
-          <button onClick={() => this.zoomIn()}>Zoom In [TEST]</button>
+          {/*<button onClick={() => this.zoomIn()}>Zoom In [TEST]</button>*/}
+          <StateSelector></StateSelector>
         </div>
       );
     }
