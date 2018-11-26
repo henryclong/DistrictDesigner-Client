@@ -111,10 +111,7 @@ class Map extends Component {
             });
             map.on('mousedown', function(e){
                 if (hoveredStateId != null){
-                    
                     fly();
-                }else{
-                    resetZoom();
                 }
             });
         });
@@ -127,6 +124,6 @@ function fly() {
     map.flyTo({center: [-89.36, 44.87], zoom: 6});
 }
 
-function resetZoom() {
+export const resetZoom = () => {
     map.flyTo({center: [-95.7, 39], zoom: 3.75});
 }

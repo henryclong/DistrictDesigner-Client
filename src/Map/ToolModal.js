@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { startAlgorithm, pauseAlgirithm, stopAlgorithm } from '../helpers/district-designer';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
+import { resetZoom } from '../Map/index';
 
 const SLIDER_COUNT = 3;
 const SLIDER_MAX = 20;
@@ -23,6 +24,10 @@ class ToolModal extends Component {
 
   onStop = () => {
     stopAlgorithm();
+  }
+
+  zoomOut = () => {
+    resetZoom();
   }
 
   createSliders(sliderCount) {
@@ -60,7 +65,7 @@ class ToolModal extends Component {
   render() {
     return (
       <div className="Modal ToolModal">
-        <h1>ToolModal Component</h1>
+        <button onClick={() => this.zoomOut()}>← Return to State Select</button>
         {this.createSliders(SLIDER_COUNT)}
         <button onClick={() => this.onStart()}>Start</button>
         <button onClick={() => this.onPause()}>Pause</button>
