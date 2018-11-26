@@ -47,7 +47,7 @@ class ToolModal extends Component {
     }
     let scaleFactor = 1 / totalWeight;
     for(let i = 0; i < weights.length; i++) {
-      normalWeights[i] = (weights[i] * scaleFactor).toFixed(5);
+      normalWeights[i] = (weights[i] * scaleFactor).toFixed(3);
     }
     return normalWeights;
   }
