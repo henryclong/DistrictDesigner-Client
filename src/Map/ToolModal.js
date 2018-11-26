@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Slider from 'rc-slider';
 import { resetZoom, stateZoom } from '../Map/index';
-import { startAlgorithm, pauseAlgirithm, stopAlgorithm } from '../helpers/district-designer';
+import { startAlgorithm, pauseAlgirithm, stopAlgorithm, clearOutput } from '../helpers/district-designer';
 import 'rc-slider/assets/index.css';
 
 class ToolModal extends Component {
@@ -34,12 +34,9 @@ class ToolModal extends Component {
 
   zoomIn = () => {
     this.props.setZoom(true);
+    clearOutput();
     stateZoom();
   }
-
-  /*setZoom = (zoom) => {
-    this.setState({ zoomed: zoom });
-  }*/
 
   updateWeight = (sliderId, newWeight) => {
     console.log('updating weight for weight # ' + sliderId + ' from ' + this.weights[sliderId] + ' to ' + newWeight);
