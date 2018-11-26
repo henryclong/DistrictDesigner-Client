@@ -7,12 +7,24 @@ var map;
 
 class Map extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      zoomed: false,
+    };
+    this.setZoom = this.setZoom.bind(this);
+  }
+
+  setZoom = (zoom) => {
+    this.setState({ zoomed: zoom });
+  }
+
     render() {
         return (
             <div>
                 <div id='map'></div>
-                <DisplayModal />
-                <ToolModal />
+                <DisplayModal zoomed={this.state.zoomed}/>
+                <ToolModal zoomed={this.state.zoomed} setZoom={this.setZoom}/>
             </div>
         );
     }

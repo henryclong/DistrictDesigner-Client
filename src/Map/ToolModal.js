@@ -9,9 +9,6 @@ class ToolModal extends Component {
   constructor(props) {
     super(props);
     this.weights = [];
-    this.state = {
-      zoomed: false,
-    };
   }
 
   componentDidUpdate() {
@@ -31,14 +28,18 @@ class ToolModal extends Component {
   }
 
   zoomOut = () => {
-    this.setState({ zoomed: false });
+    this.props.setZoom(false);
     resetZoom();
   }
 
   zoomIn = () => {
-    this.setState({ zoomed: true });
+    this.props.setZoom(true);
     stateZoom();
   }
+
+  /*setZoom = (zoom) => {
+    this.setState({ zoomed: zoom });
+  }*/
 
   updateWeight = (sliderId, newWeight) => {
     console.log('updating weight for weight # ' + sliderId + ' from ' + this.weights[sliderId] + ' to ' + newWeight);
@@ -48,7 +49,7 @@ class ToolModal extends Component {
   }
 
   render() {
-    if(this.state.zoomed === true){
+    if(this.props.zoomed === true){
       return (
         <div className="Modal ToolModal">
           <button onClick={() => this.zoomOut()}>← Return to State Select</button>
