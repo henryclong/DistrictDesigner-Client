@@ -24,8 +24,7 @@ $default-font: Bitter;
   z-index: 1;
   position:absolute;
   top: 80px;
-  //min-height: 20%;
-  height: 80%;
+  min-height: 20%;
   width: 20%;
   background-color: $white;
   border-radius: 15px;
@@ -60,8 +59,9 @@ $default-font: Bitter;
 
 .DisplayModal{
   right: 20px;
+  height: 80%;
   .outputTextarea{
-    height: 75%;
+    height: 100%;
     border-style: solid;
     border-width: 1px;
     border-color: $blue;
@@ -69,6 +69,7 @@ $default-font: Bitter;
     padding: 10px;
     font-size: 75%;
     overflow: scroll;
+    margin: 10px;
   }
 }
 
@@ -86,10 +87,15 @@ $default-font: Bitter;
       background-color: $blue;
     }
   }
+  label {
+    margin-left: 10px;
+  }
   .weightContainer {
     display: flex;
     flex-direction: row;
     align-content: center;
+    margin-left: 10px;
+    margin-right: 10px;
     label {
       margin-left: 10px;
     }
