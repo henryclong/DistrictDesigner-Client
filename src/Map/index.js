@@ -6,6 +6,7 @@ import mapboxgl from 'mapbox-gl';
 var map;
 
 class Map extends Component {
+
     render() {
         return (
             <div>
@@ -121,9 +122,13 @@ class Map extends Component {
 export default Map;
 
 function fly() {
-    map.flyTo({center: [-89.36, 44.87], zoom: 6});
+  map.flyTo({center: [-89.36, 44.87], zoom: 6});
+}
+
+export const stateZoom = () => {
+  fly();
 }
 
 export const resetZoom = () => {
-    map.flyTo({center: [-95.7, 39], zoom: 3.75});
+  map.flyTo({center: [-95.7, 39], zoom: 3.75});
 }

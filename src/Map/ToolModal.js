@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Slider from 'rc-slider';
-import { resetZoom } from '../Map/index';
+import { resetZoom, stateZoom } from '../Map/index';
 import { startAlgorithm, pauseAlgirithm, stopAlgorithm } from '../helpers/district-designer';
 import 'rc-slider/assets/index.css';
 
@@ -9,9 +9,12 @@ class ToolModal extends Component {
   constructor(props) {
     super(props);
     this.weights = [];
+    this.state = {
+      zoomed: false,
+    };
   }
 
-  componentDidMount() {
+  componentDidUpdate() {
     this.props.weights.map((item) => (this.updateWeight(item.id, this.props.sliderMax/2)));
   }
 
@@ -28,36 +31,52 @@ class ToolModal extends Component {
   }
 
   zoomOut = () => {
+    this.setState({ zoomed: false });
     resetZoom();
+  }
+
+  zoomIn = () => {
+    this.setState({ zoomed: true });
+    stateZoom();
   }
 
   updateWeight = (sliderId, newWeight) => {
     console.log('updating weight for weight # ' + sliderId + ' from ' + this.weights[sliderId] + ' to ' + newWeight);
     this.weights[sliderId] = (newWeight / this.props.sliderMax).toFixed(2);
     let weightLabel = document.getElementById('weightLabel' + sliderId);
-    weightLabel.innerHTML = this.weights[sliderId];
+    if(weightLabel != null) weightLabel.innerHTML = this.weights[sliderId];
   }
 
   render() {
-    return (
-      <div className="Modal ToolModal">
-        <button onClick={() => this.zoomOut()}>← Return to State Select</button>
-        {
-          this.props.weights.map((item) => (
-              <div>
-                <label name={"weightTitle"}>{item.label}</label>
-                <div class="weightContainer">
-                  <Slider id={"weightSlider"+item.id} min={0} max={this.props.sliderMax} defaultValue={this.props.sliderMax/2} onAfterChange={(value) => {this.updateWeight(item.id, value)}}></Slider>
-                  <label id={"weightLabel"+item.id}>-1</label>
+    if(this.state.zoomed === true){
+      return (
+        <div className="Modal ToolModal">
+          <button onClick={() => this.zoomOut()}>← Return to State Select</button>
+          {
+            this.props.weights.map((item) => (
+                <div>
+                  <label name={"weightTitle"}>{item.label}</label>
+                  <div class="weightContainer">
+                    <Slider id={"weightSlider"+item.id} min={0} max={this.props.sliderMax} defaultValue={this.props.sliderMax/2} onAfterChange={(value) => {this.updateWeight(item.id, value)}}></Slider>
+                    <label id={"weightLabel"+item.id}>-1</label>
+                  </div>
                 </div>
-              </div>
-          ))
-        }
-        <button onClick={() => this.onStart()}>Start</button>
-        <button onClick={() => this.onPause()}>Pause</button>
-        <button onClick={() => this.onStop()}>Stop</button>
-      </div>
-    );
+            ))
+          }
+          <button onClick={() => this.onStart()}>Start</button>
+          <button onClick={() => this.onPause()}>Pause</button>
+          <button onClick={() => this.onStop()}>Stop</button>
+        </div>
+      );
+    }
+    else {
+      return (
+        <div className="Modal ToolModal">
+          <h1>State Select</h1>
+          <button onClick={() => this.zoomIn()}>Zoom In [TEST]</button>
+        </div>
+      );
+    }
   }
 }
 
