@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import { startAlgorithm, pauseAlgirithm, stopAlgorithm } from '../helpers/district-designer';
 import Slider from 'rc-slider';
-import 'rc-slider/assets/index.css';
 import { resetZoom } from '../Map/index';
-
-const SLIDER_COUNT = 3;
-const SLIDER_MAX = 20;
+import { startAlgorithm, pauseAlgirithm, stopAlgorithm } from '../helpers/district-designer';
+import 'rc-slider/assets/index.css';
 
 class ToolModal extends Component {
 
@@ -14,8 +11,12 @@ class ToolModal extends Component {
     this.weights = [];
   }
 
+  componentDidMount() {
+    this.props.weights.map((item) => (this.updateWeight(item.id, this.props.sliderMax/2)));
+  }
+
   onStart = () => {
-    startAlgorithm(this.normalizeWeights(this.weights), null, null);
+    startAlgorithm(this.weights, null, null);
   }
 
   onPause = () => {
@@ -30,43 +31,28 @@ class ToolModal extends Component {
     resetZoom();
   }
 
-  createSliders(sliderCount) {
-    let sliders = [];
-    for(let i = 0; i < sliderCount; i++) {
-      sliders.push(
-        <div>
-          <label name={"weightLabel" + i}>weight{i}</label>
-          <Slider id={"weightSlider" + i} min={0} max={SLIDER_MAX} defaultValue={SLIDER_MAX/2} onAfterChange={(value) => {this.updateWeight(i, value)}}></Slider>
-        </div>
-      );
-      this.weights[i] = 5;
-    }
-    return sliders;
-  }
-
-  normalizeWeights(weights) {
-    let normalWeights = [];
-    let totalWeight = 0;
-    for(let i = 0; i < weights.length; i++) {
-      totalWeight += weights[i];
-    }
-    let scaleFactor = 1 / totalWeight;
-    for(let i = 0; i < weights.length; i++) {
-      normalWeights[i] = (weights[i] * scaleFactor).toFixed(3);
-    }
-    return normalWeights;
-  }
-
   updateWeight = (sliderId, newWeight) => {
     console.log('updating weight for weight # ' + sliderId + ' from ' + this.weights[sliderId] + ' to ' + newWeight);
-    this.weights[sliderId] = newWeight;
+    this.weights[sliderId] = (newWeight / this.props.sliderMax).toFixed(2);
+    let weightLabel = document.getElementById('weightLabel' + sliderId);
+    weightLabel.innerHTML = this.weights[sliderId];
   }
 
   render() {
     return (
       <div className="Modal ToolModal">
         <button onClick={() => this.zoomOut()}>← Return to State Select</button>
-        {this.createSliders(SLIDER_COUNT)}
+        {
+          this.props.weights.map((item) => (
+              <div>
+                <label name={"weightTitle"}>{item.label}</label>
+                <div class="weightContainer">
+                  <Slider id={"weightSlider"+item.id} min={0} max={this.props.sliderMax} defaultValue={this.props.sliderMax/2} onAfterChange={(value) => {this.updateWeight(item.id, value)}}></Slider>
+                  <label id={"weightLabel"+item.id}>-1</label>
+                </div>
+              </div>
+          ))
+        }
         <button onClick={() => this.onStart()}>Start</button>
         <button onClick={() => this.onPause()}>Pause</button>
         <button onClick={() => this.onStop()}>Stop</button>
@@ -74,5 +60,26 @@ class ToolModal extends Component {
     );
   }
 }
+
+ToolModal.defaultProps = {
+  weights: [
+    {
+      id: '0',
+      label: 'Compactness',
+      value: 'COMPACTNESS',
+    },
+    {
+      id: '1',
+      label: 'Weight 2',
+      value: 'WEIGHT_2',
+    },
+    {
+      id: '2',
+      label: 'Weight 3',
+      value: 'WEIGHT_3',
+    },
+  ],
+  sliderMax: 20,
+};
 
 export default ToolModal;
