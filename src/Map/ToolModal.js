@@ -73,7 +73,6 @@ class ToolModal extends Component {
     else {
       return (
         <div className="Modal ToolModal">
-          <h1>State Select</h1>
           <button onClick={() => this.zoomIn()}>Zoom In [TEST]</button>
         </div>
       );

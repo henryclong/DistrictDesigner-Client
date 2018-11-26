@@ -8,12 +8,19 @@ class DisplayModal extends Component {
   }
 
     render() {
+      if(this.props.zoomed){
         return (
             <div className="Modal DisplayModal">
                 <p id="outputTextArea" class="outputTextarea"></p>
                 <button onClick={() => {this.clear()}}>Clear</button>
             </div>
         );
+      }
+      else{
+        return (
+          <div></div>
+        )
+      }
     }
 }
 
