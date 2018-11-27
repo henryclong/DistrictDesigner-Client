@@ -12,11 +12,8 @@ class Map extends Component {
     this.state = {
       zoomed: false,
     };
-    this.setZoom = this.setZoom.bind(this);
-  }
-
-  setZoom = (zoom) => {
-    this.setState({ zoomed: zoom });
+    this.stateZoom = this.stateZoom.bind(this);
+    this.resetZoom = this.resetZoom.bind(this);
   }
 
     render() {
@@ -24,10 +21,11 @@ class Map extends Component {
             <div>
                 <div id='map'></div>
                 <DisplayModal zoomed={this.state.zoomed}/>
-                <ToolModal zoomed={this.state.zoomed} setZoom={this.setZoom}/>
+                <ToolModal zoomed={this.state.zoomed} stateZoom={this.stateZoom} resetZoom={this.resetZoom}/>
             </div>
         );
     }
+
     componentDidMount() {
         mapboxgl.accessToken = 'pk.eyJ1IjoibG9uZ2giLCJhIjoiY2psem92M2JkMDN4bDNsbXlhZ2Z6ZzhoZiJ9.qEtkhzP-UwuKVkV5suN7sg';
         map = new mapboxgl.Map({
@@ -56,13 +54,13 @@ class Map extends Component {
                 'paint': {
                     'fill-color': ["case",
                         ["boolean", ["feature-state", "hover"], false],
-                        '#880000',
-                        '#000088'
+                        '#bf0a30',
+                        '#0a369d'
                     ],
                     "fill-opacity": ["case",
                         ["boolean", ["feature-state", "hover"], false],
                         1.0,
-                        0.5
+                        0.8
                     ]
                 },
                 'minzoom': 5.5,
@@ -90,13 +88,13 @@ class Map extends Component {
                 'paint': {
                     'fill-color': ["case",
                         ["boolean", ["feature-state", "hover"], false],
-                        '#880000',
-                        '#000088'
+                        '#0a369d',
+                        '#0a369d'
                     ],
                     "fill-opacity": ["case",
                         ["boolean", ["feature-state", "hover"], false],
                         1.0,
-                        0.5
+                        1.0
                     ]
                 },
                 'minzoom': 3.5,
@@ -122,25 +120,20 @@ class Map extends Component {
                 hoveredStateId = (features[0] != null)?features[0].id:null;
                 map.setFeatureState({ source: 'stateSource', sourceLayer: 'usstates', id: hoveredStateId }, { hover: true });
             });
-            map.on('mousedown', function(e){
-                if (hoveredStateId != null){
-                    fly();
-                }
-            });
         });
     }
+  
+  stateZoom(stateShortName) {
+    this.setState({ zoomed: true });
+    map.flyTo({center: [-89.36, 44.87], zoom: 6});
+  }
+  
+  resetZoom() {
+    this.setState({ zoomed: false });
+    map.flyTo({center: [-95.7, 39], zoom: 3.75});
+  }
 }
 
 export default Map;
 
-function fly() {
-  map.flyTo({center: [-89.36, 44.87], zoom: 6});
-}
 
-export const stateZoom = () => {
-  fly();
-}
-
-export const resetZoom = () => {
-  map.flyTo({center: [-95.7, 39], zoom: 3.75});
-}

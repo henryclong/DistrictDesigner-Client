@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Slider from 'rc-slider';
 import StateSelector from "./StateSelector"
-import { resetZoom, stateZoom } from '../Map/index';
 import { startAlgorithm, pauseAlgirithm, stopAlgorithm, clearOutput } from '../helpers/district-designer';
 import 'rc-slider/assets/index.css';
 
@@ -14,6 +13,10 @@ class ToolModal extends Component {
 
   componentDidUpdate() {
     this.props.weights.map((item) => (this.updateWeight(item.id, this.props.sliderMax/2)));
+  }
+
+  componentDidMount() {
+
   }
 
   onStart = () => {
@@ -29,14 +32,13 @@ class ToolModal extends Component {
   }
 
   zoomOut = () => {
-    this.props.setZoom(false);
-    resetZoom();
+    this.props.resetZoom();
   }
 
   zoomIn = () => {
     this.props.setZoom(true);
     clearOutput();
-    stateZoom();
+    this.props.stateZoom('');
   }
 
   updateWeight = (sliderId, newWeight) => {
@@ -71,7 +73,7 @@ class ToolModal extends Component {
     else {
       return (
         <div className="Modal ToolModal">
-          <StateSelector></StateSelector>
+          <StateSelector  stateZoom={this.props.stateZoom} resetZoom={this.props.resetZoom}></StateSelector>
         </div>
       );
     }

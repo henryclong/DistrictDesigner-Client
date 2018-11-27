@@ -25,6 +25,7 @@ $default-font: Bitter;
   position:absolute;
   top: 80px;
   min-height: 5%;
+  max-height: 80%;
   width: 20%;
   background-color: $white;
   border-radius: 15px;
@@ -106,6 +107,7 @@ $default-font: Bitter;
     display: flex;
     flex-direction: column;
     align-content: center;
+    width: 100%;
     input[type="text"] {
       font-family: $default-font;
       background-color: $white;
@@ -115,6 +117,29 @@ $default-font: Bitter;
       border-radius: 10px;
       margin: 10px;
       padding: 10px;
+    }
+    ul {
+      display: flex;
+      align-content: center;
+      flex-direction: column;
+      padding: 0;
+      margin: 10px;
+      border-style: solid;
+      border-width: 1px;
+      border-color: $blue;
+      border-radius: 10px;
+      background-color: $light-grey;
+      overflow: scroll;
+      height: 60%;
+    }
+    li {
+      list-style: none;
+      padding: 5px;
+      button {
+        margin: 0;
+        width: 100%;
+        text-align: start;
+      }
     }
   }
 }

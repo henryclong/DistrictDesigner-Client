@@ -24,7 +24,10 @@ export const pauseAlgirithm = () => {
 }
 
 export const clearOutput = () => {
-  document.getElementById('outputTextArea').innerHTML = '';
+  let outputTextArea = document.getElementById('outputTextArea');
+  if(outputTextArea != null){
+    outputTextArea.innerHTML = '';
+  }
 }
 
 export const appendOutput = (text) => {
