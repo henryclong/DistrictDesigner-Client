@@ -76,19 +76,6 @@ $default-font: Bitter;
 
 .ToolModal{
   left: 20px;
-  .rc-slider {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    .rc-slider-handle {
-      border-color: $blue;
-    }
-    .rc-slider-rail {
-      background-color: $light-grey;
-    }
-    .rc-slider-track {
-      background-color: $blue;
-    }
-  }
   label {
     margin-left: 10px;
   }
@@ -98,9 +85,44 @@ $default-font: Bitter;
     align-content: center;
     margin-left: 10px;
     margin-right: 10px;
+    margin-bottom: 10px;
     label {
-      margin-top: 8px;
       margin-left: 10px;
+    }
+    input[type="radio"] {
+      //margin-top: 10px;
+      //margin-bottom: 10px;
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 5;
+      width: 5;
+    }
+    .radio {
+      background-color: $white;
+      height: 10px;
+      width: 10px;
+      border-radius: 50%;
+      border-style: solid;
+      border-width: 2px;
+      border-color: $blue;
+      margin: 2px;
+    }
+    input[type="radio"]:checked ~ .radio {
+      background-color: $blue;
+    }
+    .rc-slider {
+      margin-top: 10px;
+      margin-bottom: 10px;
+      .rc-slider-handle {
+        border-color: $blue;
+      }
+      .rc-slider-rail {
+        background-color: $light-grey;
+      }
+      .rc-slider-track {
+        background-color: $blue;
+      }
     }
   }
   .StateSelector {

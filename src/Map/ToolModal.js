@@ -9,18 +9,15 @@ class ToolModal extends Component {
   constructor(props) {
     super(props);
     this.weights = [];
+    this.algorithm = 'SIMULATED_ANNEALING';
   }
 
   componentDidUpdate() {
     this.props.weights.map((item) => (this.updateWeight(item.id, this.props.sliderMax/2)));
   }
 
-  componentDidMount() {
-
-  }
-
   onStart = () => {
-    startAlgorithm(this.weights, null, null);
+    startAlgorithm(this.weights, null, this.algorithm);
   }
 
   onPause = () => {
@@ -54,11 +51,22 @@ class ToolModal extends Component {
         <div className="Modal ToolModal">
           <button onClick={() => this.zoomOut()}>← Return to State Select</button>
           {
+            this.props.algorithms.map((item) => (
+                <div>
+                  <div class="weightContainer">
+                    <input type="radio" id={item.value} name="algorithmRadio" checked={true} onClick={() => {this.algorithm = item.value}}></input>
+                    <span class="radio"></span>
+                    <label name={"algorithmTitle"}>{item.label}</label>
+                  </div>
+                </div>
+            ))
+          }
+          {
             this.props.weights.map((item) => (
                 <div>
                   <label name={"weightTitle"}>{item.label}</label>
                   <div class="weightContainer">
-                    <Slider id={"weightSlider"+item.id} min={0} max={this.props.sliderMax} defaultValue={this.props.sliderMax/2} onAfterChange={(value) => {this.updateWeight(item.id, value)}}></Slider>
+                    <Slider id={"weightSlider"+item.id} min={0} max={this.props.sliderMax} defaultValue={this.props.sliderMax/2} onChange={(value) => {this.updateWeight(item.id, value)}}></Slider>
                     <label id={"weightLabel"+item.id}>-1</label>
                   </div>
                 </div>
@@ -81,6 +89,16 @@ class ToolModal extends Component {
 }
 
 ToolModal.defaultProps = {
+  algorithms: [
+    {
+      label: 'Region Growing',
+      value: 'REGION_GROWING',
+    },
+    {
+      label: 'Simulated Annealing',
+      value: 'SIMULATED_ANNEALING',
+    },
+  ],
   weights: [
     {
       id: '0',
