@@ -9,7 +9,7 @@ class ToolModal extends Component {
   constructor(props) {
     super(props);
     this.weights = [];
-    this.algorithm = 'SIMULATED_ANNEALING';
+    this.algorithm = 'REGION_GROWING';
   }
 
   componentDidUpdate() {
@@ -53,7 +53,7 @@ class ToolModal extends Component {
             this.props.algorithms.map((item) => (
                 <div>
                   <div class="weightContainer">
-                    <input type="radio" id={item.value} name="algorithmRadio" checked={true} onClick={() => {this.algorithm = item.value}}></input>
+                    <input type="radio" id={item.value} name="algorithmRadio" checked={item.value === this.algorithm} onClick={() => {this.algorithm = item.value}}></input>
                     <span class="radio"></span>
                     <label name={"algorithmTitle"}>{item.label}</label>
                   </div>
