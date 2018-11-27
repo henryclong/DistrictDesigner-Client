@@ -94,8 +94,8 @@ class Map extends Component {
                     ],
                     "fill-opacity": ["case",
                         ["boolean", ["feature-state", "hover"], false],
-                        1.0,
-                        1.0
+                        0.7,
+                        0.7
                     ]
                 },
                 'minzoom': 3.5,
