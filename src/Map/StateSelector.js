@@ -72,13 +72,13 @@ StateSelector.defaultProps = {
     },
     {
       id: '56',
-      shortName: 'NW',
-      longName: 'NotWisconsin',
+      shortName: 'SC',
+      longName: 'South Carolina',
     },
     {
       id: '57',
-      shortName: 'SE',
-      longName: 'SearchExample',
+      shortName: 'UT',
+      longName: 'Utah',
     },
   ],
   sliderMax: 20,
