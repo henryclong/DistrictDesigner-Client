@@ -124,12 +124,12 @@ class Map extends Component {
         });
     }
   
-  stateZoom(stateShortName) {
+  stateZoom(stateShortName, boundingBox) {
     this.setState({
       zoomed: true,
       selectedState: stateShortName
     });
-    map.flyTo({center: [-89.36, 44.87], zoom: 6});
+    map.flyTo(boundingBox);
   }
   
   resetZoom() {

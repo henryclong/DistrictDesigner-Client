@@ -21,7 +21,9 @@ class StateSelector extends Component {
 
   selectState = (stateShortName) => {
     this.setState({ searching: false });
-    this.props.stateZoom(stateShortName);
+    this.props.states.map((usState) => {
+      if(usState.shortName === stateShortName) this.props.stateZoom(stateShortName, usState.boundingBox);
+    })
   }
 
   textChanged(text) {
@@ -66,19 +68,31 @@ class StateSelector extends Component {
 StateSelector.defaultProps = {
   states: [
     {
+      id: '45',
+      shortName: 'SC',
+      longName: 'South Carolina',
+      boundingBox: {
+        center: [-81, 34],
+        zoom: 6.5,
+      },
+    },
+    {
+      id: '49',
+      shortName: 'UT',
+      longName: 'Utah',
+      boundingBox: {
+        center: [-112, 39],
+        zoom: 5.5,
+      },
+    },
+    {
       id: '55',
       shortName: 'WI',
       longName: 'Wisconsin',
-    },
-    {
-      id: '56',
-      shortName: 'SC',
-      longName: 'South Carolina',
-    },
-    {
-      id: '57',
-      shortName: 'UT',
-      longName: 'Utah',
+      boundingBox: {
+        center: [-89.36, 44.87],
+        zoom: 6,
+      },
     },
   ],
   sliderMax: 20,
