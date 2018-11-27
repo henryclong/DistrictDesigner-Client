@@ -109,7 +109,7 @@ class Map extends Component {
                 'layout': {},
                 'paint': {
                     'line-color': '#ffffff',
-                    'line-width': 2.0
+                    'line-width': 1.5
                 },
                 'minzoom': 3.5,
                 'maxzoom': 5.5
