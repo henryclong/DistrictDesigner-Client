@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Slider from 'rc-slider';
 import StateSelector from "./StateSelector"
-import { startAlgorithm, pauseAlgirithm, stopAlgorithm, clearOutput } from '../helpers/district-designer';
+import { startAlgorithm, pauseAlgorithm, stopAlgorithm, clearOutput } from '../helpers/district-designer';
 import 'rc-slider/assets/index.css';
 
 class ToolModal extends Component {
@@ -21,7 +21,7 @@ class ToolModal extends Component {
   }
 
   onPause = () => {
-    pauseAlgirithm();
+    pauseAlgorithm();
   }
 
   onStop = () => {

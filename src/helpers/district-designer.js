@@ -17,7 +17,7 @@ export const stopAlgorithm = () => {
   return true;
 }
 
-export const pauseAlgirithm = () => {
+export const pauseAlgorithm = () => {
   console.log("Algorithm Paused");  
   appendOutput('Algorithm Paused');
   return true;
