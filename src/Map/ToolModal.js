@@ -32,12 +32,6 @@ class ToolModal extends Component {
     this.props.resetZoom();
   }
 
-  zoomIn = () => {
-    this.props.setZoom(true);
-    clearOutput();
-    this.props.stateZoom('');
-  }
-
   updateWeight = (sliderId, newWeight) => {
     this.weights[sliderId] = (newWeight / this.props.sliderMax).toFixed(2);
     let weightLabel = document.getElementById('weightLabel' + sliderId);
