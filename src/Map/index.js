@@ -11,6 +11,7 @@ class Map extends Component {
     super(props);
     this.state = {
       zoomed: false,
+      selectedState: 'none',
     };
     this.stateZoom = this.stateZoom.bind(this);
     this.resetZoom = this.resetZoom.bind(this);
@@ -21,7 +22,7 @@ class Map extends Component {
             <div>
                 <div id='map'></div>
                 <DisplayModal zoomed={this.state.zoomed}/>
-                <ToolModal zoomed={this.state.zoomed} stateZoom={this.stateZoom} resetZoom={this.resetZoom}/>
+                <ToolModal zoomed={this.state.zoomed} stateZoom={this.stateZoom} resetZoom={this.resetZoom} selectedState={this.state.selectedState}/>
             </div>
         );
     }
@@ -124,12 +125,18 @@ class Map extends Component {
     }
   
   stateZoom(stateShortName) {
-    this.setState({ zoomed: true });
+    this.setState({
+      zoomed: true,
+      selectedState: stateShortName
+    });
     map.flyTo({center: [-89.36, 44.87], zoom: 6});
   }
   
   resetZoom() {
-    this.setState({ zoomed: false });
+    this.setState({
+      zoomed: false,
+      selectedState: 'none',
+    });
     map.flyTo({center: [-95.7, 39], zoom: 3.75});
   }
 }

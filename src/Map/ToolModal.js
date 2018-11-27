@@ -17,7 +17,7 @@ class ToolModal extends Component {
   }
 
   onStart = () => {
-    startAlgorithm(this.weights, null, this.algorithm);
+    startAlgorithm(this.weights, this.props.selectedState, this.algorithm);
   }
 
   onPause = () => {
@@ -39,7 +39,6 @@ class ToolModal extends Component {
   }
 
   updateWeight = (sliderId, newWeight) => {
-    console.log('updating weight for weight # ' + sliderId + ' from ' + this.weights[sliderId] + ' to ' + newWeight);
     this.weights[sliderId] = (newWeight / this.props.sliderMax).toFixed(2);
     let weightLabel = document.getElementById('weightLabel' + sliderId);
     if(weightLabel != null) weightLabel.innerHTML = this.weights[sliderId];
@@ -89,6 +88,7 @@ class ToolModal extends Component {
 }
 
 ToolModal.defaultProps = {
+  selectedState: 'none',
   algorithms: [
     {
       label: 'Region Growing',

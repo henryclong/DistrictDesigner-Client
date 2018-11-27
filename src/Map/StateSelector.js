@@ -27,7 +27,6 @@ class StateSelector extends Component {
   textChanged(text) {
     let searchText = document.getElementById('stateSearchBar');
     if(searchText != null){
-      console.log('text updated to ' + searchText.value);
       this.setState({ enteredText: searchText.value });
     }
   }
@@ -49,7 +48,7 @@ class StateSelector extends Component {
                 if(item.shortName.toUpperCase().includes(this.state.enteredText.toUpperCase()) || item.longName.toUpperCase().includes(this.state.enteredText.toUpperCase())){
                   return (
                     <li key={"state"+item.id}>
-                      <button onClick={() => this.selectState()}>[{item.shortName}] {item.longName}</button>
+                      <button onClick={() => this.selectState(item.shortName)}>[{item.shortName}] {item.longName}</button>
                     </li>
                   )
                 }
