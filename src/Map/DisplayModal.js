@@ -1,17 +1,24 @@
 import React, { Component } from 'react';
-import { clearOutput } from '../helpers/district-designer';
 
 class DisplayModal extends Component {
 
   clear = () => {
-    clearOutput();
+    this.props.clearOutput();
   }
 
     render() {
       if(this.props.zoomed){
         return (
             <div className="Modal DisplayModal">
-                <p id="outputTextArea" class="outputTextarea"></p>
+                <p id="outputTextArea" class="outputTextarea">
+                {
+                  this.props.terminalUpdates.map((text) => {
+                    return(
+                      <div>{text}<br></br><br></br></div>)
+                  })
+                }
+                </p>
+                
                 <button onClick={() => {this.clear()}}>Clear</button>
             </div>
         );

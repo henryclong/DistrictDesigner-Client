@@ -1,31 +1,32 @@
 import React, { Component } from 'react';
 import Slider from 'rc-slider';
 import StateSelector from "./StateSelector"
-import { startAlgorithm, pauseAlgorithm, stopAlgorithm, clearOutput } from '../helpers/district-designer';
 import 'rc-slider/assets/index.css';
 
 class ToolModal extends Component {
 
-  constructor(props) {
+  constructor(props){
     super(props);
-    this.weights = [];
-    this.algorithm = 'SIMULATED_ANNEALING';
+    this.state = {
+      weights: this.props.weights,
+      algorithm: this.props.algorithms[0].value,
+    };
   }
 
-  componentDidUpdate() {
+  componentDidMount() {
     this.props.weights.map((item) => (this.updateWeight(item.id, this.props.sliderMax/2)));
   }
 
   onStart = () => {
-    startAlgorithm(this.weights, this.props.selectedState, this.algorithm);
+    this.props.onStart(this.state.weights, this.state.algorithm)
   }
 
   onPause = () => {
-    pauseAlgorithm();
+    this.props.onPause();
   }
 
   onStop = () => {
-    stopAlgorithm();
+    this.props.onPause();
   }
 
   zoomOut = () => {
@@ -33,9 +34,23 @@ class ToolModal extends Component {
   }
 
   updateWeight = (sliderId, newWeight) => {
-    this.weights[sliderId] = (newWeight / this.props.sliderMax).toFixed(2);
-    let weightLabel = document.getElementById('weightLabel' + sliderId);
-    if(weightLabel != null) weightLabel.innerHTML = this.weights[sliderId];
+    this.setState({ weights: this.state.weights.map(element => {
+      //console.log(element.id + " : " + sliderId);
+      if (element.id === sliderId) {
+        return {
+          label: element.label,
+          id: element.id,
+          value: (newWeight / this.props.sliderMax).toFixed(2),
+          //...element,
+        }
+      }
+      return element;
+    })});
+    this.props.updateSettings(this.state.weights, this.state.algorithm);
+  }
+
+  updateAlgorithm = (value) => {
+    this.setState({ algorithm: value});
   }
 
   render() {
@@ -47,7 +62,13 @@ class ToolModal extends Component {
             this.props.algorithms.map((item) => (
                 <div>
                   <div class="weightContainer">
-                    <input type="radio" id={item.value} name="algorithmRadio" checked={true} onClick={() => {this.algorithm = item.value}}></input>
+                    <input 
+                      checked={item.value===this.state.algorithm} 
+                      id={item.value} 
+                      name="algorithmRadio" 
+                      onClick={() => {this.updateAlgorithm(item.value)}}
+                      type="radio" 
+                    />
                     <span class="radio"></span>
                     <label name={"algorithmTitle"}>{item.label}</label>
                   </div>
@@ -59,8 +80,16 @@ class ToolModal extends Component {
                 <div>
                   <label name={"weightTitle"}>{item.label}</label>
                   <div class="weightContainer">
-                    <Slider id={"weightSlider"+item.id} min={0} max={this.props.sliderMax} defaultValue={this.props.sliderMax/2} onChange={(value) => {this.updateWeight(item.id, value)}}></Slider>
-                    <label id={"weightLabel"+item.id}>-1</label>
+                    <Slider
+                      defaultValue={this.props.sliderMax/2} 
+                      id={"weightSlider"+item.id} 
+                      max={this.props.sliderMax} 
+                      min={0} 
+                      onChange={(value) => {this.updateWeight(item.id, value)}}
+                    />
+                    <label id={"weightLabel"+item.id}>
+                      {this.state.weights.map((weight) => {if(weight.id === item.id) return weight.value})}
+                    </label>
                   </div>
                 </div>
             ))
@@ -74,7 +103,10 @@ class ToolModal extends Component {
     else {
       return (
         <div className="Modal ToolModal">
-          <StateSelector  stateZoom={this.props.stateZoom} resetZoom={this.props.resetZoom}></StateSelector>
+          <StateSelector
+            stateZoom={this.props.stateZoom}
+            resetZoom={this.props.resetZoom}
+          />
         </div>
       );
     }
@@ -82,7 +114,6 @@ class ToolModal extends Component {
 }
 
 ToolModal.defaultProps = {
-  selectedState: 'none',
   algorithms: [
     {
       label: 'Region Growing',
@@ -95,19 +126,19 @@ ToolModal.defaultProps = {
   ],
   weights: [
     {
-      id: '0',
       label: 'Compactness',
-      value: 'COMPACTNESS',
+      id: 'COMPACTNESS',
+      value: 0.5,
     },
     {
-      id: '1',
       label: 'Weight 2',
-      value: 'WEIGHT_2',
+      id: 'WEIGHT_2',
+      value: 0.5,
     },
     {
-      id: '2',
       label: 'Weight 3',
-      value: 'WEIGHT_3',
+      id: 'WEIGHT_3',
+      value: 0.5,
     },
   ],
   sliderMax: 20,
