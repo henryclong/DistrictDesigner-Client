@@ -17,20 +17,20 @@ class ToolModal extends Component {
     this.props.weights.map((item) => (this.updateWeight(item.id, this.props.sliderMax/2)));
   }
 
-  onStart = () => {
-    this.props.onStart(this.state.weights, this.state.algorithm)
-  }
-
   onPause = () => {
     this.props.onPause();
   }
 
+  onStart = () => {
+    this.props.onStart(this.state.weights, this.state.algorithm)
+  }
+  
   onStop = () => {
     this.props.onPause();
   }
 
-  zoomOut = () => {
-    this.props.resetZoom();
+  updateAlgorithm = (value) => {
+    this.setState({ algorithm: value});
   }
 
   updateWeight = (sliderId, newWeight) => {
@@ -49,8 +49,8 @@ class ToolModal extends Component {
     this.props.updateSettings(this.state.weights, this.state.algorithm);
   }
 
-  updateAlgorithm = (value) => {
-    this.setState({ algorithm: value});
+  zoomOut = () => {
+    this.props.resetZoom();
   }
 
   render() {
