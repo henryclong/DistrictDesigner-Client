@@ -35,13 +35,11 @@ class ToolModal extends Component {
 
   updateWeight = (sliderId, newWeight) => {
     this.setState({ weights: this.state.weights.map(element => {
-      //console.log(element.id + " : " + sliderId);
       if (element.id === sliderId) {
         return {
-          label: element.label,
           id: element.id,
+          label: element.label,
           value: (newWeight / this.props.sliderMax).toFixed(2),
-          //...element,
         }
       }
       return element;
@@ -88,7 +86,7 @@ class ToolModal extends Component {
                       onChange={(value) => {this.updateWeight(item.id, value)}}
                     />
                     <label id={"weightLabel"+item.id}>
-                      {this.state.weights.map((weight) => {if(weight.id === item.id) return weight.value})}
+                      {this.state.weights.map((weight) => {if(weight.id === item.id) return parseFloat(weight.value, 10).toFixed(2)})}
                     </label>
                   </div>
                 </div>
