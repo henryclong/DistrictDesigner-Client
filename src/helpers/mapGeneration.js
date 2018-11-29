@@ -5,6 +5,11 @@ const IS_INTERACTIVE = false;
 const URL_STYLE = 'mapbox://styles/longh/cjms2zdmpa7g52smzgtobl908';
 const URL_STATES = 'mapbox://longh.0mfgysin';
 const URL_WI = 'mapbox://longh.6h9vyqkw';
+const DISTRICT_COUNT = 8;
+const COLOR_RANGE = {
+  RANGE_START: '#000000',
+  RANGE_END: '#FFFFFF',
+}
 
 export const createMap = () => {
   mapboxgl.accessToken = ACCESS_TOKEN;
@@ -32,10 +37,12 @@ export const createMap = () => {
       'source-layer': 'wisc',
       'layout': {},
       'paint': {
-        'fill-color': ["case",
-          ["boolean", ["feature-state", "hover"], false],
-          '#bf0a30',
-          '#0a369d'
+        'fill-color': [
+          'interpolate',
+          ['linear'],
+          ['feature-state', 'districtID'],
+          0, COLOR_RANGE.RANGE_START,
+          DISTRICT_COUNT, COLOR_RANGE.RANGE_END,
         ],
         "fill-opacity": ["case",
           ["boolean", ["feature-state", "hover"], false],
@@ -96,28 +103,26 @@ export const createMap = () => {
     var hoveredStateId = null;
     map.on('mousemove', function (e) {
       var features = map.queryRenderedFeatures(e.point, {
-        layers: ['stateFill']
+        layers: ['wiscFill']
       });
-      if (hoveredStateId != null) map.setFeatureState({
-        source: 'stateSource',
-        sourceLayer: 'usstates',
-        id: hoveredStateId
-      }, {
-        hover: false
-      });
+      if (hoveredStateId != null) setPrecinctDistrict(map, hoveredStateId, Math.random()*DISTRICT_COUNT);
       hoveredStateId = (features[0] != null) ? features[0].id : null;
-      map.setFeatureState({
-        source: 'stateSource',
-        sourceLayer: 'usstates',
-        id: hoveredStateId
-      }, {
-        hover: true
-      });
     });
   });
   return map;
 }
 
-export const addLayer = (map) => {
+export const loadState = (map, shortName) => {
 
+}
+
+export const setPrecinctDistrict = (map, precinctID, districtID) => {
+  map.setFeatureState({
+    source: 'wiscSource',
+    sourceLayer: 'wisc',
+    id: precinctID
+  },
+  {
+    districtID: districtID
+  });
 }
