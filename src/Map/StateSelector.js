@@ -11,11 +11,11 @@ class StateSelector extends Component {
     this.textChanged = this.textChanged.bind(this);
   }
 
-  beginSearch = () => {
+  searchBegin = () => {
     this.setState({ searching: true });
   }
 
-  endSearch = () => {
+  searchEnd = () => {
     this.setState({ searching: false });
   }
 
@@ -36,13 +36,13 @@ class StateSelector extends Component {
   render(){
     if(!this.state.searching) {
       return (
-        <button onClick={() => this.beginSearch()}>Select State</button>
+        <button onClick={() => this.searchBegin()}>Select State</button>
       )
     }
     else {
       return (
         <div className="StateSelector">
-          <button onClick={() => this.endSearch()}>← Close</button>
+          <button onClick={() => this.searchEnd()}>← Close</button>
           <input id="stateSearchBar" type="text" placeholder="Search" onInput={(value) => this.textChanged(value)}></input>
           <ul>
             {
