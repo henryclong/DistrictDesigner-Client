@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-import { startAlgorithm, pauseAlgirithm, stopAlgorithm } from '../helpers/district-designer';
+import { toggleAlgorithm, stopAlgorithm } from '../helpers/district-designer';
 
 class ToolModal extends Component {
 
   onStart = () => {
-    startAlgorithm();
   }
 
   onPause = () => {
-    pauseAlgirithm();
+    toggleAlgorithm();
   }
 
   onStop = () => {
