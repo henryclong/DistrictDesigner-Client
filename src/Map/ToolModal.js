@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { toggleAlgirithm, stopAlgorithm } from '../helpers/district-designer';
+import { toggleAlgorithm, stopAlgorithm } from '../helpers/district-designer';
 
 class ToolModal extends Component {
 
@@ -7,7 +7,7 @@ class ToolModal extends Component {
   }
 
   onPause = () => {
-    toggleAlgirithm();
+    toggleAlgorithm();
   }
 
   onStop = () => {

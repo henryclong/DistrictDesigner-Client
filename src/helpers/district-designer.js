@@ -28,7 +28,7 @@ export const stopAlgorithm = () => {
   return true;
 }
 
-export const toggleAlgirithm = (status) => {
+export const toggleAlgorithm = (status) => {
   console.log("Algorithm Paused");  
   return true;
 }
