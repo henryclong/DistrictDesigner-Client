@@ -2,7 +2,7 @@ import DisplayModal from './DisplayModal';
 import React, { Component } from 'react';
 import ToolModal from './ToolModal';
 import { startAlgorithm, pauseAlgorithm, stopAlgorithm } from '../helpers/district-designer';
-import { createMap } from '../helpers/mapGeneration';
+import { createMap, loadState, unloadState } from '../helpers/mapGeneration';
 
 var map;
 
@@ -49,6 +49,7 @@ class Map extends Component {
   }
 
   resetZoom = () => {
+    unloadState(map, this.state.selectedState);
     this.setState({
       zoomed: false,
       selectedState: 'none',
@@ -61,6 +62,7 @@ class Map extends Component {
       zoomed: true,
       selectedState: stateShortName
     });
+    loadState(map, stateShortName);
     map.flyTo(boundingBox);
   }
 

@@ -7,8 +7,9 @@ const URL_STATES = 'mapbox://longh.0mfgysin';
 const URL_WI = 'mapbox://longh.6h9vyqkw';
 const DISTRICT_COUNT = 8;
 const COLOR_RANGE = {
-  RANGE_START: '#000000',
-  RANGE_END: '#FFFFFF',
+  RANGE_START: '#0a369d',
+  RANGE_MID: '#FFFFFF',
+  RANGE_END: '#bf0a30',
 }
 
 export const createMap = () => {
@@ -25,46 +26,6 @@ export const createMap = () => {
     map.addSource('stateSource', {
       type: 'vector',
       url: URL_STATES
-    });
-    map.addSource('wiscSource', {
-      type: 'vector',
-      url: URL_WI
-    });
-    map.addLayer({
-      'id': 'wiscFill',
-      'type': 'fill',
-      'source': 'wiscSource',
-      'source-layer': 'wisc',
-      'layout': {},
-      'paint': {
-        'fill-color': [
-          'interpolate',
-          ['linear'],
-          ['feature-state', 'districtID'],
-          0, COLOR_RANGE.RANGE_START,
-          DISTRICT_COUNT, COLOR_RANGE.RANGE_END,
-        ],
-        "fill-opacity": ["case",
-          ["boolean", ["feature-state", "hover"], false],
-          1.0,
-          0.8
-        ]
-      },
-      'minzoom': 5.5,
-      'maxzoom': 10
-    });
-    map.addLayer({
-      'id': 'wiscBorders',
-      'type': 'line',
-      'source': 'wiscSource',
-      'source-layer': 'wisc',
-      'layout': {},
-      'paint': {
-        'line-color': '#ffffff',
-        'line-width': 0.5
-      },
-      'minzoom': 5.5,
-      'maxzoom': 10
     });
     map.addLayer({
       'id': 'stateFill',
@@ -100,29 +61,101 @@ export const createMap = () => {
       'minzoom': 3.5,
       'maxzoom': 5.5
     });
-    var hoveredStateId = null;
-    map.on('mousemove', function (e) {
-      var features = map.queryRenderedFeatures(e.point, {
-        layers: ['wiscFill']
-      });
-      if (hoveredStateId != null) setPrecinctDistrict(map, hoveredStateId, Math.random()*DISTRICT_COUNT);
-      hoveredStateId = (features[0] != null) ? features[0].id : null;
-    });
   });
   return map;
 }
 
 export const loadState = (map, shortName) => {
-
+  mapboxgl.accessToken = ACCESS_TOKEN;
+  if(!map.isSourceLoaded(shortName+'Source')){
+    map.addSource(shortName+'Source', {
+      type: 'vector',
+      url: URL_WI
+    });
+  }
+  map.addLayer({
+    'id': shortName+'Fill',
+    'type': 'fill',
+    'source': shortName+'Source',
+    'source-layer': 'wisc',
+    'layout': {},
+    'paint': {
+      'fill-color': [
+        'interpolate',
+        ['linear'],
+        ['feature-state', 'districtID'],
+        0, COLOR_RANGE.RANGE_START,
+        DISTRICT_COUNT/2, COLOR_RANGE.RANGE_MID,
+        DISTRICT_COUNT, COLOR_RANGE.RANGE_END,
+      ],
+      "fill-opacity": ["case",
+        ["boolean", ["feature-state", "hover"], false],
+        1.0,
+        0.8
+      ]
+    },
+  });
+  map.addLayer({
+    'id': shortName+'Borders',
+    'type': 'line',
+    'source': shortName+'Source',
+    'source-layer': 'wisc',
+    'layout': {},
+    'paint': {
+      'line-color': '#ffffff',
+      'line-width': 0.5
+    },
+  });
+  var hoveredStateId = null;
+  map.on('mousemove', function (e) {
+    var features = map.queryRenderedFeatures(e.point, {
+      layers: [shortName+'Fill']
+    });
+    if (hoveredStateId != null) setPrecinctDistrict(map, shortName, hoveredStateId, Math.random()*DISTRICT_COUNT);
+    hoveredStateId = (features[0] != null) ? features[0].properties.GEOID10 : null;
+  });
+  map.on('sourcedata', function (e) {
+    if (map.getSource(shortName+'Source') && map.isSourceLoaded(shortName+'Source')) {
+      let precincts = map.querySourceFeatures(shortName+'Source', {
+        sourceLayer: 'wisc',
+      });
+      for(let i = 0; i < precincts.length; i++) {
+        map.setFeatureState(
+          {
+          source: shortName+'Source',
+          sourceLayer: 'wisc',
+          id: precincts[i].id
+          },
+          {
+            districtID: Math.random()*DISTRICT_COUNT
+          });
+      }
+      map.on('sourcedata', function (e) {});
+    }
+  });
 }
 
-export const setPrecinctDistrict = (map, precinctID, districtID) => {
-  map.setFeatureState({
-    source: 'wiscSource',
+export const unloadState = (map, shortName) => {
+    map.removeLayer(shortName+'Fill');
+    map.removeLayer(shortName+'Borders');
+    map.removeSource(shortName+'Source');
+}
+
+export const setPrecinctDistrict = (map, stateShortName, precinctID, districtID) => {
+  let precinct = map.querySourceFeatures(stateShortName+'Source', {
     sourceLayer: 'wisc',
-    id: precinctID
-  },
-  {
-    districtID: districtID
-  });
+    filter: ['in', 'GEOID10', precinctID]
+  })[0];
+  if(precinct !=  null){
+    //console.log('setting precinct: ' + precinctID + ' to district: ' + districtID);
+    map.setFeatureState(
+    {
+    source: stateShortName+'Source',
+    sourceLayer: 'wisc',
+    id: precinct.id
+    },
+    {
+      districtID: districtID
+    });
+  }
 }
