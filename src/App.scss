@@ -12,7 +12,7 @@ $default-font: Bitter;
 #map {
   z-index: 0;
   position:absolute;
-  background-color: #ffffff;
+  background-color: $white;
   left:0px;
   top:0px;
   height:100%;
@@ -90,8 +90,6 @@ $default-font: Bitter;
       margin-left: 10px;
     }
     input[type="radio"] {
-      //margin-top: 10px;
-      //margin-bottom: 10px;
       position: absolute;
       opacity: 0;
       cursor: pointer;
@@ -112,8 +110,6 @@ $default-font: Bitter;
       background-color: $blue;
     }
     .rc-slider {
-      //margin-top: 10px;
-      //margin-bottom: 10px;
       margin: auto;
       .rc-slider-handle {
         border-color: $blue;

@@ -8,7 +8,6 @@ class StateSelector extends Component {
       searching: false,
       enteredText: '',
     };
-    this.textChanged = this.textChanged.bind(this);
   }
 
   searchBegin = () => {
@@ -26,7 +25,7 @@ class StateSelector extends Component {
       .map((usState) => ( this.props.stateZoom(stateShortName, usState.boundingBox) ))
   }
 
-  textChanged(text) {
+  textChanged = (text) => {
     let searchText = document.getElementById('stateSearchBar');
     if(searchText != null){
       this.setState({ enteredText: searchText.value });
@@ -50,7 +49,9 @@ class StateSelector extends Component {
                 if(item.shortName.toUpperCase().includes(this.state.enteredText.toUpperCase()) || item.longName.toUpperCase().includes(this.state.enteredText.toUpperCase())){
                   return (
                     <li key={"state"+item.id}>
-                      <button onClick={() => this.selectState(item.shortName)}>[{item.shortName}] {item.longName}</button>
+                      <button onClick={() => this.selectState(item.shortName)}>
+                        [{item.shortName}] {item.longName}
+                      </button>
                     </li>
                   )
                 }

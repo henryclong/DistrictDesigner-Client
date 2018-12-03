@@ -37,9 +37,8 @@ class ToolModal extends Component {
     this.setState({ weights: this.state.weights.map(element => {
       if (element.id === sliderId) {
         return {
-          id: element.id,
-          label: element.label,
           value: (newWeight / this.props.sliderMax).toFixed(2),
+          ...element,
         }
       }
       return element;
