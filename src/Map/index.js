@@ -36,7 +36,7 @@ class Map extends Component {
   }
 
   onStart = (weights, algorithm) => {
-    startAlgorithm(weights, this.state.selectedState, algorithm)
+    startAlgorithm(algorithm, this.state.selectedState, weights);
     let weightText = '';
     weights.map((weight) => (weightText += (weight.id + ': ' + weight.value + ' ')));
     this.appendText("Algorithm Started: Weights: " + weightText + " State: " + this.state.selectedState + " Algorithm Type: " + algorithm);
