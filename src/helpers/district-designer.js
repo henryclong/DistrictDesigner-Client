@@ -1,13 +1,26 @@
-import { URL } from '../config/constants';
+import { URL, HTTP_STATE, HTTP_STATUS } from '../config/constants';
 
 export const getUpdate = () => {
   console.log('Update received.')
   return true;
 }
 
-export const startAlgorithm = (weights, shortName, algoType) => {
-  console.log("Algorithm Started: \nWeights: ", weights, "\nState: ", shortName, "\nAlgorithm Type:", algoType);
-  return true;
+export const startAlgorithm = (algoType, shortName, weights) => {
+  const request = new XMLHttpRequest();
+  const body = JSON.stringify({
+    'algoType': algoType,
+    'shortName': shortName,
+    'weights': weights,
+  });
+  request.onreadystatechange = () => {
+    if (request.readyState === HTTP_STATE.DONE && request.status === HTTP_STATUS.OK) {
+      return JSON.parse(request.response);
+    }
+  }
+
+  request.open("POST", URL + "/StartAlgorithm", false);
+  request.send(body);
+  return request.onreadystatechange();
 }
 
 export const stopAlgorithm = () => {
@@ -15,7 +28,7 @@ export const stopAlgorithm = () => {
   return true;
 }
 
-export const pauseAlgorithm = () => {
+export const toggleAlgorithm = (status) => {
   console.log("Algorithm Paused");  
   return true;
 }

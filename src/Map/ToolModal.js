@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { toggleAlgorithm, stopAlgorithm } from '../helpers/district-designer';
 import Slider from 'rc-slider';
 import StateSelector from "./StateSelector"
 import 'rc-slider/assets/index.css';
