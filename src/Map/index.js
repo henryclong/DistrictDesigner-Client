@@ -4,7 +4,7 @@ import ToolModal from './ToolModal';
 import { startAlgorithm, toggleAlgorithm, stopAlgorithm } from '../helpers/district-designer';
 import { createMap, loadState, unloadState } from '../helpers/mapGeneration';
 
-var map;
+let map;
 
 class Map extends Component {
 
@@ -22,7 +22,7 @@ class Map extends Component {
   }
 
   appendText(text) {
-    let outputText = this.state.terminalUpdates.concat(text);
+    const outputText = this.state.terminalUpdates.concat(text);
     this.setState({ terminalUpdates: outputText });
   }
 
