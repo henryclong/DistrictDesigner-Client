@@ -10,6 +10,7 @@ class ToolModal extends Component {
     this.state = {
       weights: this.props.weights,
       algorithm: this.props.algorithms[0].value,
+      isAlgorithmRunning: false,
     };
   }
 
@@ -22,7 +23,7 @@ class ToolModal extends Component {
   }
 
   onStart = () => {
-    this.props.onStart(this.state.weights, this.state.algorithm)
+    return this.props.onStart(this.state.weights, this.state.algorithm)
   }
   
   onStop = () => {
@@ -83,6 +84,7 @@ class ToolModal extends Component {
                       max={this.props.sliderMax} 
                       min={0} 
                       onChange={(value) => {this.updateWeight(item.id, value)}}
+                      disabled={this.state.isAlgorithmRunning}
                     />
                     <label id={"weightLabel"+item.id}>
                       {
@@ -95,9 +97,30 @@ class ToolModal extends Component {
                 </div>
             ))
           }
-          <button onClick={() => this.onStart()}>Start</button>
-          <button onClick={() => this.onToggle(false)}>Pause</button>
-          <button onClick={() => this.onStop()}>Stop</button>
+          {
+            (!this.state.isAlgorithmRunning)
+            ?
+            <button onClick={() => {
+              this.setState({ isAlgorithmRunning: this.onStart() });
+            }}>Start</button>
+            :
+            <div className="buttonContainer">
+              <button onClick={() => {
+                this.setState({ isAlgorithmRunning: false });
+                this.onToggle(false)
+              }}>
+                Pause
+              </button>
+              <button onClick={() => {
+                this.setState({ isAlgorithmRunning: false });
+                this.onStop()
+              }}>
+                Stop
+              </button>
+            </div>
+          }
+          
+          
         </div>
       );
     }

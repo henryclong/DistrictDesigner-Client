@@ -19,8 +19,15 @@ export const startAlgorithm = (algoType, shortName, weights) => {
   }
   console.log(body);
   request.open("POST", URL + "/StartAlgorithm", false);
-  request.send(body);
-  return request.onreadystatechange();
+  try{
+    request.send(body);
+  } catch (e) {
+    if (e.name === 'NetworkError') {
+      console.log('Network Error');
+      return false;
+    }
+  }
+  return true;//request.onreadystatechange();
 }
 
 export const stopAlgorithm = () => {
