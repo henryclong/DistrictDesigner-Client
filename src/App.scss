@@ -9,11 +9,162 @@ $dark-grey: #939393;
 // Font
 $default-font: Bitter;
 
-.App {
-  text-align: center;
+#map {
+  z-index: 0;
+  position:absolute;
+  background-color: $white;
+  left:0px;
+  top:0px;
+  height:100%;
+  width:100%;
+}
+
+.Modal {
+  font-family: $default-font;
+  z-index: 1;
+  position:absolute;
+  top: 80px;
+  min-height: 5%;
+  max-height: 80%;
+  width: 20%;
+  background-color: $white;
+  border-radius: 15px;
+  padding: 10px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: flex-start;
+  label {
+    color: $blue;
+  }
+  button {
+    font-family: $default-font;
+    color: $blue;
+    background-color: $white;
+    border-style: solid;
+    border-width: 1px;
+    border-color: $blue;
+    border-radius: 10px;
+    margin: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.1);
+    -webkit-transition: background-color 0.25s; /* For Safari 3.1 to 6.0 */
+    transition: background-color 0.25s;
+  }
+  button:hover {
+    background-color: $blue;
+    color: $white;
+  }
+}
+
+.DisplayModal{
+  right: 20px;
+  height: 80%;
+  .outputTextarea{
+    height: 100%;
+    border-style: solid;
+    border-width: 1px;
+    border-color: $blue;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 75%;
+    overflow: scroll;
+    margin: 10px;
+  }
+}
+
+.ToolModal{
+  left: 20px;
+  label {
+    margin-left: 10px;
+  }
+  .weightContainer {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    label {
+      margin-left: 10px;
+    }
+    input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 5;
+      width: 5;
+    }
+    .radio {
+      background-color: $white;
+      height: 10px;
+      width: 10px;
+      border-radius: 50%;
+      border-style: solid;
+      border-width: 2px;
+      border-color: $blue;
+      margin: 2px;
+    }
+    input[type="radio"]:checked ~ .radio {
+      background-color: $blue;
+    }
+    .rc-slider {
+      margin: auto;
+      .rc-slider-handle {
+        border-color: $blue;
+      }
+      .rc-slider-rail {
+        background-color: $light-grey;
+      }
+      .rc-slider-track {
+        background-color: $blue;
+      }
+    }
+  }
+  .StateSelector {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    width: 100%;
+    input[type="text"] {
+      font-family: $default-font;
+      background-color: $white;
+      border-style: solid;
+      border-width: 1px;
+      border-color: $blue;
+      border-radius: 10px;
+      margin: 10px;
+      padding: 10px;
+    }
+    ul {
+      display: flex;
+      align-content: center;
+      flex-direction: column;
+      padding: 0;
+      margin: 10px;
+      border-style: solid;
+      border-width: 1px;
+      border-color: $blue;
+      border-radius: 10px;
+      background-color: $light-grey;
+      overflow: scroll;
+      height: 60%;
+    }
+    li {
+      list-style: none;
+      padding: 5px;
+      button {
+        margin: 0;
+        width: 100%;
+        text-align: start;
+      }
+    }
+  }
 }
 
 .Header {
+  z-index: 1;
   position: absolute;
   top:0px;
   left:0px;
@@ -32,14 +183,14 @@ $default-font: Bitter;
     border-radius: 15px;
     margin: 10px;
     padding: 10px;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
     -webkit-transition: background-color 0.25s; /* For Safari 3.1 to 6.0 */
     transition: background-color 0.25s;
     float: right;
   }
   button:hover {
     background-color: $red;
-    color:$white;
+    color: $white;
   }
 }
 
