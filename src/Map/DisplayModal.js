@@ -10,7 +10,7 @@ class DisplayModal extends Component {
     return (
       (this.props.zoomed)?
         <div className="Modal DisplayModal">
-            <p id="outputTextArea" class="outputTextarea">
+            <p id="outputTextArea" className="outputTextarea">
             {
               this.props.terminalUpdates.map((text) => {
                 return(

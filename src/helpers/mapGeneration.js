@@ -4,7 +4,6 @@ const ACCESS_TOKEN = 'pk.eyJ1IjoibG9uZ2giLCJhIjoiY2psem92M2JkMDN4bDNsbXlhZ2Z6Zzh
 const IS_INTERACTIVE = false;
 const URL_STYLE = 'mapbox://styles/longh/cjms2zdmpa7g52smzgtobl908';
 const URL_STATES = 'mapbox://longh.0mfgysin';
-const URL_WI = 'mapbox://longh.6h9vyqkw';
 const DISTRICT_COUNT = 8;
 const COLOR_RANGE = {
   RANGE_START: '#0a369d',
@@ -62,18 +61,30 @@ export const createMap = () => {
 }
 
 export const loadState = (map, shortName) => {
-  mapboxgl.accessToken = ACCESS_TOKEN;
-  if(!map.isSourceLoaded(shortName+'Source')){
+  let initStateMap = () => {
+    if (map.getSource(shortName+'Source') && map.isSourceLoaded(shortName+'Source', {
+      filter: ['has', 'id']
+    }) && map.areTilesLoaded()) {
+      let precincts = map.querySourceFeatures(shortName+'Source');
+      console.log('precinct_count='+precincts.length);
+      for(let i = 0; i < precincts.length; i++) {
+        if(i%100 === 0) console.log('count='+i);
+        setPrecinctDistrict(map, shortName, precincts[i].properties.GEOID10, 0);
+      }
+      map.off('sourcedata', initStateMap);
+    }
+  }
+  if(!(map.isSourceLoaded(shortName+'Source'))){
+    map.on('sourcedata', initStateMap);
     map.addSource(shortName+'Source', {
-      type: 'vector',
-      url: URL_WI
+      type: 'geojson',
+      data: '/' + shortName.toLowerCase() + '_with_id.json'
     });
   }
   map.addLayer({
     'id': shortName+'Fill',
     'type': 'fill',
     'source': shortName+'Source',
-    'source-layer': 'wisc',
     'layout': {},
     'paint': {
       'fill-color': [
@@ -94,63 +105,26 @@ export const loadState = (map, shortName) => {
     'id': shortName+'Borders',
     'type': 'line',
     'source': shortName+'Source',
-    'source-layer': 'wisc',
     'layout': {},
     'paint': {
       'line-color': '#ffffff',
       'line-width': 0.5
     },
   });
-  var hoveredStateId = null;
-  map.on('mousemove', function (e) {
-    var features = map.queryRenderedFeatures(e.point, {
-      layers: [shortName+'Fill']
-    });
-    if (hoveredStateId != null) setPrecinctDistrict(map, shortName, hoveredStateId, Math.random()*DISTRICT_COUNT);
-    hoveredStateId = (features[0] != null) ? features[0].properties.GEOID10 : null;
-  });
-  map.on('sourcedata', function (e) {
-    if (map.getSource(shortName+'Source') && map.isSourceLoaded(shortName+'Source')) {
-      let precincts = map.querySourceFeatures(shortName+'Source', {
-        sourceLayer: 'wisc',
-      });
-      for(let i = 0; i < precincts.length; i++) {
-        map.setFeatureState(
-          {
-          source: shortName+'Source',
-          sourceLayer: 'wisc',
-          id: precincts[i].id
-          },
-          {
-            districtID: Math.random()*DISTRICT_COUNT
-          });
-      }
-      map.on('sourcedata', function (e) {});
-    }
-  });
 }
 
 export const unloadState = (map, shortName) => {
     map.removeLayer(shortName+'Fill');
     map.removeLayer(shortName+'Borders');
-    map.removeSource(shortName+'Source');
 }
 
 export const setPrecinctDistrict = (map, stateShortName, precinctID, districtID) => {
-  let precinct = map.querySourceFeatures(stateShortName+'Source', {
-    sourceLayer: 'wisc',
-    filter: ['in', 'GEOID10', precinctID]
-  })[0];
-  if(precinct !=  null){
-    //console.log('setting precinct: ' + precinctID + ' to district: ' + districtID);
-    map.setFeatureState(
-    {
+  map.setFeatureState(
+  {
     source: stateShortName+'Source',
-    sourceLayer: 'wisc',
-    id: precinct.id
-    },
-    {
-      districtID: districtID
-    });
-  }
+    id: precinctID
+  },
+  {
+    districtID: districtID
+  });
 }
