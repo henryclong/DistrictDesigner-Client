@@ -1,7 +1,7 @@
 import DisplayModal from './DisplayModal';
 import React, { Component } from 'react';
 import ToolModal from './ToolModal';
-import { startAlgorithm, pauseAlgorithm, stopAlgorithm } from '../helpers/district-designer';
+import { startAlgorithm, toggleAlgorithm, stopAlgorithm } from '../helpers/district-designer';
 import { createMap, loadState, unloadState } from '../helpers/mapGeneration';
 
 var map;
@@ -30,15 +30,15 @@ class Map extends Component {
     this.setState({ terminalUpdates: [] });
   }
 
-  onPause = () => {
-    pauseAlgorithm();
+  onToggle = () => {
+    toggleAlgorithm(false);
     this.appendText('Algorithm Paused');
   }
 
   onStart = (weights, algorithm) => {
     startAlgorithm(weights, this.state.selectedState, algorithm)
     let weightText = '';
-    weights.map((weight) => {weightText = weightText+=(weight.id + ': ' + weight.value + ' ')});
+    weights.map((weight) => (weightText += (weight.id + ': ' + weight.value + ' ')));
     this.appendText("Algorithm Started: Weights: " + weightText + " State: " + this.state.selectedState + " Algorithm Type: " + algorithm);
     
   }
@@ -85,7 +85,7 @@ class Map extends Component {
           resetZoom={this.resetZoom}
           selectedState={this.state.selectedState}
           onStart={this.onStart}
-          onPause={this.onPause}
+          onToggle={this.onToggle}
           onStop={this.onStop}
           updateSettings={this.updateSettings}
         />

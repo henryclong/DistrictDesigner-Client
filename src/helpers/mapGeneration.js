@@ -34,11 +34,7 @@ export const createMap = () => {
       'source-layer': 'usstates',
       'layout': {},
       'paint': {
-        'fill-color': ["case",
-          ["boolean", ["feature-state", "hover"], false],
-          '#0a369d',
-          '#0a369d'
-        ],
+        'fill-color': '#0a369d',
         "fill-opacity": ["case",
           ["boolean", ["feature-state", "hover"], false],
           0.7,
@@ -85,7 +81,6 @@ export const loadState = (map, shortName) => {
         ['linear'],
         ['feature-state', 'districtID'],
         0, COLOR_RANGE.RANGE_START,
-        DISTRICT_COUNT/2, COLOR_RANGE.RANGE_MID,
         DISTRICT_COUNT, COLOR_RANGE.RANGE_END,
       ],
       "fill-opacity": ["case",

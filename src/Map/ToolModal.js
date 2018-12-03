@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { toggleAlgorithm, stopAlgorithm } from '../helpers/district-designer';
 import Slider from 'rc-slider';
 import StateSelector from "./StateSelector"
 import 'rc-slider/assets/index.css';
@@ -18,8 +17,8 @@ class ToolModal extends Component {
     this.props.weights.map((item) => (this.updateWeight(item.id, this.props.sliderMax/2)));
   }
 
-  onPause = () => {
-    this.props.onPause();
+  onToggle = (toggle) => {
+    this.props.onToggle(toggle);
   }
 
   onStart = () => {
@@ -27,7 +26,7 @@ class ToolModal extends Component {
   }
   
   onStop = () => {
-    this.props.onPause();
+    this.props.onStop();
   }
 
   updateAlgorithm = (value) => {
@@ -87,14 +86,18 @@ class ToolModal extends Component {
                       onChange={(value) => {this.updateWeight(item.id, value)}}
                     />
                     <label id={"weightLabel"+item.id}>
-                      {this.state.weights.map((weight) => {if(weight.id === item.id) return parseFloat(weight.value, 10).toFixed(2)})}
+                      {
+                        this.state.weights
+                        .filter(weight => weight.id === item.id)
+                        .map((weight) => {return parseFloat(weight.value, 10).toFixed(2)})
+                      }
                     </label>
                   </div>
                 </div>
             ))
           }
           <button onClick={() => this.onStart()}>Start</button>
-          <button onClick={() => this.onPause()}>Pause</button>
+          <button onClick={() => this.onToggle(false)}>Pause</button>
           <button onClick={() => this.onStop()}>Stop</button>
         </div>
       );

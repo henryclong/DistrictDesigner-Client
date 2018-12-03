@@ -21,9 +21,9 @@ class StateSelector extends Component {
 
   selectState = (stateShortName) => {
     this.setState({ searching: false });
-    this.props.states.map((usState) => {
-      if(usState.shortName === stateShortName) this.props.stateZoom(stateShortName, usState.boundingBox);
-    })
+    this.props.states
+      .filter(usState => usState.shortName === stateShortName)
+      .map((usState) => ( this.props.stateZoom(stateShortName, usState.boundingBox) ))
   }
 
   textChanged(text) {
