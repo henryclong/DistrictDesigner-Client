@@ -44,7 +44,6 @@ class ToolModal extends Component {
       }
       return element;
     })});
-    this.props.updateSettings(this.state.weights, this.state.algorithm);
   }
 
   zoomOut = () => {

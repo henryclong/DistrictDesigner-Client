@@ -66,11 +66,6 @@ class Map extends Component {
     map.flyTo(boundingBox);
   }
 
-  updateSettings = (weights, algorithm) => {
-    this.weights = weights;
-    this.algorithm = algorithm;
-  }
-
   render() {
     return (
       <div>
