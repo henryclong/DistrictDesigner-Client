@@ -1,5 +1,7 @@
 export const URL = process.env.REACT_APP_DISCTRICT_DESIGNER_SERVER_URL;
 
+export const MAPBOX_ACCESS_TOKEN = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
+
 export const HTTP_STATUS = {
   OK: 200,
 };

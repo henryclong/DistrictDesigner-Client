@@ -1,6 +1,6 @@
 import mapboxgl from 'mapbox-gl';
+import { MAPBOX_ACCESS_TOKEN } from '../config/constants';
 
-const ACCESS_TOKEN = 'pk.eyJ1IjoibG9uZ2giLCJhIjoiY2psem92M2JkMDN4bDNsbXlhZ2Z6ZzhoZiJ9.qEtkhzP-UwuKVkV5suN7sg';
 const IS_INTERACTIVE = false;
 const URL_STYLE = 'mapbox://styles/longh/cjms2zdmpa7g52smzgtobl908';
 const URL_STATES = 'mapbox://longh.0mfgysin';
@@ -13,7 +13,7 @@ const COLOR_RANGE = {
 }
 
 export const createMap = () => {
-  mapboxgl.accessToken = ACCESS_TOKEN;
+  mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
   let map = new mapboxgl.Map({
     container: 'map',
     style: URL_STYLE,
@@ -62,7 +62,7 @@ export const createMap = () => {
 }
 
 export const loadState = (map, shortName) => {
-  mapboxgl.accessToken = ACCESS_TOKEN;
+  mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
   if(!map.isSourceLoaded(shortName+'Source')){
     map.addSource(shortName+'Source', {
       type: 'vector',
