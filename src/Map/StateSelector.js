@@ -6,42 +6,28 @@ class StateSelector extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searching: false,
       selectedState: null,
     };
   }
 
-  searchBegin = () => {
-    this.setState({ searching: true });
-  }
-
-  searchEnd = () => {
-    this.setState({ searching: false });
-  }
-
   selectState = (state) => {
-    this.setState({ searching: false });
     this.props.states
       .filter(usState => usState.shortName === state.shortName)
       .map((usState) => ( this.props.stateZoom(usState.shortName, usState.boundingBox) ))
   }
 
   render(){
-    if(!this.state.searching) {
-      return ( <button onClick={() => this.searchBegin()}>Select State</button> )
-    }
-    else {
-      return (
-        <div className="StateSelector">
-          <button onClick={() => this.searchEnd()}>← Close</button>
-          <Select
-            value={this.state.selectedState}
-            onChange={this.selectState}
-            options={this.props.states}
-          />
-        </div>
-      )
-    }
+    return (
+      <div className="StateSelector">
+        <Select
+          className='react-select-container'
+          classNamePrefix="react-select"
+          value={this.state.selectedState}
+          onChange={this.selectState}
+          options={this.props.states}
+        />
+      </div>
+    )
   }
   
 }
