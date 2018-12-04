@@ -22,7 +22,7 @@ class StateSelector extends Component {
     this.setState({ searching: false });
     this.props.states
       .filter(usState => usState.shortName === stateShortName)
-      .map((usState) => ( this.props.stateZoom(stateShortName, usState.boundingBox) ))
+      .map((usState) => ( this.props.stateZoom(usState) ))
   }
 
   textChanged = (text) => {

@@ -14,6 +14,7 @@ class Map extends Component {
       zoomed: false,
       selectedState: 'none',
       terminalUpdates: [],
+      showingDistricts: false,
     };
   }
 
@@ -36,10 +37,10 @@ class Map extends Component {
   }
 
   onStart = (weights, algorithm) => {
-    startAlgorithm(weights, this.state.selectedState, algorithm)
+    startAlgorithm(algorithm, this.state.selectedState.shortName, weights)
     let weightText = '';
     weights.map((weight) => (weightText += (weight.id + ': ' + weight.value + ' ')));
-    this.appendText("Algorithm Started: Weights: " + weightText + " State: " + this.state.selectedState + " Algorithm Type: " + algorithm);
+    this.appendText("Algorithm Started: Weights: " + weightText + " State: " + this.state.selectedState.shortName + " Algorithm Type: " + algorithm);
     
   }
 
@@ -49,7 +50,7 @@ class Map extends Component {
   }
 
   resetZoom = () => {
-    unloadState(map, this.state.selectedState);
+    unloadState(map, this.state.selectedState.shortName);
     this.setState({
       zoomed: false,
       selectedState: 'none',
@@ -57,13 +58,33 @@ class Map extends Component {
     map.flyTo({center: [-95.7, 39], zoom: 3.75});
   }
 
-  stateZoom = (stateShortName, boundingBox) => {
+  toggleDistrictView = () => {
+    if (!this.state.showingDistricts) {
+      map.addLayer({
+      'id': 'districtBorders',
+      'type': 'line',
+      'source': 'districtSource',
+      'paint': {
+        'line-color': '#800000',
+        'line-width': 2.0
+      }
+      });
+      map.setFilter('districtBorders', ['==', 'STATEFP', '55']);
+      this.setState({ showingDistricts: true});
+    }
+    else {
+      map.removeLayer('districtBorders');
+      this.setState({ showingDistricts: false});
+    }
+  }
+
+  stateZoom = (usstate) => {
     this.setState({
       zoomed: true,
-      selectedState: stateShortName
+      selectedState: usstate
     });
-    loadState(map, stateShortName);
-    map.flyTo(boundingBox);
+    loadState(map, usstate.shortName);
+    map.flyTo(usstate.boundingBox);
   }
 
   updateSettings = (weights, algorithm) => {
@@ -82,6 +103,7 @@ class Map extends Component {
         <ToolModal
           zoomed={this.state.zoomed}
           stateZoom={this.stateZoom}
+          toggleDistrictView={this.toggleDistrictView}
           resetZoom={this.resetZoom}
           selectedState={this.state.selectedState}
           onStart={this.onStart}

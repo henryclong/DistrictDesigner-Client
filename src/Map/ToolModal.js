@@ -56,6 +56,7 @@ class ToolModal extends Component {
       return (
         <div className="Modal ToolModal">
           <button onClick={() => this.zoomOut()}>← Return to State Select</button>
+          <button onClick={() => this.props.toggleDistrictView()}>Toggle District View</button>
           {
             this.props.algorithms.map((item) => (
                 <div key={item.value + 'Container'}>
