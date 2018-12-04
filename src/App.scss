@@ -57,6 +57,11 @@ $default-font: Bitter;
     background-color: $blue;
     color: $white;
   }
+  button:disabled {
+    background-color: $white;
+    border-color: $dark-grey;
+    color: $dark-grey;
+  }
 }
 
 .DisplayModal{
@@ -84,9 +89,10 @@ $default-font: Bitter;
     display: flex;
     flex-direction: row;
     align-content: center;
-    justify-content: space-evenly;
-    margin-left: 10px;
-    margin-right: 10px;
+    justify-content: center;
+    button {
+      flex-grow: 1;
+    }
   }
   .weightContainer {
     display: flex;
@@ -118,6 +124,13 @@ $default-font: Bitter;
     input[type="radio"]:checked ~ .radio {
       background-color: $blue;
     }
+    input[type="radio"]:checked:disabled ~ .radio {
+      border-color: $dark-grey;
+      background-color: $dark-grey;
+    }
+    input[type="radio"]:disabled ~ .radio {
+      border-color: $light-grey;
+    }
     .rc-slider {
       margin: auto;
       .rc-slider-handle {
@@ -128,6 +141,18 @@ $default-font: Bitter;
       }
       .rc-slider-track {
         background-color: $blue;
+      }
+    }
+    .rc-slider-disabled {
+      .rc-slider-handle {
+        border-color: $dark-grey;
+        background-color: $light-grey;
+      }
+      .rc-slider-rail {
+        background-color: $light-grey;
+      }
+      .rc-slider-track {
+        background-color: $dark-grey;
       }
     }
   }

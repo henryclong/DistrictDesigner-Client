@@ -55,7 +55,7 @@ class ToolModal extends Component {
     if(this.props.zoomed === true){
       return (
         <div className="Modal ToolModal">
-          <button onClick={() => this.zoomOut()}>← Return to State Select</button>
+          <button onClick={() => this.zoomOut()} disabled={this.state.isAlgorithmRunning}>← Return to State Select</button>
           {
             this.props.algorithms.map((item) => (
                 <div>
@@ -65,7 +65,8 @@ class ToolModal extends Component {
                       id={item.value} 
                       name="algorithmRadio" 
                       onClick={() => {this.updateAlgorithm(item.value)}}
-                      type="radio" 
+                      type="radio"
+                      disabled={this.state.isAlgorithmRunning}
                     />
                     <span class="radio"></span>
                     <label name={"algorithmTitle"}>{item.label}</label>
