@@ -51,15 +51,6 @@ export const createMap = () => {
       type: 'geojson',
       data: '/us_districts.json',
     });
-    /*map.addLayer({
-      'id': 'districtBorders',
-      'type': 'line',
-      'source': 'districtSource',
-      'paint': {
-        'line-color': '#800000',
-        'line-width': 2.0
-      }
-    });*/
   });
   return map;
 }
