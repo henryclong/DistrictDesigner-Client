@@ -22,7 +22,9 @@ class ToolModal extends Component {
   }
 
   onStart = () => {
-    this.props.onStart(this.state.weights, this.state.algorithm)
+    const weights = {};
+    this.state.weights.map( weight => weights[weight.id] = parseFloat(weight.value));
+    this.props.onStart(weights, this.state.algorithm);
   }
   
   onStop = () => {
@@ -132,13 +134,13 @@ ToolModal.defaultProps = {
       value: 0.5,
     },
     {
-      label: 'Weight 2',
-      id: 'WEIGHT_2',
+      label: 'Partisan Gerrymandering',
+      id: 'PARTISAN_GERRYMANDERING',
       value: 0.5,
     },
     {
-      label: 'Weight 3',
-      id: 'WEIGHT_3',
+      label: 'Population Equality',
+      id: 'POPULATION_EQUALITY',
       value: 0.5,
     },
   ],

@@ -36,10 +36,14 @@ class Map extends Component {
   }
 
   onStart = (weights, algorithm) => {
-    startAlgorithm(weights, this.state.selectedState, algorithm)
-    let weightText = '';
-    weights.map((weight) => (weightText += (weight.id + ': ' + weight.value + ' ')));
-    this.appendText("Algorithm Started: Weights: " + weightText + " State: " + this.state.selectedState + " Algorithm Type: " + algorithm);
+    startAlgorithm(algorithm, this.state.selectedState, weights);
+    let weightsText = '';
+    for (const property in weights) {
+      if (weights.hasOwnProperty(property)) {
+        weightsText += property + ': ' + weights[property] + '\n';
+      }
+    }
+    this.appendText("Algorithm Started:\nWeights:\n" + weightsText + "\nState: " + this.state.selectedState + "\nAlgorithm Type: " + algorithm);
     
   }
 
