@@ -17,7 +17,6 @@ export const startAlgorithm = (algoType, shortName, weights) => {
       return JSON.parse(request.response);
     }
   }
-  console.log(body);
   request.open("POST", URL + "/StartAlgorithm", false);
   try{
     request.send(body);
