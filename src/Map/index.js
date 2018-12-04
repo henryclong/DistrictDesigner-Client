@@ -36,17 +36,10 @@ class Map extends Component {
   }
 
   onStart = (weights, algorithm) => {
-    let weightOutput = {};
-    //weights.map((weight) => (weightText += (weight.id + ': ' + weight.value + ' ')));
-    for (var weight in weights) {
-      weightOutput[weight.id] = weight.value;
-    }
-    /*weights.map((weight) => {
-      let weightOut = {};
-      
-    });*/
-    const result = startAlgorithm(algorithm, this.state.selectedState, weightOutput);
-    this.appendText((result)?"Algorithm Started: Weights: " + weightOutput + " State: " + this.state.selectedState + " Algorithm Type: " + algorithm:"ERROR");
+    let weightMap = {};
+    weights.map((w) => {weightMap[w.id] = w.value});
+    const result = startAlgorithm(algorithm, this.state.selectedState, weightMap);
+    this.appendText((result)?"Algorithm Started: Weights: " + weights.map((w) => w.id + ": " + w.value) + " State: " + this.state.selectedState + " Algorithm Type: " + algorithm:"ERROR");
     return result;
   }
 
