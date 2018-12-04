@@ -156,6 +156,26 @@ $default-font: Bitter;
       }
     }
   }
+  .react-select__control {
+    font-family: $default-font;
+    background-color: $white;
+    border-style: solid;
+    border-width: 1px;
+    border-color: $blue;
+    border-radius: 10px;
+    margin: 10px;
+  }
+  .react-select__control:hover {
+    border-color: $blue;
+  }
+  .react-select__menu {
+    border-radius: 10px;
+    font-family: $default-font;
+    background-color: $white;
+    .react-select__menu-list {
+      border-radius: 10px;
+    }
+  }
   .StateSelector {
     display: flex;
     flex-direction: column;
