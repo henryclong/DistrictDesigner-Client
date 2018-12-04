@@ -61,18 +61,29 @@ class Map extends Component {
   toggleDistrictView = () => {
     if (!this.state.showingDistricts) {
       map.addLayer({
+        'id': 'districtFill',
+        'type': 'fill',
+        'source': 'districtSource',
+        'paint': {
+          'fill-color': '#0a369d',
+          "fill-opacity": 1.0,
+        }
+        });
+      map.addLayer({
       'id': 'districtBorders',
       'type': 'line',
       'source': 'districtSource',
       'paint': {
-        'line-color': '#800000',
-        'line-width': 2.0
+        'line-color': '#FFFFFF',
+        'line-width': 0.5
       }
       });
-      map.setFilter('districtBorders', ['==', 'STATEFP', '55']);
+      map.setFilter('districtFill', ['==', 'STATEFP', this.state.selectedState.id]);
+      map.setFilter('districtBorders', ['==', 'STATEFP', this.state.selectedState.id]);
       this.setState({ showingDistricts: true});
     }
     else {
+      map.removeLayer('districtFill');
       map.removeLayer('districtBorders');
       this.setState({ showingDistricts: false});
     }
