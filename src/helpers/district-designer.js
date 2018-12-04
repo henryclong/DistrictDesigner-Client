@@ -21,12 +21,9 @@ export const startAlgorithm = (algoType, shortName, weights) => {
   try{
     request.send(body);
   } catch (e) {
-    if (e.name === 'NetworkError') {
-      console.log('Network Error');
-      return false;
-    }
+    return false;
   }
-  return true;//request.onreadystatechange();
+  return request.onreadystatechange();
 }
 
 export const stopAlgorithm = () => {
