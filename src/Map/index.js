@@ -39,8 +39,8 @@ class Map extends Component {
   onStart = (weights, algorithm) => {
     let weightMap = {};
     weights.map((w) => (weightMap[w.id] = w.value));
-    const result = startAlgorithm(algorithm, this.state.selectedState, weightMap);
-    this.appendText((result)?"Algorithm Started: Weights: " + weights.map((w) => w.id + ": " + w.value) + " State: " + this.state.selectedState + " Algorithm Type: " + algorithm:"ERROR");
+    const result = startAlgorithm(algorithm, this.state.selectedState.shortName, weightMap);
+    this.appendText((result)?"Algorithm Started: Weights: " + weights.map((w) => w.id + ": " + w.value) + " State: " + this.state.selectedState.shortName + " Algorithm Type: " + algorithm:"ERROR");
     return result;
   }
 
@@ -61,7 +61,7 @@ class Map extends Component {
   stateZoom = (usstate) => {
     this.setState({
       zoomed: true,
-      selectedState: usstate.shortName
+      selectedState: usstate
     });
     loadState(map, usstate.shortName);
     map.flyTo(usstate.boundingBox);
