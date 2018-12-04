@@ -14,7 +14,7 @@ class Map extends Component {
       zoomed: false,
       selectedState: 'none',
       terminalUpdates: [],
-      showDistricts: false,
+      showingDistricts: false,
     };
   }
 
@@ -50,7 +50,7 @@ class Map extends Component {
   }
 
   resetZoom = () => {
-    unloadState(map, this.state.selectedState);
+    unloadState(map, this.state.selectedState.shortName);
     this.setState({
       zoomed: false,
       selectedState: 'none',
@@ -66,6 +66,37 @@ class Map extends Component {
     loadState(map, usstate.shortName);
     map.flyTo(usstate.boundingBox);
   }
+  
+  toggleDistrictView = () => {
+    if (!this.state.showingDistricts) {
+      map.addLayer({
+        'id': 'districtFill',
+        'type': 'fill',
+        'source': 'districtSource',
+        'paint': {
+          'fill-color': '#0a369d',
+          "fill-opacity": 1.0,
+        }
+      });
+      map.addLayer({
+        'id': 'districtBorders',
+        'type': 'line',
+        'source': 'districtSource',
+        'paint': {
+          'line-color': '#FFFFFF',
+          'line-width': 0.5
+        }
+      });
+      map.setFilter('districtFill', ['==', 'STATEFP', this.state.selectedState.id]);
+      map.setFilter('districtBorders', ['==', 'STATEFP', this.state.selectedState.id]);
+      this.setState({ showingDistricts: true});
+    }
+    else {
+      map.removeLayer('districtFill');
+      map.removeLayer('districtBorders');
+      this.setState({ showingDistricts: false});
+    }
+  }
 
   render() {
     return (
@@ -79,6 +110,7 @@ class Map extends Component {
         <ToolModal
           zoomed={this.state.zoomed}
           stateZoom={this.stateZoom}
+          toggleDistrictView={this.toggleDistrictView}
           resetZoom={this.resetZoom}
           selectedState={this.state.selectedState}
           onStart={this.onStart}

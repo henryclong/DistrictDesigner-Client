@@ -56,19 +56,20 @@ class ToolModal extends Component {
       return (
         <div className="Modal ToolModal">
           <button onClick={() => this.zoomOut()} disabled={this.state.isAlgorithmRunning}>← Return to State Select</button>
+          <button onClick={() => this.props.toggleDistrictView()}>Toggle District View</button>
           {
             this.props.algorithms.map((item) => (
-                <div>
-                  <div class="weightContainer">
+                <div key={item.value + 'Container'}>
+                  <div className="weightContainer">
                     <input 
-                      checked={item.value===this.state.algorithm} 
+                      defaultChecked={item.value===this.state.algorithm} 
                       id={item.value} 
                       name="algorithmRadio" 
                       onClick={() => {this.updateAlgorithm(item.value)}}
                       type="radio"
                       disabled={this.state.isAlgorithmRunning}
                     />
-                    <span class="radio"></span>
+                    <span className="radio"></span>
                     <label name={"algorithmTitle"}>{item.label}</label>
                   </div>
                 </div>
@@ -76,9 +77,9 @@ class ToolModal extends Component {
           }
           {
             this.props.weights.map((item) => (
-                <div>
+                <div key={item.id + 'Container'}>
                   <label name={"weightTitle"}>{item.label}</label>
-                  <div class="weightContainer">
+                  <div className="weightContainer">
                     <Slider
                       defaultValue={
                         this.state.weights
