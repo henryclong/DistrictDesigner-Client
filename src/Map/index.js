@@ -14,6 +14,7 @@ class Map extends Component {
       zoomed: false,
       selectedState: 'none',
       terminalUpdates: [],
+      showingDistricts: false,
     };
   }
 
@@ -36,15 +37,10 @@ class Map extends Component {
   }
 
   onStart = (weights, algorithm) => {
-    startAlgorithm(algorithm, this.state.selectedState, weights);
-    let weightsText = '';
-    for (const property in weights) {
-      if (weights.hasOwnProperty(property)) {
-        weightsText += property + ': ' + weights[property] + '\n';
-      }
-    }
-    this.appendText("Algorithm Started:\nWeights:\n" + weightsText + "\nState: " + this.state.selectedState + "\nAlgorithm Type: " + algorithm);
-    
+    startAlgorithm(algorithm, this.state.selectedState.shortName, weights)
+    let weightText = '';
+    weights.map((weight) => (weightText += (weight.id + ': ' + weight.value + ' ')));
+    this.appendText("Algorithm Started: Weights: " + weightText + " State: " + this.state.selectedState.shortName + " Algorithm Type: " + algorithm);
   }
 
   onStop = () => {
@@ -53,7 +49,7 @@ class Map extends Component {
   }
 
   resetZoom = () => {
-    unloadState(map, this.state.selectedState);
+    unloadState(map, this.state.selectedState.shortName);
     this.setState({
       zoomed: false,
       selectedState: 'none',
@@ -61,13 +57,44 @@ class Map extends Component {
     map.flyTo({center: [-95.7, 39], zoom: 3.75});
   }
 
-  stateZoom = (stateShortName, boundingBox) => {
+  toggleDistrictView = () => {
+    if (!this.state.showingDistricts) {
+      map.addLayer({
+        'id': 'districtFill',
+        'type': 'fill',
+        'source': 'districtSource',
+        'paint': {
+          'fill-color': '#0a369d',
+          "fill-opacity": 1.0,
+        }
+        });
+      map.addLayer({
+      'id': 'districtBorders',
+      'type': 'line',
+      'source': 'districtSource',
+      'paint': {
+        'line-color': '#FFFFFF',
+        'line-width': 0.5
+      }
+      });
+      map.setFilter('districtFill', ['==', 'STATEFP', this.state.selectedState.id]);
+      map.setFilter('districtBorders', ['==', 'STATEFP', this.state.selectedState.id]);
+      this.setState({ showingDistricts: true});
+    }
+    else {
+      map.removeLayer('districtFill');
+      map.removeLayer('districtBorders');
+      this.setState({ showingDistricts: false});
+    }
+  }
+
+  stateZoom = (usstate) => {
     this.setState({
       zoomed: true,
-      selectedState: stateShortName
+      selectedState: usstate
     });
-    loadState(map, stateShortName);
-    map.flyTo(boundingBox);
+    loadState(map, usstate.shortName);
+    map.flyTo(usstate.boundingBox);
   }
 
   render() {
@@ -81,6 +108,7 @@ class Map extends Component {
         <ToolModal
           zoomed={this.state.zoomed}
           stateZoom={this.stateZoom}
+          toggleDistrictView={this.toggleDistrictView}
           resetZoom={this.resetZoom}
           selectedState={this.state.selectedState}
           onStart={this.onStart}
