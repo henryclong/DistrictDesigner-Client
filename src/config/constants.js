@@ -4,6 +4,7 @@ export const MAPBOX_ACCESS_TOKEN = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 
 export const HTTP_STATUS = {
   OK: 200,
+  NOT_FOUND: 404,
 };
 
 export const HTTP_STATE = {
