@@ -37,10 +37,11 @@ class Map extends Component {
   }
 
   onStart = (weights, algorithm) => {
-    startAlgorithm(algorithm, this.state.selectedState.shortName, weights)
-    let weightText = '';
-    weights.map((weight) => (weightText += (weight.id + ': ' + weight.value + ' ')));
-    this.appendText("Algorithm Started: Weights: " + weightText + " State: " + this.state.selectedState.shortName + " Algorithm Type: " + algorithm);
+    let weightMap = {};
+    weights.map((w) => (weightMap[w.id] = w.value));
+    const result = startAlgorithm(algorithm, this.state.selectedState, weightMap);
+    this.appendText((result)?"Algorithm Started: Weights: " + weights.map((w) => w.id + ": " + w.value) + " State: " + this.state.selectedState + " Algorithm Type: " + algorithm:"ERROR");
+    return result;
   }
 
   onStop = () => {
@@ -57,6 +58,15 @@ class Map extends Component {
     map.flyTo({center: [-95.7, 39], zoom: 3.75});
   }
 
+  stateZoom = (usstate) => {
+    this.setState({
+      zoomed: true,
+      selectedState: usstate.shortName
+    });
+    loadState(map, usstate.shortName);
+    map.flyTo(usstate.boundingBox);
+  }
+  
   toggleDistrictView = () => {
     if (!this.state.showingDistricts) {
       map.addLayer({
@@ -67,15 +77,15 @@ class Map extends Component {
           'fill-color': '#0a369d',
           "fill-opacity": 1.0,
         }
-        });
+      });
       map.addLayer({
-      'id': 'districtBorders',
-      'type': 'line',
-      'source': 'districtSource',
-      'paint': {
-        'line-color': '#FFFFFF',
-        'line-width': 0.5
-      }
+        'id': 'districtBorders',
+        'type': 'line',
+        'source': 'districtSource',
+        'paint': {
+          'line-color': '#FFFFFF',
+          'line-width': 0.5
+        }
       });
       map.setFilter('districtFill', ['==', 'STATEFP', this.state.selectedState.id]);
       map.setFilter('districtBorders', ['==', 'STATEFP', this.state.selectedState.id]);
@@ -88,15 +98,6 @@ class Map extends Component {
     }
   }
 
-  stateZoom = (usstate) => {
-    this.setState({
-      zoomed: true,
-      selectedState: usstate
-    });
-    loadState(map, usstate.shortName);
-    map.flyTo(usstate.boundingBox);
-  }
-
   render() {
     return (
       <div>
@@ -104,6 +105,7 @@ class Map extends Component {
         <DisplayModal
           zoomed={this.state.zoomed}
           terminalUpdates={this.state.terminalUpdates}
+          clearOutput={this.clearOutput}
         />
         <ToolModal
           zoomed={this.state.zoomed}

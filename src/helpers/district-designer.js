@@ -17,9 +17,12 @@ export const startAlgorithm = (algoType, shortName, weights) => {
       return JSON.parse(request.response);
     }
   }
-
   request.open("POST", URL + "/StartAlgorithm", false);
-  request.send(body);
+  try{
+    request.send(body);
+  } catch (e) {
+    return false;
+  }
   return request.onreadystatechange();
 }
 
