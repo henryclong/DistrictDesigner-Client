@@ -41,7 +41,6 @@ class Map extends Component {
     let weightText = '';
     weights.map((weight) => (weightText += (weight.id + ': ' + weight.value + ' ')));
     this.appendText("Algorithm Started: Weights: " + weightText + " State: " + this.state.selectedState.shortName + " Algorithm Type: " + algorithm);
-    
   }
 
   onStop = () => {
@@ -96,11 +95,6 @@ class Map extends Component {
     });
     loadState(map, usstate.shortName);
     map.flyTo(usstate.boundingBox);
-  }
-
-  updateSettings = (weights, algorithm) => {
-    this.weights = weights;
-    this.algorithm = algorithm;
   }
 
   render() {
