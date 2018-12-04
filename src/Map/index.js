@@ -14,6 +14,7 @@ class Map extends Component {
       zoomed: false,
       selectedState: 'none',
       terminalUpdates: [],
+      showDistricts: false,
     };
   }
 
@@ -57,13 +58,13 @@ class Map extends Component {
     map.flyTo({center: [-95.7, 39], zoom: 3.75});
   }
 
-  stateZoom = (stateShortName, boundingBox) => {
+  stateZoom = (usstate) => {
     this.setState({
       zoomed: true,
-      selectedState: stateShortName
+      selectedState: usstate.shortName
     });
-    loadState(map, stateShortName);
-    map.flyTo(boundingBox);
+    loadState(map, usstate.shortName);
+    map.flyTo(usstate.boundingBox);
   }
 
   render() {
