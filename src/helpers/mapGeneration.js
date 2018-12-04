@@ -1,30 +1,21 @@
 import mapboxgl from 'mapbox-gl';
-
-const ACCESS_TOKEN = 'pk.eyJ1IjoibG9uZ2giLCJhIjoiY2psem92M2JkMDN4bDNsbXlhZ2Z6ZzhoZiJ9.qEtkhzP-UwuKVkV5suN7sg';
-const IS_INTERACTIVE = false;
-const URL_STYLE = 'mapbox://styles/longh/cjms2zdmpa7g52smzgtobl908';
-const URL_STATES = 'mapbox://longh.0mfgysin';
+import { MAPBOX_ACCESS_TOKEN, MAPBOX_STYLE_URL, STATE_OUTLINE_URL } from '../config/constants';
 const DISTRICT_COUNT = 8;
-const COLOR_RANGE = {
-  RANGE_START: '#0a369d',
-  RANGE_MID: '#FFFFFF',
-  RANGE_END: '#bf0a30',
-}
 
 export const createMap = () => {
-  mapboxgl.accessToken = ACCESS_TOKEN;
+  mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
   let map = new mapboxgl.Map({
     container: 'map',
-    style: URL_STYLE,
+    style: MAPBOX_STYLE_URL,
     center: [-95.7, 39],
     minZoom: 3.75,
     zoom: 3.75,
-    interactive: IS_INTERACTIVE,
+    interactive: false,
   });
   map.on('load', function () {
     map.addSource('stateSource', {
       type: 'vector',
-      url: URL_STATES
+      url: STATE_OUTLINE_URL,
     });
     map.addLayer({
       'id': 'stateFill',
@@ -66,9 +57,7 @@ export const loadState = (map, shortName) => {
       filter: ['has', 'id']
     }) && map.areTilesLoaded()) {
       let precincts = map.querySourceFeatures(shortName+'Source');
-      console.log('precinct_count='+precincts.length);
       for(let i = 0; i < precincts.length; i++) {
-        if(i%100 === 0) console.log('count='+i);
         setPrecinctDistrict(map, shortName, precincts[i].properties.GEOID10, 0);
       }
       map.off('sourcedata', initStateMap);
@@ -91,8 +80,8 @@ export const loadState = (map, shortName) => {
         'interpolate',
         ['linear'],
         ['feature-state', 'districtID'],
-        0, COLOR_RANGE.RANGE_START,
-        DISTRICT_COUNT, COLOR_RANGE.RANGE_END,
+        0, '#0a369d',
+        DISTRICT_COUNT, '#bf0a30',
       ],
       "fill-opacity": ["case",
         ["boolean", ["feature-state", "hover"], false],
