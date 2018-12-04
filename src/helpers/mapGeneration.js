@@ -1,6 +1,5 @@
 import mapboxgl from 'mapbox-gl';
 import { MAPBOX_ACCESS_TOKEN, MAPBOX_STYLE_URL, STATE_OUTLINE_URL } from '../config/constants';
-const DISTRICT_COUNT = 8;
 
 export const createMap = () => {
   mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
@@ -80,18 +79,7 @@ export const loadState = (map, shortName) => {
     'source': shortName+'Source',
     'layout': {},
     'paint': {
-      'fill-color': [
-        'interpolate',
-        ['linear'],
-        ['feature-state', 'districtID'],
-        0, '#0a369d',
-        DISTRICT_COUNT, '#bf0a30',
-      ],
-      "fill-opacity": ["case",
-        ["boolean", ["feature-state", "hover"], false],
-        1.0,
-        0.8
-      ]
+      'fill-color': '#0a369d',
     },
   });
   map.addLayer({
