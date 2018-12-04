@@ -15,7 +15,7 @@ class ToolModal extends Component {
   }
 
   componentDidMount() {
-    this.props.weights.map((item) => (this.updateWeight(item.id, this.props.sliderMax/2)));
+    this.props.weights.map((item) => (this.updateWeight(item.id, (this.props.sliderMax/2).toFixed(2))));
   }
 
   onToggle = (toggle) => {
@@ -80,7 +80,11 @@ class ToolModal extends Component {
                   <label name={"weightTitle"}>{item.label}</label>
                   <div class="weightContainer">
                     <Slider
-                      defaultValue={this.props.sliderMax/2} 
+                      defaultValue={
+                        this.state.weights
+                        .filter(weight => weight.id === item.id)
+                        .map((weight) => {return (parseFloat(weight.value, 10)*(this.props.sliderMax)).toFixed(2)})
+                      }
                       id={"weightSlider"+item.id} 
                       max={this.props.sliderMax} 
                       min={0} 
@@ -153,17 +157,17 @@ ToolModal.defaultProps = {
     {
       label: 'Compactness',
       id: 'COMPACTNESS',
-      value: 0.5,
+      value: 0.50,
     },
     {
       label: 'Partisan Gerrymandering',
       id: 'PARTISAN_GERRYMANDERING',
-      value: 0.5,
+      value: 0.50,
     },
     {
       label: 'Population Equality',
       id: 'POPULATION_EQUALITY',
-      value: 0.5,
+      value: 0.50,
     },
   ],
   sliderMax: 20,
