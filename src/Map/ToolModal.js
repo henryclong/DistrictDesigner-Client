@@ -125,7 +125,6 @@ class ToolModal extends Component {
             </div>
           }
           
-          
         </div>
       );
     }
