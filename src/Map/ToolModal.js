@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Slider from 'rc-slider';
 import StateSelector from "./StateSelector"
 import 'rc-slider/assets/index.css';
+import ParameterSelector from './ParameterSelector';
 
 class ToolModal extends Component {
 
@@ -53,6 +54,8 @@ class ToolModal extends Component {
 
   render() {
     if(this.props.zoomed === true){
+      let parameters = this.props.algorithms.filter((a) => (a.value === this.state.algorithm))[0].parameters;
+      console.log(parameters);
       return (
         <div className="Modal ToolModal">
           <button onClick={() => this.zoomOut()} disabled={this.state.isAlgorithmRunning}>← Return to State Select</button>
@@ -75,6 +78,12 @@ class ToolModal extends Component {
                 </div>
             ))
           }
+          {(parameters !== undefined)?
+          <ParameterSelector
+            parameters={parameters}
+            updateParameters={this.updateParameters}
+            isAlgorithmRunning={this.state.isAlgorithmRunning}
+          />:<div/>}
           {
             this.props.weights.map((item) => (
                 <div key={item.id + 'Container'}>
@@ -147,10 +156,18 @@ ToolModal.defaultProps = {
     {
       label: 'Region Growing',
       value: 'REGION_GROWING',
+      parameters: [
+        'seedSelect',
+        'districtCount',
+        'moveSelect',
+      ],
     },
     {
       label: 'Simulated Annealing',
       value: 'SIMULATED_ANNEALING',
+      parameters: [
+        'moveSelect',
+      ],
     },
   ],
   weights: [
