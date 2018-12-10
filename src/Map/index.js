@@ -64,38 +64,14 @@ class Map extends Component {
       selectedState: usstate
     });
     loadState(map, usstate.shortName);
+    map.setFilter('districtBorders', ['==', 'STATEFP', usstate.id]);
     map.flyTo(usstate.boundingBox);
   }
   
   toggleDistrictView = () => {
-    if (!this.state.showingDistricts) {
-      map.addLayer({
-        'id': 'districtFill',
-        'type': 'fill',
-        'source': 'districtSource',
-        'paint': {
-          'fill-color': '#0a369d',
-          "fill-opacity": 1.0,
-        }
-      });
-      map.addLayer({
-        'id': 'districtBorders',
-        'type': 'line',
-        'source': 'districtSource',
-        'paint': {
-          'line-color': '#FFFFFF',
-          'line-width': 0.5
-        }
-      });
-      map.setFilter('districtFill', ['==', 'STATEFP', this.state.selectedState.id]);
-      map.setFilter('districtBorders', ['==', 'STATEFP', this.state.selectedState.id]);
-      this.setState({ showingDistricts: true});
-    }
-    else {
-      map.removeLayer('districtFill');
-      map.removeLayer('districtBorders');
-      this.setState({ showingDistricts: false});
-    }
+    this.setState({ showingDistricts: !this.state.showingDistricts});
+    map.setPaintProperty(this.state.selectedState.shortName+'Borders', 'line-opacity', (this.state.showingDistricts)?1.0:0.25);
+    map.setPaintProperty('districtBorders', 'line-opacity', (this.state.showingDistricts)?0.0:1.0)
   }
 
   render() {

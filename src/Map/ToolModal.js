@@ -12,6 +12,7 @@ class ToolModal extends Component {
       weights: this.props.weights,
       algorithm: this.props.algorithms[0].value,
       isAlgorithmRunning: false,
+      parameters: {},
     };
   }
 
@@ -33,6 +34,10 @@ class ToolModal extends Component {
 
   updateAlgorithm = (value) => {
     this.setState({ algorithm: value});
+  }
+
+  updateParameters = (parameters) => {
+    this.setState({ parameters: parameters });
   }
 
   updateWeight = (sliderId, newWeight) => {

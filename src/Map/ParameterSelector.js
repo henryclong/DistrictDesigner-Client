@@ -5,13 +5,36 @@ class ParameterSelector extends Component {
 
   constructor(props){
     super(props);
+    const params = {};
+    if(this.props.parameters.includes('seedSelect')) params['seedSelect'] = 'RANDOM';
+    if(this.props.parameters.includes('districtCount')) params['districtCount'] = '8';
+    if(this.props.parameters.includes('moveSelect')) params['moveSelect'] = 'BEST';
     this.state = {
-      parameters: {},
+      parameters: params
     };
+    this.sendUpdates();
   }
 
-  updateParameters = () => {
-    
+  updateParameter = (name, value) => {
+    const newParams = this.state.parameters;
+    newParams[name] = value;
+    this.setState({
+      parameters: newParams,
+    })
+    this.sendUpdates();
+  }
+
+  updateDistrictCount = (value) => {
+    const newParams = this.state.parameters;
+    newParams['districtCount'] = value;
+    this.setState({
+      parameters: newParams,
+    });
+    this.sendUpdates();
+  }
+
+  sendUpdates = () => {
+    this.props.updateParameters(this.state.parameters);
   }
 
   render(){
@@ -26,7 +49,7 @@ class ParameterSelector extends Component {
                   defaultChecked={item.default} 
                   id={item.value} 
                   name="seedRadio" 
-                  onClick={() => {}}
+                  onClick={() => {this.updateParameter('seedSelect', item.value)}}
                   type="radio"
                   disabled={this.props.isAlgorithmRunning}
                 />
@@ -44,11 +67,11 @@ class ParameterSelector extends Component {
             id={"districtCountSlider"} 
             max={10} //Change to be 2-3 times the default
             min={1} 
-            onChange={() => {}}
+            onChange={this.updateDistrictCount}
             disabled={this.props.isAlgorithmRunning}
           />
           <label id={"districtCountLabel"}>
-            {0}
+            {this.state.parameters.districtCount || -1}
           </label>
           </div>:<div/>
         }
@@ -61,7 +84,7 @@ class ParameterSelector extends Component {
                   defaultChecked={item.default} 
                   id={item.value} 
                   name="moveRadio" 
-                  onClick={() => {}}
+                  onClick={() => {this.updateParameter('moveSelect', item.value)}}
                   type="radio"
                   disabled={this.props.isAlgorithmRunning}
                 />
