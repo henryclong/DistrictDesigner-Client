@@ -19,6 +19,27 @@ $default-font: Bitter;
   width:100%;
 }
 
+.Popup {
+  position: absolute;
+  background-color: $white;
+  height: 80%;
+  width: 50%;
+  top: 10%;
+  left: 25%;
+  border-radius: 20px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3);
+}
+
+.PopupOverlay {
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.50);
+}
+
 .Modal {
   font-size: 85%;
   font-family: $default-font;
