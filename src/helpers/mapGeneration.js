@@ -50,6 +50,17 @@ export const createMap = () => {
       type: 'geojson',
       data: '/us_districts.json',
     });
+    map.addLayer({
+      'id': 'districtBorders',
+      'type': 'line',
+      'source': 'districtSource',
+      'paint': {
+        'line-color': '#ffffff',
+        'line-width': 1.5,
+        'line-opacity': 0.0,
+      },
+      'minzoom': 5.5,
+    });
   });
   return map;
 }
@@ -80,7 +91,7 @@ export const loadState = (map, shortName) => {
     'paint': {
       'fill-color': '#0a369d',
     },
-  });
+  },'districtBorders');
   map.addLayer({
     'id': shortName+'Borders',
     'type': 'line',
@@ -90,7 +101,7 @@ export const loadState = (map, shortName) => {
       'line-color': '#ffffff',
       'line-width': 0.5
     },
-  });
+  },'districtBorders');
 }
 
 export const unloadState = (map, shortName) => {
