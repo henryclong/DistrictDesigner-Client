@@ -43,3 +43,7 @@ export const toggleAlgorithm = (status) => {
   console.log("Algorithm Paused");  
   return true;
 }
+
+export const getConstitution = (shortName) => {
+  return 'Sample State Constitution Text';
+}
