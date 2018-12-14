@@ -50,7 +50,7 @@ class App extends Component {
           isOpen={this.state.login.isActive}
           onRequestClose={() => this.onToggle('login')}
         >
-          <LoginModal />
+          <LoginModal close={() => this.onToggle('login')}/>
         </Modal>
       </div>
     );
