@@ -13,6 +13,13 @@ class ConstitutionModal extends Component {
       <div>
         <h1>Redistricting Guidelines</h1>
         <div className="scrollable inset">
+          <h2>Summary:</h2>
+          <ul>
+            <li><p>District populations must be within <b>{constitution['requirements']['equal_population'] * 100}%</b> of each other</p></li>
+            <li><p>It is <b>{constitution['requirements']['county_line']}</b> that districts respect county boundaries</p></li>
+            <li><p>It is <b>{constitution['requirements']['contiguous']}</b> that districts are contiguous</p></li>
+            <li><p>It is <b>{constitution['requirements']['preserve_communities_and_incumbents']}</b> that districts preserve communities and incumbents</p></li>
+          </ul>
           {constitution['text'].map((textEntry) => (
             <div>
               <hr/>
@@ -31,6 +38,7 @@ class ConstitutionModal extends Component {
           ))}
         </div>
       </div>
+      
     );
   }
 
