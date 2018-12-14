@@ -34,6 +34,7 @@ $default-font: Bitter;
 }
 
 .scrollable {
+  max-height: 60vh;
   overflow: scroll;
   border-radius: 15px;
 }
