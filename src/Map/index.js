@@ -2,7 +2,7 @@ import DisplayModal from './DisplayModal';
 import Modal from 'react-modal';
 import React, { Component } from 'react';
 import ToolModal from './ToolModal';
-import { startAlgorithm, toggleAlgorithm, stopAlgorithm } from '../helpers/district-designer';
+import { startAlgorithm, toggleAlgorithm, stopAlgorithm, getConstitution } from '../helpers/district-designer';
 import { createMap, loadState, unloadState } from '../helpers/mapGeneration';
 import ConstitutionModal from './ConstitutionModal';
 
@@ -73,11 +73,12 @@ class Map extends Component {
     map.flyTo(usstate.boundingBox);
   }
 
-  toggleConstitutionView = (text) => {
+  toggleConstitutionView = () => {
+    const constitutionText = getConstitution(this.state.selectedState.shortName);
     this.setState({
       constitution: {
         isActive: !this.state.constitution.isActive,
-        text: text || '',
+        text: constitutionText,
       }
     });
   }
@@ -135,8 +136,10 @@ class Map extends Component {
           updateSettings={this.updateSettings}
         />
         <Modal
+          className="Popup ConstitutionModal"
+          overlayClassName="PopupOverlay"
           isOpen={this.state.constitution.isActive}
-          onRequestClose={() => this.onToggle('constitution')}
+          onRequestClose={() => this.toggleConstitutionView()}
         >
           <ConstitutionModal constitutionText={this.state.constitution.text} />
         </Modal>
