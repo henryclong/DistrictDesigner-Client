@@ -65,6 +65,7 @@ class ToolModal extends Component {
         <div className="Modal ToolModal">
           <button onClick={() => this.zoomOut()} disabled={this.state.isAlgorithmRunning}>← Return to State Select</button>
           <button onClick={() => this.props.toggleDistrictView()}>Toggle District View</button>
+          <div className="scrollable inset">
           {
             this.props.algorithms.map((item) => (
                 <div key={item.value + 'Container'}>
@@ -117,6 +118,7 @@ class ToolModal extends Component {
                 </div>
             ))
           }
+          </div>
           {
             (!this.state.isAlgorithmRunning)
             ?
