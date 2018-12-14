@@ -43,3 +43,11 @@ export const toggleAlgorithm = (status) => {
   console.log("Algorithm Paused");  
   return true;
 }
+
+export const login = (username, passwordHash) => {
+  return true;
+}
+
+export const register = (username, passwordHash) => {
+  return true;
+}

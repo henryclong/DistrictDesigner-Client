@@ -9,7 +9,7 @@ class LoginModal extends Component {
   render() {
     return (
       <div className="LoginModal">
-        <input type="text" placeholder="Email" className="inset"/>
+        <input type="text" placeholder="Username" className="inset"/>
         <input type="password" placeholder="Password" className="inset"/>
         <div className="LoginButtonContainer">
           <button onClick={this.closeModal}>Log In</button>
