@@ -1,8 +1,10 @@
 import DisplayModal from './DisplayModal';
+import Modal from 'react-modal';
 import React, { Component } from 'react';
 import ToolModal from './ToolModal';
-import { startAlgorithm, toggleAlgorithm, stopAlgorithm } from '../helpers/district-designer';
+import { startAlgorithm, toggleAlgorithm, stopAlgorithm, getConstitution } from '../helpers/district-designer';
 import { createMap, loadState, unloadState } from '../helpers/mapGeneration';
+import ConstitutionModal from './ConstitutionModal';
 
 let map;
 
@@ -15,6 +17,10 @@ class Map extends Component {
       selectedState: 'none',
       terminalUpdates: [],
       showingDistricts: false,
+      constitution: {
+        isActive: false,
+        text: "",
+      }
     };
   }
 
@@ -31,7 +37,7 @@ class Map extends Component {
     this.setState({ terminalUpdates: [] });
   }
 
-  onToggle = () => {
+  onToggleAlgorithm = () => {
     toggleAlgorithm(false);
     this.appendText('Algorithm Paused');
   }
@@ -39,8 +45,8 @@ class Map extends Component {
   onStart = (weights, algorithm) => {
     let weightMap = {};
     weights.map((w) => (weightMap[w.id] = w.value));
-    const result = startAlgorithm(algorithm, this.state.selectedState, weightMap);
-    this.appendText((result)?"Algorithm Started: Weights: " + weights.map((w) => w.id + ": " + w.value) + " State: " + this.state.selectedState + " Algorithm Type: " + algorithm:"ERROR");
+    const result = startAlgorithm(algorithm, this.state.selectedState.shortName, weightMap);
+    this.appendText((result)?"Algorithm Started: Weights: " + weights.map((w) => w.id + ": " + w.value) + " State: " + this.state.selectedState.shortName + " Algorithm Type: " + algorithm:"ERROR");
     return result;
   }
 
@@ -61,10 +67,20 @@ class Map extends Component {
   stateZoom = (usstate) => {
     this.setState({
       zoomed: true,
-      selectedState: usstate.shortName
+      selectedState: usstate
     });
     loadState(map, usstate.shortName);
     map.flyTo(usstate.boundingBox);
+  }
+
+  toggleConstitutionView = () => {
+    const constitutionText = getConstitution(this.state.selectedState.shortName);
+    this.setState({
+      constitution: {
+        isActive: !this.state.constitution.isActive,
+        text: constitutionText,
+      }
+    });
   }
   
   toggleDistrictView = () => {
@@ -111,13 +127,22 @@ class Map extends Component {
           zoomed={this.state.zoomed}
           stateZoom={this.stateZoom}
           toggleDistrictView={this.toggleDistrictView}
+          toggleConstitutionView={this.toggleConstitutionView}
           resetZoom={this.resetZoom}
           selectedState={this.state.selectedState}
           onStart={this.onStart}
-          onToggle={this.onToggle}
+          onToggle={this.onToggleAlgorithm}
           onStop={this.onStop}
           updateSettings={this.updateSettings}
         />
+        <Modal
+          className="Popup ConstitutionModal"
+          overlayClassName="PopupOverlay"
+          isOpen={this.state.constitution.isActive}
+          onRequestClose={() => this.toggleConstitutionView()}
+        >
+          <ConstitutionModal constitution={this.state.constitution.text} />
+        </Modal>
       </div>
     );
   }

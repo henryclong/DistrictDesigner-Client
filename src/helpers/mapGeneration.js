@@ -67,7 +67,6 @@ export const loadState = (map, shortName) => {
     }
   }
   if(!(map.isSourceLoaded(shortName+'Source'))){
-    map.on('sourcedata', initStateMap);
     map.addSource(shortName+'Source', {
       type: 'geojson',
       data: '/' + shortName.toLowerCase() + '_with_id.json'

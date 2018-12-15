@@ -64,7 +64,6 @@ export const getConstitution = (shortName) => {
       return JSON.parse(request.response);
     }
   }
-
   request.open("GET", URL + "/Constitution?shortName=" + shortName, false);
   request.send();
   return request.onreadystatechange();
