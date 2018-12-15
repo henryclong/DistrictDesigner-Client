@@ -44,10 +44,15 @@ export const toggleAlgorithm = (status) => {
   return true;
 }
 
-export const login = (username, passwordHash) => {
+export const login = (username, password) => {
   return true;
 }
 
-export const register = (username, passwordHash) => {
+export const register = (username, password, passwordHash) => {
+  /*const bcrypt = require('bcrypt');
+  const saltRounds = 10;
+  bcrypt.hash(password, 10, function(err, hash) {
+    console.log('Username: '+username+', Password: '+password+', Hash: '+hash);
+  });*/
   return true;
 }
