@@ -56,18 +56,3 @@ export const toggleAlgorithm = (status) => {
   console.log("Algorithm Paused");  
   return true;
 }
-
-export const getConstitution = (shortName) => {
-  console.log('getting state constitution for: ' + shortName);
-  // const request = new XMLHttpRequest();
-  // request.onreadystatechange = () => {
-  //   if (request.readyState === HTTP_STATE.DONE && request.status === HTTP_STATUS.OK) {
-  //     return JSON.parse(request.response);
-  //   }
-  // }
-
-  // request.open("GET", URL + "/Constitution/" + shortName, false);
-  // request.send();
-  // return request.onreadystatechange();
-  return 'sample constitution text';
-}
