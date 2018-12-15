@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import constitutionObject from './constitutionObject.js';
 
 class ConstitutionModal extends Component {
 
@@ -7,8 +6,8 @@ class ConstitutionModal extends Component {
     return !(text === 'NA');
   }
 
-  processConstitutionText = (constitution) => {
-
+  processConstitutionText = () => {
+    const constitution = this.props.constitution;
     return (
       <div>
         <h1>Redistricting Guidelines</h1>
@@ -38,14 +37,13 @@ class ConstitutionModal extends Component {
           ))}
         </div>
       </div>
-      
     );
   }
 
   render() {
     return (
       <div>
-        {this.processConstitutionText(constitutionObject)}
+        {this.processConstitutionText()}
       </div>
     );
   }
