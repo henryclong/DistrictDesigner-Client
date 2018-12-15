@@ -1,7 +1,20 @@
 import { URL, HTTP_STATE, HTTP_STATUS } from '../config/constants';
 
+export const getConstitution = (shortName) => {
+  const request = new XMLHttpRequest();
+  request.onreadystatechange = () => {
+    if (request.readyState === HTTP_STATE.DONE && request.status === HTTP_STATUS.OK) {
+      return JSON.parse(request.response);
+    }
+  }
+
+  request.open("GET", URL + "/Constitution?shortName=" + shortName, false);
+  request.send();
+  return request.onreadystatechange();
+}
+
 export const getUpdate = () => {
-  console.log('Update received.')
+  console.log('Update received.');
   return true;
 }
 
