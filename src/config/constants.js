@@ -3,6 +3,8 @@ export const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoibG9uZ2giLCJhIjoiY2psem92M2JkMDN4b
 export const MAPBOX_STYLE_URL = 'mapbox://styles/longh/cjms2zdmpa7g52smzgtobl908';
 export const STATE_OUTLINE_URL = 'mapbox://longh.0mfgysin';
 
+export const SALT_ROUNDS = 10
+
 export const HTTP_STATUS = {
   OK: 200,
   NOT_FOUND: 404,
