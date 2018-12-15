@@ -49,10 +49,10 @@ export const login = (username, password) => {
 }
 
 export const register = (username, password, passwordHash) => {
-  /*const bcrypt = require('bcrypt');
+  const bcrypt = require('bcrypt');
   const saltRounds = 10;
   bcrypt.hash(password, 10, function(err, hash) {
     console.log('Username: '+username+', Password: '+password+', Hash: '+hash);
-  });*/
+  });
   return true;
 }
