@@ -1,8 +1,10 @@
 import DisplayModal from './DisplayModal';
+import Modal from 'react-modal';
 import React, { Component } from 'react';
 import ToolModal from './ToolModal';
-import { startAlgorithm, toggleAlgorithm, stopAlgorithm } from '../helpers/district-designer';
+import { startAlgorithm, toggleAlgorithm, stopAlgorithm, getConstitution } from '../helpers/district-designer';
 import { createMap, loadState, unloadState } from '../helpers/mapGeneration';
+import ConstitutionModal from './ConstitutionModal';
 
 let map;
 
@@ -15,6 +17,10 @@ class Map extends Component {
       selectedState: 'none',
       terminalUpdates: [],
       showingDistricts: false,
+      constitution: {
+        isActive: false,
+        text: "",
+      }
     };
   }
 
@@ -31,7 +37,7 @@ class Map extends Component {
     this.setState({ terminalUpdates: [] });
   }
 
-  onToggle = () => {
+  onToggleAlgorithm = () => {
     toggleAlgorithm(false);
     this.appendText('Algorithm Paused');
   }
@@ -65,6 +71,16 @@ class Map extends Component {
     });
     loadState(map, usstate.shortName);
     map.flyTo(usstate.boundingBox);
+  }
+
+  toggleConstitutionView = () => {
+    const constitutionText = getConstitution(this.state.selectedState.shortName);
+    this.setState({
+      constitution: {
+        isActive: !this.state.constitution.isActive,
+        text: constitutionText,
+      }
+    });
   }
   
   toggleDistrictView = () => {
@@ -111,13 +127,22 @@ class Map extends Component {
           zoomed={this.state.zoomed}
           stateZoom={this.stateZoom}
           toggleDistrictView={this.toggleDistrictView}
+          toggleConstitutionView={this.toggleConstitutionView}
           resetZoom={this.resetZoom}
           selectedState={this.state.selectedState}
           onStart={this.onStart}
-          onToggle={this.onToggle}
+          onToggle={this.onToggleAlgorithm}
           onStop={this.onStop}
           updateSettings={this.updateSettings}
         />
+        <Modal
+          className="Popup ConstitutionModal"
+          overlayClassName="PopupOverlay"
+          isOpen={this.state.constitution.isActive}
+          onRequestClose={() => this.toggleConstitutionView()}
+        >
+          <ConstitutionModal constitution={this.state.constitution.text} />
+        </Modal>
       </div>
     );
   }
