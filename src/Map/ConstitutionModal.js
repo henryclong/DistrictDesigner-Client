@@ -14,15 +14,15 @@ class ConstitutionModal extends Component {
         <div className="scrollable inset">
           <h2>Summary:</h2>
           <ul>
-            <li><p>District populations must be within <b>{constitution['requirements']['equal_population'] * 100}%</b> of each other</p></li>
-            <li><p>It is <b>{constitution['requirements']['county_line']}</b> that districts respect county boundaries</p></li>
-            <li><p>It is <b>{constitution['requirements']['contiguous']}</b> that districts are contiguous</p></li>
-            <li><p>It is <b>{constitution['requirements']['preserve_communities_and_incumbents']}</b> that districts preserve communities and incumbents</p></li>
+            <li><p>District populations must be within <b>{constitution.CONSTITUTION_REQUIREMENTS.equalPopulation * 100}%</b> of each other</p></li>
+            <li><p>It is <b>{constitution.CONSTITUTION_REQUIREMENTS['countyLine']}</b> that districts respect county boundaries</p></li>
+            <li><p>It is <b>{constitution.CONSTITUTION_REQUIREMENTS['contiguous']}</b> that districts are contiguous</p></li>
+            <li><p>It is <b>{constitution.CONSTITUTION_REQUIREMENTS['preserveCommunitiesIncumbants']}</b> that districts preserve communities and incumbents</p></li>
           </ul>
-          {constitution['text'].map((textEntry) => (
+          {constitution['CONSTITUTION_TEXT'].map((textEntry) => (
             <div>
               <hr/>
-              <h2>{textEntry['document']+', '+textEntry['state_postal']}</h2>
+              <h2>{textEntry['document']+', '+textEntry['shortName']}</h2>
               <h3>
                 {(this.isValid(textEntry['article']))?(' Article ' + textEntry['article']):''}
                 {(this.isValid(textEntry['section']))?(' Section ' + textEntry['section']):''}

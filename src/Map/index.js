@@ -141,7 +141,7 @@ class Map extends Component {
           isOpen={this.state.constitution.isActive}
           onRequestClose={() => this.toggleConstitutionView()}
         >
-          <ConstitutionModal constitution={this.state.constitution} />
+          <ConstitutionModal constitution={this.state.constitution.text} />
         </Modal>
       </div>
     );
