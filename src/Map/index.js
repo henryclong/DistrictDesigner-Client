@@ -169,7 +169,7 @@ class Map extends Component {
     this.setState({hoveredPrecinctId: (features[0] != null)?features[0].id:null});
     map.setFeatureState({ source: this.state.selectedState.shortName+'Source', id: this.state.hoveredPrecinctId }, { hover: true });
     if(popup_precinct !== undefined) { popup_precinct.remove(); }
-    if(this.state.hoveredPrecinctId !== null && this.state.displayPane === MODAL.INFO_MODAL) {
+    if(this.state.hoveredPrecinctId !== null && this.state.displayPane === MODAL.INFO_MODAL && this.state.showingDistricts) {
       popup_precinct = new mapboxgl.Popup({closeButton: false, closeOnClick: false})
       .setLngLat(e.lngLat)
       .setHTML('<h1>'+this.state.hoveredPrecinctId+'</h1>')
