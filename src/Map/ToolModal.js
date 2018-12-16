@@ -62,9 +62,7 @@ class ToolModal extends Component {
     if(this.props.zoomed === true){
       return (
         <div className="Modal ToolModal">
-          <button onClick={() => this.zoomOut()} disabled={this.state.isAlgorithmRunning}>← Return to State Select</button>
-          <button onClick={() => this.props.toggleConstitutionView()}>Show State Constitution</button>
-          <button onClick={() => this.props.toggleDistrictView()}>Toggle District View</button>
+          <button onClick={() => this.zoomOut()} disabled={this.state.isAlgorithmRunning}>← Return to Demographics View</button>
           {
             this.props.algorithms.map((item) => (
                 <div key={item.value + 'Container'}>
