@@ -26,8 +26,8 @@ export const createMap = () => {
         'fill-color': '#0a369d',
         "fill-opacity": ["case",
           ["boolean", ["feature-state", "hover"], false],
-          0.7,
-          0.7
+          1.0,
+          1.0
         ]
       },
       'minzoom': 3.5,
@@ -49,6 +49,16 @@ export const createMap = () => {
     map.addSource('districtSource', {
       type: 'geojson',
       data: '/us_districts.json',
+    });
+    map.addLayer({
+      'id': 'districtBorders',
+      'type': 'line',
+      'source': 'districtSource',
+      'paint': {
+        'line-color': '#FFFFFF',
+        'line-width': 2.0,
+        'line-opacity': 0.0,
+      }
     });
   });
   return map;
@@ -80,7 +90,7 @@ export const loadState = (map, shortName) => {
     'paint': {
       'fill-color': '#0a369d',
     },
-  });
+  },'districtBorders');
   map.addLayer({
     'id': shortName+'Borders',
     'type': 'line',
@@ -88,9 +98,10 @@ export const loadState = (map, shortName) => {
     'layout': {},
     'paint': {
       'line-color': '#ffffff',
-      'line-width': 0.5
+      'line-width': 0.5,
+      'line-opacity': 1.0,
     },
-  });
+  },'districtBorders');
 }
 
 export const unloadState = (map, shortName) => {

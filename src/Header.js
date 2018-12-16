@@ -7,11 +7,11 @@ class Header extends Component {
       <div className="Header">
         <img src={'/DDLogo_slanted.svg'} alt=""></img>
         {
-          this.props.nav.map((item) => (
-              <button key={item.id} onClick={() => this.props.onToggle(item.id)}>
-                {item.label}
-              </button>
-          ))
+          <button key='login' onClick=
+            {(this.props.user.username === '')?() => {this.props.onToggle('login')}:() => {this.props.logout()}}
+          >
+            {(this.props.user.username === '')?'Log-in / Sign-Up':'Log Out, ' + this.props.user.username}
+          </button>
         }
       </div>
     );
@@ -23,10 +23,6 @@ Header.defaultProps = {
     {
       id: 'login',
       label: 'Log-in / Sign-Up'
-    },
-    {
-      id: 'faq',
-      label: 'FAQ'
     },
   ],
 };
