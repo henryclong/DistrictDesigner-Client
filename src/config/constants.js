@@ -17,3 +17,9 @@ export const HTTP_STATE = {
   LOADING: 3,
   DONE: 4,
 }
+
+export const MODAL = {
+  STATE_MODAL: 0,
+  INFO_MODAL: 1,
+  TOOL_MODAL: 2,
+}
