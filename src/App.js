@@ -1,4 +1,3 @@
-import AboutModal from './AboutModal';
 import LoginModal from './LoginModal';
 import Header from './Header';
 import Map from './Map';
@@ -66,15 +65,9 @@ class App extends Component {
           user={this.state.activeUser}
           logout={this.logout}
         />
-        <Map />
-        <Modal
-          className="Popup"
-          overlayClassName="PopupOverlay"
-          isOpen={this.state.faq.isActive}
-          onRequestClose={() => this.onToggle('faq')}
-        >
-          <AboutModal />
-        </Modal>
+        <Map
+          user={this.state.activeUser}
+        />
         <Modal
           className="Popup"
           overlayClassName="PopupOverlay"

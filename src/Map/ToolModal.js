@@ -71,7 +71,14 @@ class ToolModal extends Component {
       return (
         <div className="Modal ToolModal">
         <button onClick={() => this.zoomOut()} disabled={this.state.isAlgorithmRunning}>← Return to Demographics View</button>
-        <div className="scrollable inset">  
+        <div className="scrollable inset"> 
+          {
+            (!this.props.isAlgorithmRunning && this.props.user.isLoggedIn !== false)?
+            <div className="buttonContainer">
+              <button>Save Parameters</button>
+              <button>Load Parameters</button>
+            </div>:<div/>
+          }
           {
             this.props.algorithms.map((item) => (
                 <div key={item.value + 'Container'}>
@@ -128,9 +135,9 @@ class ToolModal extends Component {
           {
             (!this.state.isAlgorithmRunning)
             ?
-            <button onClick={() => {
+            <button className='primaryButton' onClick={() => {
               this.setState({ isAlgorithmRunning: this.onStart() });
-            }}>Start</button>
+            }}>Start Algorithm</button>
             :
             <div className="buttonContainer">
               <button onClick={() => {
