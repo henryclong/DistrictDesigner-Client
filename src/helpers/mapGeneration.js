@@ -23,12 +23,12 @@ export const createMap = () => {
       'source-layer': 'usstates',
       'layout': {},
       'paint': {
-        'fill-color': '#0a369d',
-        "fill-opacity": ["case",
-          ["boolean", ["feature-state", "hover"], false],
-          1.0,
-          1.0
-        ]
+        'fill-color': 
+        ["case", ["boolean", ["feature-state", "hover"], false],
+          '#bf0a30',
+          '#0a369d',
+        ],
+        'fill-opacity': 1.0,
       },
       'minzoom': 3.5,
       'maxzoom': 5.5
@@ -41,22 +41,31 @@ export const createMap = () => {
       'layout': {},
       'paint': {
         'line-color': '#ffffff',
-        'line-width': 1.5
+        'line-width': 0.5
       },
       'minzoom': 3.5,
       'maxzoom': 5.5
     });
     map.addSource('districtSource', {
       type: 'geojson',
-      data: '/us_districts.json',
+      data: '/us_districts_simple.json',
+    });
+    map.addLayer({
+      'id': 'districtFill',
+      'type': 'fill',
+      'source': 'districtSource',
+      'paint': {
+        'fill-color': '#0a369d',
+        'fill-opacity': 0.0,
+      }
     });
     map.addLayer({
       'id': 'districtBorders',
       'type': 'line',
       'source': 'districtSource',
       'paint': {
-        'line-color': '#FFFFFF',
-        'line-width': 2.0,
+        'line-color': '#ffffff',
+        'line-width': 1.0,
         'line-opacity': 0.0,
       }
     });
@@ -64,7 +73,7 @@ export const createMap = () => {
   return map;
 }
 
-export const loadState = (map, shortName) => {
+export const loadState = (map, shortName, id) => {
   let initStateMap = () => {
     if (map.getSource(shortName+'Source') && map.isSourceLoaded(shortName+'Source', {
       filter: ['has', 'id']
@@ -79,7 +88,7 @@ export const loadState = (map, shortName) => {
   if(!(map.isSourceLoaded(shortName+'Source'))){
     map.addSource(shortName+'Source', {
       type: 'geojson',
-      data: '/' + shortName.toLowerCase() + '_with_id.json'
+      data: '/' + shortName.toLowerCase() + '_with_id_simple.json'
     });
   }
   map.addLayer({
@@ -88,9 +97,14 @@ export const loadState = (map, shortName) => {
     'source': shortName+'Source',
     'layout': {},
     'paint': {
-      'fill-color': '#0a369d',
+      'fill-color': 
+        ["case", ["boolean", ["feature-state", "hover"], false],
+          '#bf0a30',
+          '#0a369d',
+        ],
+      'fill-opacity': 1.0,
     },
-  },'districtBorders');
+  },'districtFill');
   map.addLayer({
     'id': shortName+'Borders',
     'type': 'line',
@@ -101,7 +115,9 @@ export const loadState = (map, shortName) => {
       'line-width': 0.5,
       'line-opacity': 1.0,
     },
-  },'districtBorders');
+  },'districtFill');
+  map.setFilter('districtFill', ['==', 'STATEFP', id]);
+  map.setFilter('districtBorders', ['==', 'STATEFP', id]);
 }
 
 export const unloadState = (map, shortName) => {
