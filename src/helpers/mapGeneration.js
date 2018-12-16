@@ -23,12 +23,12 @@ export const createMap = () => {
       'source-layer': 'usstates',
       'layout': {},
       'paint': {
-        'fill-color': '#0a369d',
-        "fill-opacity": ["case",
-          ["boolean", ["feature-state", "hover"], false],
-          1.0,
-          1.0
-        ]
+        'fill-color': 
+        ["case", ["boolean", ["feature-state", "hover"], false],
+          '#ffffff',
+          '#0a369d',
+        ],
+        'fill-opacity': 1.0,
       },
       'minzoom': 3.5,
       'maxzoom': 5.5
@@ -48,7 +48,7 @@ export const createMap = () => {
     });
     map.addSource('districtSource', {
       type: 'geojson',
-      data: '/us_districts.json',
+      data: '/us_districts_simple.json',
     });
     map.addLayer({
       'id': 'districtFill',
@@ -104,7 +104,7 @@ export const loadState = (map, shortName, id) => {
         ],
       'fill-opacity': 1.0,
     },
-  });
+  },'districtFill');
   map.addLayer({
     'id': shortName+'Borders',
     'type': 'line',
@@ -114,7 +114,7 @@ export const loadState = (map, shortName, id) => {
       'line-color': '#ffffff',
       'line-width': 0.5
     },
-  });
+  },'districtFill');
   map.setFilter('districtFill', ['==', 'STATEFP', id]);
   map.setFilter('districtBorders', ['==', 'STATEFP', id]);
 }
