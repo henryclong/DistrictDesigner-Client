@@ -6,12 +6,11 @@ class Header extends Component {
     return (
       <div className="Header">
         <img src={'/DDLogo_slanted.svg'} alt=""></img>
-        <p>{this.props.user.username}</p>
         {
           <button key='login' onClick=
             {(this.props.user.username === '')?() => {this.props.onToggle('login')}:() => {this.props.logout()}}
           >
-            {(this.props.user.username === '')?'Log-in / Sign-Up':'Log Out'}
+            {(this.props.user.username === '')?'Log-in / Sign-Up':'Log Out, ' + this.props.user.username}
           </button>
         }
       </div>
