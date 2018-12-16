@@ -7,7 +7,6 @@ export const createMap = () => {
     container: 'map',
     style: MAPBOX_STYLE_URL,
     center: [-95.7, 39],
-    minZoom: 3.75,
     zoom: 3.75,
     interactive: false,
   });
@@ -30,7 +29,6 @@ export const createMap = () => {
         ],
         'fill-opacity': 1.0,
       },
-      'minzoom': 3.5,
       'maxzoom': 5.5
     });
     map.addLayer({
@@ -43,7 +41,6 @@ export const createMap = () => {
         'line-color': '#ffffff',
         'line-width': 0.5
       },
-      'minzoom': 3.5,
       'maxzoom': 5.5
     });
     map.addSource('districtSource', {
