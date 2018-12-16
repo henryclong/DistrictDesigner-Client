@@ -24,7 +24,8 @@ class Map extends Component {
       constitution: {
         isActive: false,
         text: "",
-      }
+      },
+      hoveredStateId: null,
     };
   }
 
@@ -66,6 +67,7 @@ class Map extends Component {
       displayPane: MODAL.STATE_MODAL,
       selectedState: 'none',
     });
+    this.enableHover(map, '', false);
     map.flyTo({center: [-95.7, 39], zoom: 3.75});
   }
 
@@ -73,12 +75,14 @@ class Map extends Component {
     this.setState({
       displayPane: MODAL.TOOL_MODAL,
     });
+    this.enableHover(map, '', false);
   }
 
   hideAlgorithm = () => {
     this.setState({
       displayPane: MODAL.INFO_MODAL,
     });
+    this.enableHover(map, this.state.selectedState.shortName, true);
   }
 
   stateZoom = (usstate) => {
@@ -88,6 +92,7 @@ class Map extends Component {
       selectedState: usstate
     });
     loadState(map, usstate.shortName, usstate.id);
+    this.enableHover(map, usstate.shortName, true);
     map.flyTo(usstate.boundingBox);
   }
 
@@ -103,10 +108,28 @@ class Map extends Component {
 
   toggleDistrictView = (show) => {
     this.setState({ showingDistricts: !show});
+    this.enableHover(map, this.state.selectedState.shortName, !this.state.showingDistricts);
     map.setPaintProperty(this.state.selectedState.shortName+'Borders', 'line-opacity', (!show)?1.0:0.0);
     map.setPaintProperty(this.state.selectedState.shortName+'Fill', 'fill-opacity', (!show)?1.0:0.0);
     map.setPaintProperty('districtBorders', 'line-opacity', (!show)?0.0:1.0)
     map.setPaintProperty('districtFill', 'fill-opacity', (!show)?0.0:1.0)
+  }
+
+  onPrecinctHover = (e) => {
+    var features = map.queryRenderedFeatures(e.point, { layers: [this.state.selectedState.shortName+'Fill'] });
+    if (this.state.hoveredStateId != null) map.setFeatureState({ source: [this.state.selectedState.shortName+'Source'], id: this.state.hoveredStateId }, { hover: false });
+    this.setState({hoveredStateId: (features[0] != null)?features[0].id:null});
+    map.setFeatureState({ source: this.state.selectedState.shortName+'Source', id: this.state.hoveredStateId }, { hover: true });
+  }
+
+  enableHover = (map, shortName,  enable) => {
+    if(enable) {
+      map.on('mousemove', this.onPrecinctHover);
+    } else {
+      map.off('mousemove', this.onPrecinctHover);
+      map.setFeatureState({ source: [this.state.selectedState.shortName+'Source'], id: this.state.hoveredStateId }, { hover: false });
+      this.setState({ hoveredStateId: null });
+    }
   }
 
   render() {

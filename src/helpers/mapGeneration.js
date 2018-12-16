@@ -88,7 +88,7 @@ export const loadState = (map, shortName, id) => {
   if(!(map.isSourceLoaded(shortName+'Source'))){
     map.addSource(shortName+'Source', {
       type: 'geojson',
-      data: '/' + shortName.toLowerCase() + '_with_id_very_simple.json'
+      data: '/' + shortName.toLowerCase() + '_with_id_simple.json'
     });
   }
   map.addLayer({
@@ -97,7 +97,12 @@ export const loadState = (map, shortName, id) => {
     'source': shortName+'Source',
     'layout': {},
     'paint': {
-      'fill-color': '#0a369d',
+      'fill-color': 
+        ["case", ["boolean", ["feature-state", "hover"], false],
+          '#ffffff',
+          '#0a369d',
+        ],
+      'fill-opacity': 1.0,
     },
   });
   map.addLayer({
