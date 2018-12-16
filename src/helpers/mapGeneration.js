@@ -50,30 +50,11 @@ export const createMap = () => {
       type: 'geojson',
       data: '/us_districts.json',
     });
-    map.addLayer({
-      'id': 'districtFill',
-      'type': 'fill',
-      'source': 'districtSource',
-      'paint': {
-        'fill-color': '#0a369d',
-        "fill-opacity": 0.0,
-      }
-    });
-    map.addLayer({
-      'id': 'districtBorders',
-      'type': 'line',
-      'source': 'districtSource',
-      'paint': {
-        'line-color': '#FFFFFF',
-        'line-width': 0.5,
-        'line-opacity': 0.0,
-      }
-    });
   });
   return map;
 }
 
-export const loadState = (map, shortName, id) => {
+export const loadState = (map, shortName) => {
   let initStateMap = () => {
     if (map.getSource(shortName+'Source') && map.isSourceLoaded(shortName+'Source', {
       filter: ['has', 'id']
@@ -110,8 +91,6 @@ export const loadState = (map, shortName, id) => {
       'line-width': 0.5
     },
   });
-  map.setFilter('districtFill', ['==', 'STATEFP', id]);
-  map.setFilter('districtBorders', ['==', 'STATEFP', id]);
 }
 
 export const unloadState = (map, shortName) => {

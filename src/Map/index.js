@@ -5,9 +5,6 @@ import ToolModal from './ToolModal';
 import { startAlgorithm, toggleAlgorithm, stopAlgorithm, getConstitution } from '../helpers/district-designer';
 import { createMap, loadState, unloadState } from '../helpers/mapGeneration';
 import ConstitutionModal from './ConstitutionModal';
-import { MODAL } from '../config/constants';
-import InfoModal from './InfoModal';
-import StateSelector from './StateSelector';
 
 let map;
 
@@ -17,7 +14,6 @@ class Map extends Component {
     super(props);
     this.state = {
       zoomed: false,
-      displayPane: MODAL.STATE_MODAL,
       selectedState: 'none',
       terminalUpdates: [],
       showingDistricts: false,
@@ -63,31 +59,17 @@ class Map extends Component {
     unloadState(map, this.state.selectedState.shortName);
     this.setState({
       zoomed: false,
-      displayPane: MODAL.STATE_MODAL,
       selectedState: 'none',
     });
     map.flyTo({center: [-95.7, 39], zoom: 3.75});
   }
 
-  showAlgorithm = () => {
-    this.setState({
-      displayPane: MODAL.TOOL_MODAL,
-    });
-  }
-
-  hideAlgorithm = () => {
-    this.setState({
-      displayPane: MODAL.INFO_MODAL,
-    });
-  }
-
   stateZoom = (usstate) => {
     this.setState({
       zoomed: true,
-      displayPane: MODAL.INFO_MODAL,
       selectedState: usstate
     });
-    loadState(map, usstate.shortName, usstate.id);
+    loadState(map, usstate.shortName);
     map.flyTo(usstate.boundingBox);
   }
 
@@ -100,13 +82,36 @@ class Map extends Component {
       }
     });
   }
-
-  toggleDistrictView = (show) => {
-    this.setState({ showingDistricts: !show});
-    map.setPaintProperty(this.state.selectedState.shortName+'Borders', 'line-opacity', (!show)?1.0:0.0);
-    map.setPaintProperty(this.state.selectedState.shortName+'Fill', 'fill-opacity', (!show)?1.0:0.0);
-    map.setPaintProperty('districtBorders', 'line-opacity', (!show)?0.0:1.0)
-    map.setPaintProperty('districtFill', 'fill-opacity', (!show)?0.0:1.0)
+  
+  toggleDistrictView = () => {
+    if (!this.state.showingDistricts) {
+      map.addLayer({
+        'id': 'districtFill',
+        'type': 'fill',
+        'source': 'districtSource',
+        'paint': {
+          'fill-color': '#0a369d',
+          "fill-opacity": 1.0,
+        }
+      });
+      map.addLayer({
+        'id': 'districtBorders',
+        'type': 'line',
+        'source': 'districtSource',
+        'paint': {
+          'line-color': '#FFFFFF',
+          'line-width': 0.5
+        }
+      });
+      map.setFilter('districtFill', ['==', 'STATEFP', this.state.selectedState.id]);
+      map.setFilter('districtBorders', ['==', 'STATEFP', this.state.selectedState.id]);
+      this.setState({ showingDistricts: true});
+    }
+    else {
+      map.removeLayer('districtFill');
+      map.removeLayer('districtBorders');
+      this.setState({ showingDistricts: false});
+    }
   }
 
   render() {
@@ -118,37 +123,18 @@ class Map extends Component {
           terminalUpdates={this.state.terminalUpdates}
           clearOutput={this.clearOutput}
         />
-        {
-          (this.state.displayPane === MODAL.TOOL_MODAL)?
-          <ToolModal
+        <ToolModal
           zoomed={this.state.zoomed}
           stateZoom={this.stateZoom}
-          resetZoom={this.hideAlgorithm}
+          toggleDistrictView={this.toggleDistrictView}
+          toggleConstitutionView={this.toggleConstitutionView}
+          resetZoom={this.resetZoom}
           selectedState={this.state.selectedState}
           onStart={this.onStart}
           onToggle={this.onToggleAlgorithm}
           onStop={this.onStop}
           updateSettings={this.updateSettings}
-          />:<div/>
-        }
-        {
-          (this.state.displayPane === MODAL.INFO_MODAL)?
-          <InfoModal
-          resetZoom={this.resetZoom}
-          showAlgorithm={this.showAlgorithm}
-          toggleDistrictView={this.toggleDistrictView}
-          toggleConstitutionView={this.toggleConstitutionView}
-          />:<div/>
-        }
-        {
-          (this.state.displayPane === MODAL.STATE_MODAL)?
-          <div className="Modal ToolModal">
-          <StateSelector
-          stateZoom={this.stateZoom}
-          resetZoom={this.resetZoom}
-          />
-          </div>:<div/>
-        }
+        />
         <Modal
           className="Popup ConstitutionModal"
           overlayClassName="PopupOverlay"
