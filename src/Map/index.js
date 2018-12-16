@@ -42,10 +42,10 @@ class Map extends Component {
     map.setFeatureState({ source: 'stateSource', sourceLayer: 'usstates', id: this.state.hoveredStateId }, { hover: true }); 
     if(popup_state !== undefined) { popup_state.remove(); }
     if(this.state.hoveredStateName !== null) {
-      popup_state = new mapboxgl.Popup({closeButton: false, closeOnClick: false})
+      /*popup_state = new mapboxgl.Popup({closeButton: false, closeOnClick: false})
       .setLngLat(e.lngLat)
       .setHTML('<h1>'+this.state.hoveredStateName+'</h1>')
-      .addTo(map);
+      .addTo(map);*/
     }
   }
 
@@ -198,6 +198,7 @@ class Map extends Component {
           onToggle={this.onToggleAlgorithm}
           onStop={this.onStop}
           updateSettings={this.updateSettings}
+          user={this.props.user}
           />:<div/>
         }
         {
