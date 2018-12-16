@@ -25,7 +25,7 @@ export const createMap = () => {
       'paint': {
         'fill-color': 
         ["case", ["boolean", ["feature-state", "hover"], false],
-          '#ffffff',
+          '#bf0a30',
           '#0a369d',
         ],
         'fill-opacity': 1.0,
@@ -99,7 +99,7 @@ export const loadState = (map, shortName, id) => {
     'paint': {
       'fill-color': 
         ["case", ["boolean", ["feature-state", "hover"], false],
-          '#ffffff',
+          '#bf0a30',
           '#0a369d',
         ],
       'fill-opacity': 1.0,

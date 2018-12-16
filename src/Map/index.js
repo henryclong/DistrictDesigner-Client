@@ -8,8 +8,11 @@ import { createMap, loadState, unloadState } from '../helpers/mapGeneration';
 import ConstitutionModal from './ConstitutionModal';
 import { MODAL } from '../config/constants';
 import StateSelector from './StateSelector';
+import mapboxgl from 'mapbox-gl';
 
 let map;
+let popup_state;
+let popup_precinct;
 
 class Map extends Component {
 
@@ -37,6 +40,13 @@ class Map extends Component {
     this.setState({ hoveredStateId: (features[0] != null)?features[0].id:null });
     this.setState({ hoveredStateName: (features[0] != null)?features[0].properties.name:null} );
     map.setFeatureState({ source: 'stateSource', sourceLayer: 'usstates', id: this.state.hoveredStateId }, { hover: true }); 
+    if(popup_state !== undefined) { popup_state.remove(); }
+    if(this.state.hoveredStateName !== null) {
+      popup_state = new mapboxgl.Popup({closeButton: false, closeOnClick: false})
+      .setLngLat(e.lngLat)
+      .setHTML('<h1>'+this.state.hoveredStateName+'</h1>')
+      .addTo(map);
+    }
   }
 
   componentDidMount() {
@@ -79,6 +89,7 @@ class Map extends Component {
   }
 
   resetZoom = () => {
+    if(popup_precinct !== undefined) { popup_precinct.remove(); }
     unloadState(map, this.state.selectedState.shortName);
     this.setState({
       zoomed: false,
@@ -90,6 +101,7 @@ class Map extends Component {
   }
 
   showAlgorithm = () => {
+    if(popup_precinct !== undefined) { popup_precinct.remove(); }
     this.setState({
       displayPane: MODAL.TOOL_MODAL,
     });
@@ -105,6 +117,7 @@ class Map extends Component {
   }
 
   stateZoom = (usstate) => {
+    if(popup_state !== undefined) { popup_state.remove(); }
     this.setState({
       zoomed: true,
       selectedState: usstate,
@@ -127,6 +140,7 @@ class Map extends Component {
   }
 
   toggleDistrictView = (show) => {
+    if(popup_precinct !== undefined) { popup_precinct.remove(); }
     this.setState({ showingDistricts: !show});
     this.enableHover(map, this.state.selectedState.shortName, !this.state.showingDistricts);
     map.setPaintProperty(this.state.selectedState.shortName+'Borders', 'line-opacity', (!show)?1.0:0.0);
@@ -140,6 +154,13 @@ class Map extends Component {
     if (this.state.hoveredPrecinctId != null) map.setFeatureState({ source: [this.state.selectedState.shortName+'Source'], id: this.state.hoveredPrecinctId }, { hover: false });
     this.setState({hoveredPrecinctId: (features[0] != null)?features[0].id:null});
     map.setFeatureState({ source: this.state.selectedState.shortName+'Source', id: this.state.hoveredPrecinctId }, { hover: true });
+    if(popup_precinct !== undefined) { popup_precinct.remove(); }
+    if(this.state.hoveredPrecinctId !== null && this.state.displayPane === MODAL.INFO_MODAL) {
+      popup_precinct = new mapboxgl.Popup({closeButton: false, closeOnClick: false})
+      .setLngLat(e.lngLat)
+      .setHTML('<h1>'+this.state.hoveredPrecinctId+'</h1>')
+      .addTo(map);
+    }
   }
 
   enableHover = (map, shortName,  enable) => {

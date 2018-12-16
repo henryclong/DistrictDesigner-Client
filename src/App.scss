@@ -18,6 +18,12 @@ $default-font: Bitter;
   width: 100%;
 }
 
+.mapboxgl-popup {
+  font-family: $default-font;
+  color: $blue;
+}
+
+
 .scrollable {
   overflow: scroll;
   max-height: 50vh;
