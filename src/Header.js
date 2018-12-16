@@ -8,10 +8,16 @@ class Header extends Component {
         <img src={'/DDLogo_slanted.svg'} alt=""></img>
         {
           <button key='login' onClick=
-            {(this.props.user.username === '')?() => {this.props.onToggle('login')}:() => {this.props.logout()}}
+            {(!this.props.user.isLoggedIn)?() => {this.props.onToggle('login')}:() => {this.props.logout()}}
           >
-            {(this.props.user.username === '')?'Log-in / Sign-Up':'Log Out, ' + this.props.user.username}
+            {(!this.props.user.isLoggedIn)?'Log-in / Sign-Up':'Log Out, ' + this.props.user.username}
           </button>
+        }
+        {
+          (this.props.user.isLoggedIn)?//TODO: Only allow user to access adminpanel if isAdmin is true
+          <button key='admin' onClick={()=>this.props.onToggle('admin')}>
+            Admin Panel
+          </button>:<div/>
         }
       </div>
     );
@@ -23,6 +29,10 @@ Header.defaultProps = {
     {
       id: 'login',
       label: 'Log-in / Sign-Up'
+    },
+    {
+      id: 'admin',
+      label: 'Admin Panel'
     },
   ],
 };

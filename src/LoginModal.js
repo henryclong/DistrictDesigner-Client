@@ -16,6 +16,7 @@ class LoginModal extends Component {
 
   register = () => {
     this.props.register(this.state.user, this.state.pass);
+    this.props.login(this.state.user, this.state.pass);
     this.closeModal()
   }
 

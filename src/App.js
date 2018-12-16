@@ -1,5 +1,5 @@
-import AboutModal from './AboutModal';
 import LoginModal from './LoginModal';
+import AdminModal from './AdminModal';
 import Header from './Header';
 import Map from './Map';
 import Modal from 'react-modal';
@@ -9,10 +9,10 @@ import { authUser, logOut, createAccount } from './helpers/district-designer';
 
 class App extends Component {
   state = {
-    faq: {
+    login: {
       isActive: false,
     },
-    login: {
+    admin: {
       isActive: false,
     },
     activeUser: this.props.user,
@@ -43,7 +43,6 @@ class App extends Component {
 
   register = (user, pass) => {
     createAccount(user, pass);
-    this.login(user, pass);
   }
 
   componentWillMount() {
@@ -70,20 +69,24 @@ class App extends Component {
         <Modal
           className="Popup"
           overlayClassName="PopupOverlay"
-          isOpen={this.state.faq.isActive}
-          onRequestClose={() => this.onToggle('faq')}
-        >
-          <AboutModal />
-        </Modal>
-        <Modal
-          className="Popup"
-          overlayClassName="PopupOverlay"
           isOpen={this.state.login.isActive}
           onRequestClose={() => this.onToggle('login')}
         >
           <LoginModal
             close={() => this.onToggle('login')}
             login={this.login}
+            register={this.register}
+          />
+        </Modal>
+        <Modal
+          className="Popup"
+          overlayClassName="PopupOverlay"
+          isOpen={this.state.admin.isActive}
+          onRequestClose={() => this.onToggle('admin')}
+        >
+          <AdminModal
+            close={() => this.onToggle('admin')}
+            activeUser={this.state.activeUser}
             register={this.register}
           />
         </Modal>

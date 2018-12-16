@@ -4,6 +4,7 @@ $white: #ffffff;
 $blue: #0a369d;
 $light-grey: #e0e0e0;
 $dark-grey: #939393;
+$green: #87c38f;
 
 // Font
 $default-font: Bitter;
@@ -59,13 +60,108 @@ $default-font: Bitter;
   box-shadow: inset 0 1px 4px $dark-grey;
 }
 
-.LoginModal {
+.AdminModal {
   display: flex;
   flex-direction: column;
   align-items: stretch;
   padding: 20px;
   font-family: $default-font;
 
+  p {
+    font-family: $default-font;
+  }
+
+  a {
+    cursor: pointer;
+    font-size: 75%;
+    color: $dark-grey;
+    text-align: center;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  button {
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 5px;
+    font-family: $default-font;
+  }
+
+  button:hover {
+    background-color: $white;
+    color: $dark-grey;
+    -moz-box-shadow: 0 1px 4px $dark-grey;
+    -webkit-box-shadow: 0 1px 4px $dark-grey;
+    box-shadow: 0 1px 4px $dark-grey;
+  }
+
+  .adminButton {
+    background-color: $blue;
+    color: $white;
+  }
+
+  .deleteButton {
+    background-color: $red;
+    color: $white;
+  }
+
+  .addButton {
+    background-color: $green;
+    color: $white;
+  }
+
+  input[type='text'], input[type='password'] {
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+  }
+
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  th {
+    color: $dark-grey;
+  }
+  
+  td, th {
+    border: 1px solid $light-grey;
+    padding: 10px;
+  }
+  
+  tr:nth-child(even) {
+    background-color: $light-grey;
+  }
+
+  .buttonContainer {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+
+    button {
+      flex-grow: 1;
+    }
+  }
+
+  label {
+    font-family: $default-font;
+    font-size: 85%;
+  }
+}
+
+.LoginModal {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 20px;
+  font-family: $default-font;
   button {
     font-family: $default-font;
     background-color: $red;
