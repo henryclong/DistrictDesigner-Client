@@ -1,4 +1,3 @@
-
 // Primary Color Scheme
 $red: #bf0a30;
 $white: #ffffff;
@@ -11,12 +10,12 @@ $default-font: Bitter;
 
 #map {
   z-index: 0;
-  position:absolute;
+  position: absolute;
   background-color: $white;
-  left:0px;
-  top:0px;
-  height:100%;
-  width:100%;
+  left: 0px;
+  top: 0px;
+  height: 100%;
+  width: 100%;
 }
 
 .scrollable {
@@ -44,68 +43,106 @@ $default-font: Bitter;
   width: 20%;
   background-color: $white;
   border-radius: 15px;
+  margin: 15px;
   padding: 10px;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
+}
+
+.inset {
+  -moz-box-shadow: inset 0 1px 4px $dark-grey;
+  -webkit-box-shadow: inset 0 1px 4px $dark-grey;
+  box-shadow: inset 0 1px 4px $dark-grey;
+}
+
+.LoginModal {
   display: flex;
   flex-direction: column;
-  align-content: center;
-  justify-content: flex-start;
-  label {
-    color: $blue;
-  }
+  align-items: stretch;
+  padding: 20px;
+  font-family: $default-font;
+
   button {
     font-family: $default-font;
-    color: $blue;
-    background-color: $white;
-    border-style: solid;
-    border-width: 1px;
-    border-color: $blue;
+    background-color: $red;
+    border: none;
     border-radius: 10px;
+    cursor: pointer;
     margin: 10px;
-    padding: 10px;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.1);
-    -webkit-transition: background-color 0.25s; /* For Safari 3.1 to 6.0 */
-    transition: background-color 0.25s;
-  }
-  button:hover {
-    background-color: $blue;
+    padding: 1em;
     color: $white;
+    flex-grow: 1;
+    -moz-box-shadow: 0 1px 4px $dark-grey;
+    -webkit-box-shadow: 0 1px 4px $dark-grey;
+    box-shadow: 0 1px 4px $dark-grey;
   }
-  button:disabled {
+
+  button:hover {
     background-color: $white;
-    border-color: $dark-grey;
-    color: $dark-grey;
+    color: $red;
   }
-}
 
-.DisplayModal{
-  right: 20px;
-  height: 80%;
-  .outputTextarea{
-    height: 100%;
-    border-style: solid;
-    border-width: 1px;
-    border-color: $blue;
-    border-radius: 10px;
-    padding: 10px;
+  a {
+    cursor: pointer;
     font-size: 75%;
-    overflow: scroll;
-    margin: 10px;
+    color: $dark-grey;
+    text-align: center;
   }
-}
 
-.ToolModal{
-  left: 20px;
-  label {
-    margin-left: 10px;
+  a:hover {
+    text-decoration: underline;
   }
-  .buttonContainer {
+
+  input[type="text"],
+  input[type="password"] {
+    background-color: $white;
+    font-family: $default-font;
+    margin: 10px;
+    height: 2.5em;
+    border: none;
+    border-radius: 10px;
+    color: $dark-grey;
+    padding: 5px;
+  }
+
+  ::placeholder {
+    color: $light-grey;
+    opacity: 0.75;
+  }
+
+  .LoginButtonContainer {
     display: flex;
     flex-direction: row;
-    align-content: center;
-    justify-content: center;
-    button {
-      flex-grow: 1;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .scrollable {
+    max-height: 60vh;
+    overflow: scroll;
+    border-radius: 15px;
+  }
+}
+
+  .ConstitutionModal {
+    max-height: 80%;
+    width: 50%;
+    border-radius: 10px;
+    font-family: $default-font;
+    background-color: $white;
+    padding: 10px;
+
+    h1 {
+      margin: 20px;
+      font-size: 200%;
+    }
+
+    h2 {
+      font-size: 150%;
+      color: $blue;
+    }
+
+    h3 {
+      font-size: 100%;
+      color: $dark-grey;
     }
   }
   .ParameterSelector {
@@ -116,96 +153,59 @@ $default-font: Bitter;
     padding: 10px;
     margin: 10px;
   }
-  .weightContainer {
+
+  .Popup {
+    position: absolute;
+    background-color: $white;
+    min-height: 25%;
+    min-width: 25%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) !important;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3);
+  }
+
+  .PopupOverlay {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.50);
+  }
+
+  .Modal {
+    font-size: 85%;
+    font-family: $default-font;
+    z-index: 1;
+    position: absolute;
+    top: 80px;
+    min-height: 5%;
+    max-height: 80%;
+    width: 20%;
+    background-color: $white;
+    border-radius: 15px;
+    padding: 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-content: center;
     margin-left: 10px;
     margin-right: 10px;
     margin-top: 5px;
     margin-bottom: 5px;
+    justify-content: flex-start;
+
     label {
-      margin-left: 10px;
+      color: $blue;
     }
-    input[type="radio"] {
-      position: absolute;
-      opacity: 0;
-      cursor: pointer;
-      height: 5;
-      width: 5;
-    }
-    .radio {
-      background-color: $white;
-      height: 10px;
-      width: 10px;
-      border-radius: 50%;
-      border-style: solid;
-      border-width: 2px;
-      border-color: $blue;
-      margin: 2px;
-    }
-    input[type="radio"]:checked ~ .radio {
-      background-color: $blue;
-    }
-    input[type="radio"]:checked:disabled ~ .radio {
-      border-color: $dark-grey;
-      background-color: $dark-grey;
-    }
-    input[type="radio"]:disabled ~ .radio {
-      border-color: $light-grey;
-    }
-  }
-  .rc-slider {
-    margin: auto;
-    .rc-slider-handle {
-      border-color: $blue;
-    }
-    .rc-slider-rail {
-      background-color: $light-grey;
-    }
-    .rc-slider-track {
-      background-color: $blue;
-    }
-  }
-  .rc-slider-disabled {
-    .rc-slider-handle {
-      border-color: $dark-grey;
-      background-color: $light-grey;
-    }
-    .rc-slider-rail {
-      background-color: $light-grey;
-    }
-    .rc-slider-track {
-      background-color: $dark-grey;
-    }
-  }
-  .react-select__control {
-    font-family: $default-font;
-    background-color: $white;
-    border-style: solid;
-    border-width: 1px;
-    border-color: $blue;
-    border-radius: 10px;
-    margin: 10px;
-  }
-  .react-select__control:hover {
-    border-color: $blue;
-  }
-  .react-select__menu {
-    border-radius: 10px;
-    font-family: $default-font;
-    background-color: $white;
-    .react-select__menu-list {
-      border-radius: 10px;
-    }
-  }
-  .StateSelector {
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-    width: 100%;
-    input[type="text"] {
+
+    button {
       font-family: $default-font;
+      color: $blue;
       background-color: $white;
       border-style: solid;
       border-width: 1px;
@@ -213,61 +213,241 @@ $default-font: Bitter;
       border-radius: 10px;
       margin: 10px;
       padding: 10px;
+      cursor: pointer;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.1);
     }
-    ul {
-      display: flex;
-      align-content: center;
-      flex-direction: column;
-      padding: 0;
-      margin: 10px;
+
+    button:hover {
+      background-color: $blue;
+      color: $white;
+    }
+
+    button:disabled {
+      background-color: $white;
+      border-color: $dark-grey;
+      color: $dark-grey;
+    }
+  }
+
+  .DisplayModal {
+    right: 20px;
+    height: 80%;
+
+    .outputTextarea {
+      height: 100%;
       border-style: solid;
       border-width: 1px;
       border-color: $blue;
       border-radius: 10px;
-      background-color: $light-grey;
+      padding: 10px;
+      font-size: 75%;
       overflow: scroll;
-      height: 60%;
+      margin: 10px;
     }
-    li {
-      list-style: none;
-      padding: 5px;
+  }
+
+  .ToolModal {
+    left: 20px;
+
+    label {
+      margin-left: 10px;
+    }
+
+    .buttonContainer {
+      display: flex;
+      flex-direction: row;
+      align-content: center;
+      justify-content: center;
+
       button {
-        margin: 0;
-        width: 100%;
-        text-align: start;
+        flex-grow: 1;
+      }
+    }
+
+    .ParameterSelector {
+      border-style: solid;
+      border-width: 1px;
+      border-color: $blue;
+      border-radius: 10px;
+      padding: 10px;
+      margin: 10px;
+    }
+
+    .weightContainer {
+      display: flex;
+      flex-direction: row;
+      align-content: center;
+      margin-left: 10px;
+      margin-right: 10px;
+      margin-top: 5px;
+      margin-bottom: 5px;
+
+      label {
+        margin-left: 10px;
+      }
+
+      input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 5;
+        width: 5;
+      }
+
+      .radio {
+        background-color: $white;
+        height: 10px;
+        width: 10px;
+        border-radius: 50%;
+        border-style: solid;
+        border-width: 2px;
+        border-color: $blue;
+        margin: 2px;
+      }
+
+      input[type="radio"]:checked~.radio {
+        background-color: $blue;
+      }
+
+      input[type="radio"]:checked:disabled~.radio {
+        border-color: $dark-grey;
+        background-color: $dark-grey;
+      }
+
+      input[type="radio"]:disabled~.radio {
+        border-color: $light-grey;
+      }
+    }
+
+    .rc-slider {
+      margin: auto;
+
+      .rc-slider-handle {
+        border-color: $blue;
+      }
+
+      .rc-slider-rail {
+        background-color: $light-grey;
+      }
+
+      .rc-slider-track {
+        background-color: $blue;
+      }
+    }
+
+    .rc-slider-disabled {
+      .rc-slider-handle {
+        border-color: $dark-grey;
+        background-color: $light-grey;
+      }
+
+      .rc-slider-rail {
+        background-color: $light-grey;
+      }
+
+      .rc-slider-track {
+        background-color: $dark-grey;
+      }
+    }
+
+    .react-select__control {
+      font-family: $default-font;
+      background-color: $white;
+      border-style: solid;
+      border-width: 1px;
+      border-color: $blue;
+      border-radius: 10px;
+      margin: 10px;
+    }
+
+    .react-select__control:hover {
+      border-color: $blue;
+    }
+
+    .react-select__menu {
+      border-radius: 10px;
+      font-family: $default-font;
+      background-color: $white;
+
+      .react-select__menu-list {
+        border-radius: 10px;
+      }
+    }
+
+    .StateSelector {
+      display: flex;
+      flex-direction: column;
+      align-content: center;
+      width: 100%;
+
+      input[type="text"] {
+        font-family: $default-font;
+        background-color: $white;
+        border-style: solid;
+        border-width: 1px;
+        border-color: $blue;
+        border-radius: 10px;
+        margin: 10px;
+        padding: 10px;
+      }
+
+      ul {
+        display: flex;
+        align-content: center;
+        flex-direction: column;
+        padding: 0;
+        margin: 10px;
+        border-style: solid;
+        border-width: 1px;
+        border-color: $blue;
+        border-radius: 10px;
+        background-color: $light-grey;
+        overflow: scroll;
+        height: 60%;
+      }
+
+      li {
+        list-style: none;
+        padding: 5px;
+
+        button {
+          margin: 0;
+          width: 100%;
+          text-align: start;
+        }
       }
     }
   }
-}
 
-.Header {
-  z-index: 1;
-  position: absolute;
-  top:0px;
-  left:0px;
-  width:100%;
-  background-color: transparent;
-  img {
-    height:auto;
-    width:30%;
-    float: left;
-  }
-  button {
-    font-family: $default-font;
-    color: $red;
-    background-color: $white;
-    border: 0;
-    border-radius: 15px;
-    margin: 10px;
-    padding: 10px;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
-    -webkit-transition: background-color 0.25s; /* For Safari 3.1 to 6.0 */
-    transition: background-color 0.25s;
-    float: right;
-  }
-  button:hover {
-    background-color: $red;
-    color: $white;
-  }
-}
+  .Header {
+    z-index: 1;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    background-color: transparent;
 
+    img {
+      height: auto;
+      width: 30%;
+      float: left;
+    }
+
+    button {
+      font-family: $default-font;
+      color: $red;
+      background-color: $white;
+      border: 0;
+      border-radius: 15px;
+      margin: 10px;
+      padding: 10px;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
+      float: right;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: $red;
+      color: $white;
+    }
+  }

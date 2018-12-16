@@ -3,6 +3,7 @@ import Slider from 'rc-slider';
 import StateSelector from "./StateSelector"
 import 'rc-slider/assets/index.css';
 import ParameterSelector from './ParameterSelector';
+import { getConstitution } from '../helpers/district-designer';
 
 class ToolModal extends Component {
 
@@ -18,6 +19,12 @@ class ToolModal extends Component {
 
   componentDidMount() {
     this.props.weights.map((item) => (this.updateWeight(item.id, (this.props.sliderMax/2).toFixed(2))));
+  }
+
+  toggleConstitutionView = () => {
+    const shortName = this.props.selectedState.shortName;
+    const constitutionText = getConstitution(shortName);
+    this.props.toggleConstitutionView(constitutionText);
   }
 
   onToggle = (toggle) => {
@@ -64,6 +71,7 @@ class ToolModal extends Component {
       return (
         <div className="Modal ToolModal">
           <button onClick={() => this.zoomOut()} disabled={this.state.isAlgorithmRunning}>← Return to State Select</button>
+          <button onClick={() => this.props.toggleConstitutionView()}>Show State Constitution</button>
           <button onClick={() => this.props.toggleDistrictView()}>Toggle District View</button>
           <div className="scrollable inset">
           {

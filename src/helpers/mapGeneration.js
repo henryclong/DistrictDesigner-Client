@@ -55,11 +55,10 @@ export const createMap = () => {
       'type': 'line',
       'source': 'districtSource',
       'paint': {
-        'line-color': '#ffffff',
-        'line-width': 1.5,
+        'line-color': '#FFFFFF',
+        'line-width': 2.0,
         'line-opacity': 0.0,
-      },
-      'minzoom': 5.5,
+      }
     });
   });
   return map;
@@ -99,7 +98,8 @@ export const loadState = (map, shortName) => {
     'layout': {},
     'paint': {
       'line-color': '#ffffff',
-      'line-width': 0.5
+      'line-width': 0.5,
+      'line-opacity': 1.0,
     },
   },'districtBorders');
 }
