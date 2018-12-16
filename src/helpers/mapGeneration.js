@@ -88,7 +88,7 @@ export const loadState = (map, shortName, id) => {
   if(!(map.isSourceLoaded(shortName+'Source'))){
     map.addSource(shortName+'Source', {
       type: 'geojson',
-      data: '/' + shortName.toLowerCase() + '_with_id.json'
+      data: '/' + shortName.toLowerCase() + '_with_id_very_simple.json'
     });
   }
   map.addLayer({
