@@ -41,12 +41,12 @@ class Map extends Component {
     this.setState({ hoveredStateName: (features[0] != null)?features[0].properties.name:null} );
     map.setFeatureState({ source: 'stateSource', sourceLayer: 'usstates', id: this.state.hoveredStateId }, { hover: true }); 
     if(popup_state !== undefined) { popup_state.remove(); }
-    if(this.state.hoveredStateName !== null) {
+    /*if(this.state.hoveredStateName !== null) {
       popup_state = new mapboxgl.Popup({closeButton: false, closeOnClick: false})
       .setLngLat(e.lngLat)
       .setHTML('<h1>'+this.state.hoveredStateName+'</h1>')
       .addTo(map);
-    }
+    }*/
   }
 
   componentDidMount() {
@@ -97,10 +97,15 @@ class Map extends Component {
       selectedState: 'none',
     });
     this.enableHover(map, '', false);
+    map['dragPan'].disable();
+    map['scrollZoom'].disable();
     map.flyTo({center: [-95.7, 39], zoom: 3.75});
   }
 
   showAlgorithm = () => {
+    map['dragPan'].disable();
+    map['scrollZoom'].disable();
+    map.flyTo(this.state.selectedState.boundingBox);
     if(popup_precinct !== undefined) { popup_precinct.remove(); }
     this.setState({
       displayPane: MODAL.TOOL_MODAL,
@@ -110,6 +115,8 @@ class Map extends Component {
 
   hideAlgorithm = () => {
     this.toggleDistrictView(true);
+    map['dragPan'].enable();
+    map['scrollZoom'].enable();
     this.setState({
       displayPane: MODAL.INFO_MODAL,
     });
@@ -127,6 +134,8 @@ class Map extends Component {
     this.enableHover(map, usstate.shortName, true);
     this.toggleDistrictView(true);
     map.flyTo(usstate.boundingBox);
+    map['dragPan'].enable();
+    map['scrollZoom'].enable();
   }
 
   toggleConstitutionView = () => {
