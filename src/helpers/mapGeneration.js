@@ -51,21 +51,12 @@ export const createMap = () => {
       data: '/us_districts_simple.json',
     });
     map.addLayer({
-      'id': 'districtFill',
-      'type': 'fill',
-      'source': 'districtSource',
-      'paint': {
-        'fill-color': '#0a369d',
-        "fill-opacity": 0.0,
-      }
-    });
-    map.addLayer({
       'id': 'districtBorders',
       'type': 'line',
       'source': 'districtSource',
       'paint': {
         'line-color': '#FFFFFF',
-        'line-width': 0.5,
+        'line-width': 2.0,
         'line-opacity': 0.0,
       }
     });
@@ -112,7 +103,8 @@ export const loadState = (map, shortName, id) => {
     'layout': {},
     'paint': {
       'line-color': '#ffffff',
-      'line-width': 0.5
+      'line-width': 0.5,
+      'line-opacity': 1.0,
     },
   },'districtFill');
   map.setFilter('districtFill', ['==', 'STATEFP', id]);

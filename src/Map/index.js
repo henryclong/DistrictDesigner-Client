@@ -5,9 +5,6 @@ import ToolModal from './ToolModal';
 import { startAlgorithm, toggleAlgorithm, stopAlgorithm, getConstitution } from '../helpers/district-designer';
 import { createMap, loadState, unloadState } from '../helpers/mapGeneration';
 import ConstitutionModal from './ConstitutionModal';
-import { MODAL } from '../config/constants';
-import InfoModal from './InfoModal';
-import StateSelector from './StateSelector';
 
 let map;
 
@@ -17,7 +14,6 @@ class Map extends Component {
     super(props);
     this.state = {
       zoomed: false,
-      displayPane: MODAL.STATE_MODAL,
       selectedState: 'none',
       terminalUpdates: [],
       showingDistricts: false,
@@ -82,7 +78,6 @@ class Map extends Component {
     unloadState(map, this.state.selectedState.shortName);
     this.setState({
       zoomed: false,
-      displayPane: MODAL.STATE_MODAL,
       selectedState: 'none',
     });
     this.enableHover(map, '', false);
@@ -107,7 +102,6 @@ class Map extends Component {
   stateZoom = (usstate) => {
     this.setState({
       zoomed: true,
-      displayPane: MODAL.INFO_MODAL,
       selectedState: usstate
     });
     loadState(map, usstate.shortName, usstate.id);
@@ -169,7 +163,9 @@ class Map extends Component {
           <ToolModal
           zoomed={this.state.zoomed}
           stateZoom={this.stateZoom}
-          resetZoom={this.hideAlgorithm}
+          toggleDistrictView={this.toggleDistrictView}
+          toggleConstitutionView={this.toggleConstitutionView}
+          resetZoom={this.resetZoom}
           selectedState={this.state.selectedState}
           onStart={this.onStart}
           onToggle={this.onToggleAlgorithm}
