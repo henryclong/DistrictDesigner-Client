@@ -26,8 +26,8 @@ export const createMap = () => {
         'fill-color': '#0a369d',
         "fill-opacity": ["case",
           ["boolean", ["feature-state", "hover"], false],
-          0.7,
-          0.7
+          1.0,
+          1.0
         ]
       },
       'minzoom': 3.5,
@@ -41,7 +41,7 @@ export const createMap = () => {
       'layout': {},
       'paint': {
         'line-color': '#ffffff',
-        'line-width': 1.5
+        'line-width': 0.5
       },
       'minzoom': 3.5,
       'maxzoom': 5.5
