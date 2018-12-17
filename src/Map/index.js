@@ -40,7 +40,7 @@ class Map extends Component {
     if (this.state.hoveredStateId != null) map.setFeatureState({ source: 'stateSource', sourceLayer: 'usstates', id: this.state.hoveredStateId }, { hover: false });
     this.setState({ hoveredStateId: (features[0] != null)?features[0].id:null });
     this.setState({ hoveredStateName: (features[0] != null)?features[0].properties.name:null} );
-    map.setFeatureState({ source: 'stateSource', sourceLayer: 'usstates', id: this.state.hoveredStateId }, { hover: true }); 
+    if (this.state.hoveredStateId != null) map.setFeatureState({ source: 'stateSource', sourceLayer: 'usstates', id: this.state.hoveredStateId }, { hover: true }); 
     if(popup_state !== undefined) { popup_state.remove(); }
   }
 
