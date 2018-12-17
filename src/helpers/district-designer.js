@@ -71,6 +71,18 @@ export const getConstitution = (shortName) => {
   return request.onreadystatechange();
 }
 
+export const getPopulationInfo = (shortName) => {
+  const request = new XMLHttpRequest();
+  request.onreadystatechange = () => {
+    if (request.readyState === HTTP_STATE.DONE && request.status === HTTP_STATUS.OK) {
+      return JSON.parse(request.response);
+    }
+  }
+  request.open("GET", URL + "/PopulationInfo?shortName=" + shortName, false);
+  request.send();
+  return request.onreadystatechange();
+}
+
 export const getUpdate = () => {
   const request = new XMLHttpRequest();
   const body = JSON.stringify({
