@@ -165,12 +165,15 @@ class Map extends Component {
 
   onPrecinctHover = (e) => {
     var features = map.queryRenderedFeatures(e.point, { layers: [this.state.selectedState.shortName+'Fill'] });
+    
     this.setState({hoveredPrecinctId: (features[0] != null)?features[0].id:null});
     if(popup_precinct !== undefined) { popup_precinct.remove(); }
     if(this.state.hoveredPrecinctId !== null && this.state.displayPane === MODAL.INFO_MODAL && this.state.showingDistricts) {
+      let textOut = '';
+      Object.keys(features[0].properties).map((key)=>(textOut += key+': '+features[0].properties[key] + '<br/>'));
       popup_precinct = new mapboxgl.Popup({closeButton: false, closeOnClick: false})
       .setLngLat(e.lngLat)
-      .setHTML('<h1>'+this.state.hoveredPrecinctId+'</h1>')
+      .setHTML('<p>'+textOut+'</p>')
       .addTo(map);
     }
   }
