@@ -6,7 +6,7 @@ class InfoModal extends Component {
   constructor(props){
     super(props);
     this.state = {
-      showingDistricts: false,
+      showingDistricts: true,
     };
   }
 
@@ -36,7 +36,7 @@ class InfoModal extends Component {
     <div className="Modal ToolModal">
       <button onClick={() => this.zoomOut()}>← Return to State Select</button>
       <button onClick={() => this.props.toggleConstitutionView()}>Show State Constitution</button>
-      <button onClick={() => this.toggleDistrictView(!this.state.showingDistricts)}>Toggle District View</button>
+      <button onClick={() => this.toggleDistrictView(!this.state.showingDistricts)}>{(this.state.showingDistricts)?'Show Precincts':'Show Districts'}</button>
       <button onClick={() => this.goToAlgorithm()}>Continue to Algorithm Options →</button>
     </div>);
   }
