@@ -165,9 +165,7 @@ class Map extends Component {
 
   onPrecinctHover = (e) => {
     var features = map.queryRenderedFeatures(e.point, { layers: [this.state.selectedState.shortName+'Fill'] });
-    if (this.state.hoveredPrecinctId != null) map.setFeatureState({ source: [this.state.selectedState.shortName+'Source'], id: this.state.hoveredPrecinctId }, { hover: false });
     this.setState({hoveredPrecinctId: (features[0] != null)?features[0].id:null});
-    map.setFeatureState({ source: this.state.selectedState.shortName+'Source', id: this.state.hoveredPrecinctId }, { hover: true });
     if(popup_precinct !== undefined) { popup_precinct.remove(); }
     if(this.state.hoveredPrecinctId !== null && this.state.displayPane === MODAL.INFO_MODAL && this.state.showingDistricts) {
       popup_precinct = new mapboxgl.Popup({closeButton: false, closeOnClick: false})
