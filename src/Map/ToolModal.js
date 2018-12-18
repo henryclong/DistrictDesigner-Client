@@ -67,7 +67,6 @@ class ToolModal extends Component {
   render() {
     if(this.props.zoomed === true){
       let parameters = this.props.algorithms.filter((a) => (a.value === this.state.algorithm))[0].parameters;
-      console.log(parameters);
       return (
         <div className="Modal ToolModal">
         <button onClick={() => this.zoomOut()} disabled={this.state.isAlgorithmRunning}>← Return to Demographics View</button>
