@@ -121,7 +121,7 @@ export const loadState = (map, shortName, id) => {
   map.setFilter('districtFill', ['==', 'STATEFP', id]);
   map.setFilter('districtBorders', ['==', 'STATEFP', id]);
   let precinctList = [];
-  precinctData.features.map((feature)=>{precinctList.push(feature)});
+  precinctData.features.map((feature)=>{precinctList.push(feature);return true;});
   return precinctList;
 }
 
