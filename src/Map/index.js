@@ -40,7 +40,7 @@ class Map extends Component {
     if (this.state.hoveredStateId != null) map.setFeatureState({ source: 'stateSource', sourceLayer: 'usstates', id: this.state.hoveredStateId }, { hover: false });
     this.setState({ hoveredStateId: (features[0] != null)?features[0].id:null });
     this.setState({ hoveredStateName: (features[0] != null)?features[0].properties.name:null} );
-    map.setFeatureState({ source: 'stateSource', sourceLayer: 'usstates', id: this.state.hoveredStateId }, { hover: true }); 
+    if (this.state.hoveredStateId != null) map.setFeatureState({ source: 'stateSource', sourceLayer: 'usstates', id: this.state.hoveredStateId }, { hover: true }); 
     if(popup_state !== undefined) { popup_state.remove(); }
   }
 
@@ -165,14 +165,15 @@ class Map extends Component {
 
   onPrecinctHover = (e) => {
     var features = map.queryRenderedFeatures(e.point, { layers: [this.state.selectedState.shortName+'Fill'] });
-    if (this.state.hoveredPrecinctId != null) map.setFeatureState({ source: [this.state.selectedState.shortName+'Source'], id: this.state.hoveredPrecinctId }, { hover: false });
+    
     this.setState({hoveredPrecinctId: (features[0] != null)?features[0].id:null});
-    map.setFeatureState({ source: this.state.selectedState.shortName+'Source', id: this.state.hoveredPrecinctId }, { hover: true });
     if(popup_precinct !== undefined) { popup_precinct.remove(); }
     if(this.state.hoveredPrecinctId !== null && this.state.displayPane === MODAL.INFO_MODAL && this.state.showingDistricts) {
+      let textOut = '';
+      Object.keys(features[0].properties).map((key)=>(textOut += key+': '+features[0].properties[key] + '<br/>'));
       popup_precinct = new mapboxgl.Popup({closeButton: false, closeOnClick: false})
       .setLngLat(e.lngLat)
-      .setHTML('<h1>'+this.state.hoveredPrecinctId+'</h1>')
+      .setHTML('<p>'+textOut+'</p>')
       .addTo(map);
     }
   }

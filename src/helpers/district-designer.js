@@ -1,6 +1,8 @@
 import { URL, HTTP_STATE, HTTP_STATUS } from '../config/constants';
 import { generatePassword, validateAuth } from './utils';
 
+let sessionId = '';
+
 export const createAccount = (username, password) => {
   const request = new XMLHttpRequest();
   const body = JSON.stringify({
@@ -69,9 +71,31 @@ export const getConstitution = (shortName) => {
   return request.onreadystatechange();
 }
 
+export const getPopulationInfo = (shortName) => {
+  const request = new XMLHttpRequest();
+  request.onreadystatechange = () => {
+    if (request.readyState === HTTP_STATE.DONE && request.status === HTTP_STATUS.OK) {
+      return JSON.parse(request.response);
+    }
+  }
+  request.open("GET", URL + "/PopulationInfo?shortName=" + shortName, false);
+  request.send();
+  return request.onreadystatechange();
+}
+
 export const getUpdate = () => {
-  console.log('Update received.');
-  return true;
+  const request = new XMLHttpRequest();
+  const body = JSON.stringify({
+    'sessionId': sessionId,
+  });
+  request.onreadystatechange = () => {
+    if (request.readyState === HTTP_STATE.DONE && request.status === HTTP_STATUS.OK) {
+      return JSON.parse(request.response);
+    }
+  }
+  request.open("POST", URL + "/UpdatePrecincts", false);
+  request.send(body);
+  return request.onreadystatechange();
 }
 
 export const startAlgorithm = (algoType, shortName, weights) => {
@@ -83,7 +107,9 @@ export const startAlgorithm = (algoType, shortName, weights) => {
   });
   request.onreadystatechange = () => {
     if (request.readyState === HTTP_STATE.DONE && request.status === HTTP_STATUS.OK) {
-      return JSON.parse(request.response);
+      const responseBody = JSON.parse(request.response);
+      sessionId = responseBody['SESSION_ID'];
+      return responseBody;
     }
   }
   request.open("POST", URL + "/StartAlgorithm", false);

@@ -1,5 +1,6 @@
 import mapboxgl from 'mapbox-gl';
 import { MAPBOX_ACCESS_TOKEN, MAPBOX_STYLE_URL, STATE_OUTLINE_URL } from '../config/constants';
+import { getPopulationInfo } from './district-designer';
 
 export const createMap = () => {
   mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
@@ -85,7 +86,8 @@ export const loadState = (map, shortName, id) => {
   if(!(map.isSourceLoaded(shortName+'Source'))){
     map.addSource(shortName+'Source', {
       type: 'geojson',
-      data: '/' + shortName.toLowerCase() + '_with_id_simple.json'
+      //data: '/' + shortName.toLowerCase() + '_with_id_simple.json'
+      data: '/test_new.json'
     });
   }
   map.addLayer({
@@ -115,6 +117,7 @@ export const loadState = (map, shortName, id) => {
   },'districtFill');
   map.setFilter('districtFill', ['==', 'STATEFP', id]);
   map.setFilter('districtBorders', ['==', 'STATEFP', id]);
+  //console.log(getPopulationInfo(shortName));
 }
 
 export const unloadState = (map, shortName) => {
