@@ -34,7 +34,6 @@ class Map extends Component {
       mapMoving: false,
       precinctList: [],
       electionData: [],
-      previousDistrictID: -1,
     };
   }
 
@@ -139,7 +138,7 @@ class Map extends Component {
       map.setPaintProperty(this.state.selectedState.shortName+'Borders', 'line-opacity', 0.15);
       map.setPaintProperty('districtBorders', 'line-opacity', 0.0);
     }
-    //return result;
+    return result;
   }
 
   onStop = () => {
