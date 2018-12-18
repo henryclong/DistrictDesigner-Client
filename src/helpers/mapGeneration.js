@@ -1,6 +1,5 @@
 import mapboxgl from 'mapbox-gl';
 import { MAPBOX_ACCESS_TOKEN, MAPBOX_STYLE_URL, STATE_OUTLINE_URL } from '../config/constants';
-import { getPopulationInfo } from './district-designer';
 
 export const createMap = () => {
   mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;

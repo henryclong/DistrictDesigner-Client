@@ -154,14 +154,14 @@ export const saveWeights = (weights) => {
   return request.onreadystatechange();
 }
 
-export const loadWeights = (weights) => {
+export const loadWeights = (username) => {
   const request = new XMLHttpRequest();
   request.onreadystatechange = () => {
     if (request.readyState === HTTP_STATE.DONE && request.status === HTTP_STATUS.OK) {
       return JSON.parse(request.response);
     }
   }
-  request.open("GET", URL + "/LoadWeights", false);
+  request.open("GET", URL + "/LoadWeights?username="+username, false);
   try{
     request.send();
   } catch (e) { return false; }

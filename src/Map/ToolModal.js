@@ -19,6 +19,7 @@ class ToolModal extends Component {
       isAlgorithmRunning: false,
       parameters: {},
       options: [],
+      weightOptionsList: [],
     };
   }
 
@@ -55,7 +56,6 @@ class ToolModal extends Component {
   updateWeight = (sliderId, newWeight) => {
     this.setState({ weights: this.state.weights.map(element => {
       if (element.id === sliderId) {
-        //console.log('new weight: '+newWeight+', '+sliderId);
         return {
           label: element.label,
           id: element.id,
@@ -85,7 +85,7 @@ class ToolModal extends Component {
 
   saveWeights = () => {
     let weights = {};
-    this.state.weights.map((w)=>{weights[w.id] = w.value});
+    this.state.weights.map((w)=>{weights[w.id] = w.value;return 0;});
     weights.username = this.props.user.username;
     weights.name = this.state.weightsName;
     saveWeights(weights);
@@ -94,19 +94,51 @@ class ToolModal extends Component {
   }
 
   loadWeights = () => {
-    this.success('Loaded Weights');
-    this.setState({ weights: this.props.weights });
+    this.success('Fetching Weights');
+    let loadedWeights = loadWeights(this.props.user.username)
+    let optionsArray = [];
+    loadedWeights.map((w)=>{
+      optionsArray.push(
+        { 
+          label: w.name,
+          value: [
+            {
+              label: 'Compactness',
+              id: 'compactness',
+              value: w.compactness,
+            },
+            {
+              label: 'Partisan Gerrymandering',
+              id: 'partisan_Gerrymandering',
+              value: w.partisanGerrymandering,
+            },
+            {
+              label: 'Population Equality',
+              id: 'population_Equality',
+              value: w.populationEquality,
+            },
+          ],
+        },
+      );
+      return 0;
+    });
+    this.setState({ weightOptionsList: optionsArray });
   }
 
-  getWeights = () => {
-    this.setState({ options: loadWeights });
-    this.success('Fetched Weights From Server');
+  setWeights = (v) => {
+    let out = '';
+    Object.keys(v.value).map((k)=>{
+      out+=k+', '+v.value[k];
+      return 0;
+    });
+    console.log(out);
+    this.setState({ weights: v.value });
+    this.success('Updated Weights');
   }
 
   render() {
     if(this.props.zoomed === true){
       let parameters = this.props.algorithms.filter((a) => (a.value === this.state.algorithm))[0].parameters;
-      //console.log(parameters);
       return (
         <div className="Modal ToolModal">
         <button onClick={() => this.zoomOut()} disabled={this.state.isAlgorithmRunning}>← Return to Demographics View</button>
@@ -114,15 +146,13 @@ class ToolModal extends Component {
           {
             (!this.props.isAlgorithmRunning && this.props.user.isLoggedIn !== false)?
             <div className="weightSaveContainer">
-            {/*
-            TODO: Save and load weights
-            */}
               <Select
                 className='react-select-container'
                 classNamePrefix="react-select"
                 placeholder="Load Weights"
-                options={this.state.options}
-                onChange={this.loadWeights}
+                options={this.state.weightOptionsList}
+                onMenuOpen={this.loadWeights}
+                onChange={this.setWeights}
               />
               <button onClick={()=>this.setState({saving: !this.state.saving})}>{(this.state.saving)?'Cancel':'Save Weights'}</button>
               {(this.state.saving)?
