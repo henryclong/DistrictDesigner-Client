@@ -5,6 +5,8 @@ import Modal from 'react-modal';
 import React, { Component } from 'react';
 import './App.scss';
 import { authUser, logOut, createAccount } from './helpers/district-designer';
+import Alert from 'react-s-alert';
+import 'react-s-alert/dist/s-alert-css-effects/scale.css';
 
 class App extends Component {
   state = {
@@ -23,8 +25,28 @@ class App extends Component {
     if(!loginResponse || loginResponse['USER_LOGGED_IN'] === false) {
       this.setState({ activeUser: this.props.user });
       console.log('user_not_found');
+      Alert.error('User: '+user+' Not Found', {
+        position: 'bottom-left',
+        effect: 'scale',
+        onShow: function () {
+            console.log('aye!')
+        },
+        beep: false,
+        timeout: 1000,
+        offset: 20
+    });
     } else {
       console.log('user_found');
+      Alert.success('Logged in as: '+user, {
+        position: 'bottom-left',
+        effect: 'scale',
+        onShow: function () {
+            console.log('aye!')
+        },
+        beep: false,
+        timeout: 1000,
+        offset: 20
+      });
       this.setState({ activeUser:
         {
           isLoggedIn: true,
@@ -38,6 +60,16 @@ class App extends Component {
   logout = () => {
     this.setState({ activeUser: this.props.user });
     logOut();
+    Alert.error('Logged Out', {
+      position: 'bottom-left',
+      effect: 'scale',
+      onShow: function () {
+          console.log('aye!')
+      },
+      beep: false,
+      timeout: 2000,
+      offset: 20
+  });
   }
 
   register = (user, pass) => {
@@ -80,6 +112,7 @@ class App extends Component {
             register={this.register}
           />
         </Modal>
+        <Alert stack={{limit: 3, spacing: 10}} />
       </div>
     );
   }

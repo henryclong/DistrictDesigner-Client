@@ -3,17 +3,21 @@ import Slider from 'rc-slider';
 import StateSelector from "./StateSelector"
 import 'rc-slider/assets/index.css';
 import ParameterSelector from './ParameterSelector';
-import { getConstitution } from '../helpers/district-designer';
+import { getConstitution, saveWeights, loadWeights } from '../helpers/district-designer';
+import Alert from 'react-s-alert';
+import Select from 'react-select';
 
 class ToolModal extends Component {
 
   constructor(props){
     super(props);
     this.state = {
+      saving: false,
       weights: this.props.weights,
       algorithm: this.props.algorithms[0].value,
       isAlgorithmRunning: false,
       parameters: {},
+      options: [],
     };
   }
 
@@ -50,6 +54,7 @@ class ToolModal extends Component {
   updateWeight = (sliderId, newWeight) => {
     this.setState({ weights: this.state.weights.map(element => {
       if (element.id === sliderId) {
+        console.log('new weight: '+newWeight+', '+sliderId);
         return {
           label: element.label,
           id: element.id,
@@ -64,6 +69,34 @@ class ToolModal extends Component {
     this.props.resetZoom();
   }
 
+  success = (mess) => {
+    Alert.success(mess, {
+      position: 'bottom-left',
+      effect: 'scale',
+      timeout: 1000,
+      offset: 20
+    });
+  }
+
+  saveWeights = () => {
+    let weights = {};
+    weights.username = this.props.user.username;
+    weights.storedWeights = this.state.weights;
+    saveWeights(weights);
+    this.setState({saving: !this.state.saving})
+    this.success('Saved Weights');
+  }
+
+  loadWeights = () => {
+    this.success('Loaded Weights');
+    this.setState({ weights: this.props.weights });
+  }
+
+  getWeights = () => {
+    this.setState({ options: loadWeights });
+    this.success('Fetched Weights From Server');
+  }
+
   render() {
     if(this.props.zoomed === true){
       let parameters = this.props.algorithms.filter((a) => (a.value === this.state.algorithm))[0].parameters;
@@ -74,9 +107,23 @@ class ToolModal extends Component {
         <div className="scrollable inset"> 
           {
             (!this.props.isAlgorithmRunning && this.props.user.isLoggedIn !== false)?
-            <div className="buttonContainer">
-              <button>Save Parameters</button>
-              <button>Load Parameters</button>
+            <div className="weightSaveContainer">
+            {/*
+            TODO: Save and load weights
+            */}
+              <Select
+                className='react-select-container'
+                classNamePrefix="react-select"
+                placeholder="Load Weights"
+                options={this.state.options}
+                onChange={this.loadWeights}
+              />
+              <button onClick={()=>this.setState({saving: !this.state.saving})}>{(this.state.saving)?'Cancel':'Save Weights'}</button>
+              {(this.state.saving)?
+              <div className="weightButtonContainer">
+                <input type='text'/>
+                <button onClick={()=>this.saveWeights()}>Save</button>
+              </div>:<div/>}
             </div>:<div/>
           }
           {
@@ -110,9 +157,12 @@ class ToolModal extends Component {
                   <div className="weightContainer">
                     <Slider
                       defaultValue={
+                        parseFloat(item.value, 10)*(this.props.sliderMax)
+                      }
+                      value={
                         this.state.weights
                         .filter(weight => weight.id === item.id)
-                        .map((weight) => {return (parseFloat(weight.value, 10)*(this.props.sliderMax)).toFixed(2)})
+                        .map((weight) => {return (parseFloat(weight.value, 10)*(this.props.sliderMax))})
                       }
                       id={"weightSlider"+item.id} 
                       max={this.props.sliderMax} 
