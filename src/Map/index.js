@@ -54,7 +54,6 @@ class Map extends Component {
     map.on('click', (e) => {
       let usstate = (this.props.usstates).filter((stateEntry) => (stateEntry.label === this.state.hoveredStateName))[0];
       if (usstate !== undefined) {
-        console.log(usstate.shortName);
         this.stateZoom(usstate);
       }
     });
@@ -165,12 +164,19 @@ class Map extends Component {
 
   onPrecinctHover = (e) => {
     var features = map.queryRenderedFeatures(e.point, { layers: [this.state.selectedState.shortName+'Fill'] });
-    
     this.setState({hoveredPrecinctId: (features[0] != null)?features[0].id:null});
     if(popup_precinct !== undefined) { popup_precinct.remove(); }
     if(this.state.hoveredPrecinctId !== null && this.state.displayPane === MODAL.INFO_MODAL && this.state.showingDistricts) {
       let textOut = '';
-      Object.keys(features[0].properties).map((key)=>(textOut += key+': '+features[0].properties[key] + '<br/>'));
+      Object.keys(features[0].properties).map((key)=>{
+        if(key !== 'ELECTION_RESULTS') {
+          (textOut += key+': '+features[0].properties[key] + '<br/>')
+        }/* else if (key === 'ELECTION_RESULTS') {
+          (textOut += key+':<br/>')
+          if(features[0].properties.ELECTION_RESULTS !== undefined) Object.keys(features[0].properties.ELECTION_RESULTS).map((e)=>(textOut += e+': '+e.value+', '));
+        }*/
+      });
+      console.log(textOut);
       popup_precinct = new mapboxgl.Popup({closeButton: false, closeOnClick: false})
       .setLngLat(e.lngLat)
       .setHTML('<p>'+textOut+'</p>')

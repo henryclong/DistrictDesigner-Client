@@ -1,5 +1,6 @@
 import { URL, HTTP_STATE, HTTP_STATUS } from '../config/constants';
 import { generatePassword, validateAuth } from './utils';
+import { convertToGEOJSON } from './geojsonConverter';
 
 let sessionId = '';
 
@@ -67,6 +68,18 @@ export const getConstitution = (shortName) => {
     }
   }
   request.open("GET", URL + "/Constitution?shortName=" + shortName, false);
+  request.send();
+  return request.onreadystatechange();
+}
+
+export const getOriginalMapData = (shortName) => {
+  const request = new XMLHttpRequest();
+  request.onreadystatechange = () => {
+    if (request.readyState === HTTP_STATE.DONE && request.status === HTTP_STATUS.OK) {
+      return convertToGEOJSON(JSON.parse(request.response));
+    }
+  }
+  request.open("GET", URL + "/OriginalMapData?shortName=" + shortName, false);
   request.send();
   return request.onreadystatechange();
 }
