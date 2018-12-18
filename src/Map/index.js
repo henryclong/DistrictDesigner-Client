@@ -32,6 +32,8 @@ class Map extends Component {
       hoveredStateName: null,
       hoveredPrecinctId: null,
       mapMoving: false,
+      precinctList: [],
+      electionData: [],
     };
   }
 
@@ -130,7 +132,8 @@ class Map extends Component {
       selectedState: usstate,
       displayPane: MODAL.INFO_MODAL,
     });
-    loadState(map, usstate.shortName, usstate.id);
+    let precinctList = loadState(map, usstate.shortName, usstate.id);
+    this.setState({ precinctList: precinctList });
     this.enableHover(map, usstate.shortName, true);
     this.toggleDistrictView(true);
     map.once('moveend', function(){
@@ -171,12 +174,19 @@ class Map extends Component {
       Object.keys(features[0].properties).map((key)=>{
         if(key !== 'ELECTION_RESULTS') {
           (textOut += key+': '+features[0].properties[key] + '<br/>')
-        }/* else if (key === 'ELECTION_RESULTS') {
-          (textOut += key+':<br/>')
-          if(features[0].properties.ELECTION_RESULTS !== undefined) Object.keys(features[0].properties.ELECTION_RESULTS).map((e)=>(textOut += e+': '+e.value+', '));
-        }*/
+        } else if (key === 'ELECTION_RESULTS') {
+          textOut += key+':<br/>';
+          let precinctElection = this.state.precinctList.filter((e)=>e.properties.GEOID10===features[0].properties.GEOID10)[0].properties.ELECTION_RESULTS.HOUSE;
+          let electionOut = '';
+          precinctElection.map((e)=>{
+            Object.keys(e).map((f)=>{
+              electionOut+=e[f]+', '
+            })
+            electionOut+='<br/>';
+          });
+          textOut += electionOut;
+        }
       });
-      console.log(textOut);
       popup_precinct = new mapboxgl.Popup({closeButton: false, closeOnClick: false})
       .setLngLat(e.lngLat)
       .setHTML('<p>'+textOut+'</p>')
