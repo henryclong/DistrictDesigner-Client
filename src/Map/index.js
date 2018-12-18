@@ -9,8 +9,6 @@ import ConstitutionModal from './ConstitutionModal';
 import { MODAL } from '../config/constants';
 import StateSelector from './StateSelector';
 import mapboxgl from 'mapbox-gl';
-import { finalList } from './list';
-import { finalList2 } from './list2';
 
 let map;
 let popup_state;
@@ -99,6 +97,7 @@ class Map extends Component {
             }
           }
         );
+        return true;
       });
       map.addLayer({
         'id': 'newDistrictsFill',
@@ -238,12 +237,15 @@ class Map extends Component {
           let electionOut = '';
           precinctElection.map((e)=>{
             Object.keys(e).map((f)=>{
-              electionOut+=e[f]+', '
+              electionOut+=e[f]+', ';
+              return true;
             })
             electionOut+='<br/>';
+            return true;
           });
           textOut += electionOut;
         }
+        return true;
       });
       popup_precinct = new mapboxgl.Popup({closeButton: false, closeOnClick: false})
       .setLngLat(e.lngLat)
