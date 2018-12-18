@@ -1,5 +1,7 @@
 import mapboxgl from 'mapbox-gl';
 import { MAPBOX_ACCESS_TOKEN, MAPBOX_STYLE_URL, STATE_OUTLINE_URL } from '../config/constants';
+import { getPopulationInfo, getOriginalMapData } from './district-designer';
+import { readAsGEOJSON } from './geojsonConverter';
 
 export const createMap = () => {
   mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
@@ -85,7 +87,7 @@ export const loadState = (map, shortName, id) => {
   if(!(map.isSourceLoaded(shortName+'Source'))){
     map.addSource(shortName+'Source', {
       type: 'geojson',
-      data: '/' + shortName.toLowerCase() + '_with_id_simple.json'
+      data: JSON.parse(readAsGEOJSON(getOriginalMapData(shortName)['precincts']).toString())
     });
   }
   map.addLayer({
