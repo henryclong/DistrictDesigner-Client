@@ -9,6 +9,8 @@ import ConstitutionModal from './ConstitutionModal';
 import { MODAL } from '../config/constants';
 import StateSelector from './StateSelector';
 import mapboxgl from 'mapbox-gl';
+import { finalList } from './list';
+import { finalList2 } from './list2';
 
 let map;
 let popup_state;
@@ -34,6 +36,7 @@ class Map extends Component {
       mapMoving: false,
       precinctList: [],
       electionData: [],
+      previousDistrictID: -1,
     };
   }
 
@@ -80,7 +83,64 @@ class Map extends Component {
     weights.map((w) => (weightMap[w.id] = w.value));
     const result = startAlgorithm(algorithm, this.state.selectedState.shortName, weightMap);
     this.appendText((result)?"Algorithm Started: Weights: " + weights.map((w) => w.id + ": " + w.value) + " State: " + this.state.selectedState.shortName + " Algorithm Type: " + algorithm:"ERROR");
-    return result;
+    //TODO: Draw updated districts
+    //{"type":"Polygon","coordinates":[[[-87.95741199999999,43.067904],[-87.957466,43.064263],[-87.961052,43.064254999999996],[-87.96459,43.064256],[-87.96578799999999,43.067901],[-87.95741199999999,43.067904]]]}
+    if(result !== false) {
+      let jsonresult = JSON.parse(result.toString())
+      let data = {"type":"FeatureCollection", "features": []};
+      let i = 0;
+      jsonresult.map((f)=>{
+        data.features.push(
+          {
+            "type": "Feature",
+            "geometry": f,
+            "properties": {
+              id: i++,
+            }
+          }
+        );
+      });
+      map.addLayer({
+        'id': 'newDistrictsFill',
+        'type': 'fill',
+        'source': {
+          type: 'geojson',
+          data: data
+        },
+        'paint': {
+          'fill-color': [
+            'interpolate',
+            ['linear'],
+            ['get', 'id'],
+              0, '#F2F12D',
+              1, '#EED322',
+              2, '#E6B71E',
+              3, '#CA8323',
+              4, '#A25626',
+              8, '#723122'
+        ],
+          'fill-opacity': 1.0,
+        },
+        'minzoom': 3.5,
+      });
+      map.addLayer({
+        'id': 'newDistrictsBorders',
+        'type': 'line',
+        'source': {
+          type: 'geojson',
+          data: data
+        },
+        'paint': {
+          'line-color': '#ffffff',
+          'line-opacity': 1.0,
+          'line-width': 1.0,
+        },
+        'minzoom': 3.5,
+      }/*, this.state.selectedState.shortName+'Borders'*/);
+      map.setPaintProperty(this.state.selectedState.shortName+'Borders', 'line-opacity', 0.15);
+      map.setPaintProperty('districtBorders', 'line-opacity', 0.0);
+    }
+    //return result;
   }
 
   onStop = () => {
@@ -105,8 +165,6 @@ class Map extends Component {
   }
 
   showAlgorithm = () => {
-    map['dragPan'].disable();
-    map['scrollZoom'].disable();
     map.flyTo(this.state.selectedState.boundingBox);
     if(popup_precinct !== undefined) { popup_precinct.remove(); }
     this.setState({
