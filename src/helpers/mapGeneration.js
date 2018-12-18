@@ -3,8 +3,6 @@ import { MAPBOX_ACCESS_TOKEN, MAPBOX_STYLE_URL, STATE_OUTLINE_URL } from '../con
 import { getPopulationInfo, getOriginalMapData } from './district-designer';
 import { readAsGEOJSON } from './geojsonConverter';
 
-//console.log(readAsGEOJSON(getOriginalMapData('WI')['precincts']));
-
 export const createMap = () => {
   mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
   let map = new mapboxgl.Map({
@@ -75,7 +73,6 @@ export const createMap = () => {
 }
 
 export const loadState = (map, shortName, id) => {
-  //console.log(readAsGEOJSON(getOriginalMapData(shortName)['precincts']));
   let initStateMap = () => {
     if (map.getSource(shortName+'Source') && map.isSourceLoaded(shortName+'Source', {
       filter: ['has', 'id']
@@ -120,7 +117,6 @@ export const loadState = (map, shortName, id) => {
   },'districtFill');
   map.setFilter('districtFill', ['==', 'STATEFP', id]);
   map.setFilter('districtBorders', ['==', 'STATEFP', id]);
-  //console.log(getPopulationInfo(shortName));
 }
 
 export const unloadState = (map, shortName) => {
