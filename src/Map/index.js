@@ -156,8 +156,8 @@ class Map extends Component {
     if(popup_precinct !== undefined) { popup_precinct.remove(); }
     this.setState({ showingDistricts: !show});
     this.enableHover(map, this.state.selectedState.shortName, !this.state.showingDistricts);
-    map.setPaintProperty(this.state.selectedState.shortName+'Borders', 'line-opacity', (!show)?1.0:0.0);
-    map.setPaintProperty(this.state.selectedState.shortName+'Fill', 'fill-opacity', (!show)?1.0:0.0);
+    map.setPaintProperty(this.state.selectedState.shortName+'Borders', 'line-opacity', (!show)?1.0:1.0);
+    map.setPaintProperty(this.state.selectedState.shortName+'Fill', 'fill-opacity', (!show)?1.0:1.0);
     map.setPaintProperty('districtBorders', 'line-opacity', (!show)?0.0:1.0)
     map.setPaintProperty('districtFill', 'fill-opacity', (!show)?0.0:1.0)
   }
@@ -219,6 +219,7 @@ class Map extends Component {
           onToggle={this.onToggleAlgorithm}
           onStop={this.onStop}
           updateSettings={this.updateSettings}
+          user={this.props.user}
           />:<div/>
         }
         {

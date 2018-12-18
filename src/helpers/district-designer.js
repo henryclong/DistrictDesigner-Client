@@ -151,3 +151,32 @@ export const toggleAlgorithm = (status) => {
   console.log("Algorithm Paused");  
   return true;
 }
+
+export const saveWeights = (weights) => {
+  const request = new XMLHttpRequest();
+  const body = JSON.stringify(weights);
+  request.onreadystatechange = () => {
+    if (request.readyState === HTTP_STATE.DONE && request.status === HTTP_STATUS.OK) {
+      return JSON.parse(request.response);
+    }
+  }
+  request.open("POST", URL + "/SaveWeights", false);
+  try{
+    request.send(body);
+  } catch (e) { return false; }
+  return request.onreadystatechange();
+}
+
+export const loadWeights = (username) => {
+  const request = new XMLHttpRequest();
+  request.onreadystatechange = () => {
+    if (request.readyState === HTTP_STATE.DONE && request.status === HTTP_STATUS.OK) {
+      return JSON.parse(request.response);
+    }
+  }
+  request.open("GET", URL + "/LoadWeights?username="+username, false);
+  try{
+    request.send();
+  } catch (e) { return false; }
+  return request.onreadystatechange();
+}

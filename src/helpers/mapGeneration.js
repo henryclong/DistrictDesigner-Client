@@ -1,6 +1,6 @@
 import mapboxgl from 'mapbox-gl';
 import { MAPBOX_ACCESS_TOKEN, MAPBOX_STYLE_URL, STATE_OUTLINE_URL } from '../config/constants';
-import { getPopulationInfo, getOriginalMapData } from './district-designer';
+import { getOriginalMapData } from './district-designer';
 import { readAsGEOJSON } from './geojsonConverter';
 
 export const createMap = () => {
@@ -56,7 +56,8 @@ export const createMap = () => {
       'paint': {
         'fill-color': '#0a369d',
         'fill-opacity': 0.0,
-      }
+      },
+      'maxzoom': 7.0
     });
     map.addLayer({
       'id': 'districtBorders',
@@ -66,7 +67,8 @@ export const createMap = () => {
         'line-color': '#ffffff',
         'line-width': 1.0,
         'line-opacity': 0.0,
-      }
+      },
+      'maxzoom': 7.0
     });
   });
   return map;
