@@ -55,7 +55,8 @@ export const createMap = () => {
       'paint': {
         'fill-color': '#0a369d',
         'fill-opacity': 0.0,
-      }
+      },
+      'maxzoom': 7.0
     });
     map.addLayer({
       'id': 'districtBorders',
@@ -65,7 +66,8 @@ export const createMap = () => {
         'line-color': '#ffffff',
         'line-width': 1.0,
         'line-opacity': 0.0,
-      }
+      },
+      'maxzoom': 7.0
     });
   });
   return map;

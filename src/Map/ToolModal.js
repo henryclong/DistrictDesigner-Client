@@ -14,6 +14,7 @@ class ToolModal extends Component {
     this.state = {
       saving: false,
       weights: this.props.weights,
+      weightsName: '',
       algorithm: this.props.algorithms[0].value,
       isAlgorithmRunning: false,
       parameters: {},
@@ -54,7 +55,7 @@ class ToolModal extends Component {
   updateWeight = (sliderId, newWeight) => {
     this.setState({ weights: this.state.weights.map(element => {
       if (element.id === sliderId) {
-        console.log('new weight: '+newWeight+', '+sliderId);
+        //console.log('new weight: '+newWeight+', '+sliderId);
         return {
           label: element.label,
           id: element.id,
@@ -78,10 +79,15 @@ class ToolModal extends Component {
     });
   }
 
+  saveWeightsName = (e) => {
+    this.setState({ weightsName: e.target.value });
+  }
+
   saveWeights = () => {
     let weights = {};
+    this.state.weights.map((w)=>{weights[w.id] = w.value});
     weights.username = this.props.user.username;
-    weights.storedWeights = this.state.weights;
+    weights.name = this.state.weightsName;
     saveWeights(weights);
     this.setState({saving: !this.state.saving})
     this.success('Saved Weights');
@@ -100,7 +106,7 @@ class ToolModal extends Component {
   render() {
     if(this.props.zoomed === true){
       let parameters = this.props.algorithms.filter((a) => (a.value === this.state.algorithm))[0].parameters;
-      console.log(parameters);
+      //console.log(parameters);
       return (
         <div className="Modal ToolModal">
         <button onClick={() => this.zoomOut()} disabled={this.state.isAlgorithmRunning}>← Return to Demographics View</button>
@@ -121,7 +127,7 @@ class ToolModal extends Component {
               <button onClick={()=>this.setState({saving: !this.state.saving})}>{(this.state.saving)?'Cancel':'Save Weights'}</button>
               {(this.state.saving)?
               <div className="weightButtonContainer">
-                <input type='text'/>
+                <input type='text' onChange={(v)=>this.saveWeightsName(v)}/>
                 <button onClick={()=>this.saveWeights()}>Save</button>
               </div>:<div/>}
             </div>:<div/>
@@ -243,17 +249,17 @@ ToolModal.defaultProps = {
   weights: [
     {
       label: 'Compactness',
-      id: 'COMPACTNESS',
+      id: 'compactness',
       value: 0.50,
     },
     {
       label: 'Partisan Gerrymandering',
-      id: 'PARTISAN_GERRYMANDERING',
+      id: 'partisan_Gerrymandering',
       value: 0.50,
     },
     {
       label: 'Population Equality',
-      id: 'POPULATION_EQUALITY',
+      id: 'population_Equality',
       value: 0.50,
     },
   ],
