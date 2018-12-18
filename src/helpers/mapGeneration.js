@@ -86,10 +86,11 @@ export const loadState = (map, shortName, id) => {
       map.off('sourcedata', initStateMap);
     }
   }
+  let precinctData = JSON.parse(readAsGEOJSON(getOriginalMapData(shortName)['precincts']).toString())
   if(!(map.isSourceLoaded(shortName+'Source'))){
     map.addSource(shortName+'Source', {
       type: 'geojson',
-      data: JSON.parse(readAsGEOJSON(getOriginalMapData(shortName)['precincts']).toString())
+      data: precinctData
     });
   }
   map.addLayer({
@@ -119,6 +120,9 @@ export const loadState = (map, shortName, id) => {
   },'districtFill');
   map.setFilter('districtFill', ['==', 'STATEFP', id]);
   map.setFilter('districtBorders', ['==', 'STATEFP', id]);
+  let precinctList = [];
+  precinctData.features.map((feature)=>{precinctList.push(feature)});
+  return precinctList;
 }
 
 export const unloadState = (map, shortName) => {
