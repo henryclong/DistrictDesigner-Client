@@ -54,7 +54,6 @@ class Map extends Component {
     map.on('click', (e) => {
       let usstate = (this.props.usstates).filter((stateEntry) => (stateEntry.label === this.state.hoveredStateName))[0];
       if (usstate !== undefined) {
-        console.log(usstate.shortName);
         this.stateZoom(usstate);
       }
     });
