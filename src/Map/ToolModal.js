@@ -38,7 +38,7 @@ class ToolModal extends Component {
   }
 
   onStart = () => {
-    return this.props.onStart(this.state.weights, this.state.algorithm, this.state.parameters)
+    return this.props.onStart(this.state.weights, this.state.algorithm, this.state.parameters);
   }
   
   onStop = () => {
