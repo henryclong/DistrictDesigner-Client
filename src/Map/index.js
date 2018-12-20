@@ -81,24 +81,7 @@ class Map extends Component {
     weights.map((w) => (weightMap[w.id] = w.value));
     const result = startAlgorithm(algorithm, this.state.selectedState.shortName, weightMap, parameters);
     this.appendText((result)?"Algorithm Started: Weights: " + weights.map((w) => w.id + ": " + w.value) + " State: " + this.state.selectedState.shortName + " Algorithm Type: " + algorithm:"ERROR");
-    //TODO: Draw updated districts
-    //{"type":"Polygon","coordinates":[[[-87.95741199999999,43.067904],[-87.957466,43.064263],[-87.961052,43.064254999999996],[-87.96459,43.064256],[-87.96578799999999,43.067901],[-87.95741199999999,43.067904]]]}
     if(result !== false) {
-      // let jsonresult = JSON.parse(result.toString())
-      // let data = {"type":"FeatureCollection", "features": []};
-      // let i = 0;
-      // jsonresult.map((f)=>{
-      //   data.features.push(
-      //     {
-      //       "type": "Feature",
-      //       "geometry": f,
-      //       "properties": {
-      //         id: i++,
-      //       }
-      //     }
-      //   );
-      //   return true;
-      // });
       const data = JSON.parse(readAsGEOJSON(convertToGEOJSON(result)['districts']).toString());
       console.log(readAsGEOJSON(convertToGEOJSON(result)['districts']).toString());
       map.addLayer({
