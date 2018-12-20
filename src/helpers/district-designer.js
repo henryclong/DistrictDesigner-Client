@@ -117,7 +117,8 @@ export const startAlgorithm = (algoType, shortName, weights, parameters) => {
     'algoType': algoType,
     'shortName': shortName,
     'weights': weights,
-    'parameters': parameters,
+    'numOfDistricts': parameters.districtCount,
+    'selectionType' : parameters.moveSelect,
   });
   request.onreadystatechange = () => {
     if (request.readyState === HTTP_STATE.DONE && request.status === HTTP_STATUS.OK) {
