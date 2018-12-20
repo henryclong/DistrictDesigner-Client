@@ -82,15 +82,18 @@ class Map extends Component {
     const result = startAlgorithm(algorithm, this.state.selectedState.shortName, weightMap, parameters);
     this.appendText((result)?"Algorithm Started: Weights: " + weights.map((w) => w.id + ": " + w.value) + " State: " + this.state.selectedState.shortName + " Algorithm Type: " + algorithm:"ERROR");
     if(result !== false) {
+      try{ map.removeLayer('newDistrictsFill'); } catch (e) {}
+      try{ map.removeSource('newDistrictsSource'); } catch (e) {}
       const data = JSON.parse(readAsGEOJSON(convertToGEOJSON(result)['districts']).toString());
       console.log(readAsGEOJSON(convertToGEOJSON(result)['districts']).toString());
+      map.addSource('newDistrictsSource', {
+        type: 'geojson',
+          data: data,
+      });
       map.addLayer({
         'id': 'newDistrictsFill',
         'type': 'fill',
-        'source': {
-          type: 'geojson',
-          data: data
-        },
+        'source': 'newDistrictsSource',
         'paint': {
           'fill-color': [
             'interpolate',
@@ -106,8 +109,8 @@ class Map extends Component {
           'fill-opacity': 1.0,
         },
         'minzoom': 5.0,
-      });
-      map.addLayer({
+      }, this.state.selectedState.shortName+'Borders');
+      /*map.addLayer({
         'id': 'newDistrictsBorders',
         'type': 'line',
         'source': {
@@ -119,8 +122,8 @@ class Map extends Component {
           'line-opacity': 1.0,
           'line-width': 1.0,
         },
-        'minzoom': 5.0,
-      }/*, this.state.selectedState.shortName+'Borders'*/);
+        'minzoom': 5.0,*/
+      //}/*, this.state.selectedState.shortName+'Borders'*///);
       map.setPaintProperty(this.state.selectedState.shortName+'Borders', 'line-opacity', 0.15);
       map.setPaintProperty('districtBorders', 'line-opacity', 0.0);
     }
@@ -159,6 +162,7 @@ class Map extends Component {
 
   hideAlgorithm = () => {
     this.toggleDistrictView(true);
+    try{ map.removeLayer('newDistrictsFill'); } catch (e) {}
     map['dragPan'].enable();
     map['scrollZoom'].enable();
     this.setState({
@@ -178,6 +182,9 @@ class Map extends Component {
     this.setState({ precinctList: precinctList });
     this.enableHover(map, usstate.shortName, true);
     this.toggleDistrictView(true);
+
+    try{ map.removeLayer('newDistrictsFill'); } catch (e) {}
+
     map.once('moveend', function(){
       map.setMinZoom(5.5);
     });

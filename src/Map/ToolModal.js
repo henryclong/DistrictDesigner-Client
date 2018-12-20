@@ -309,19 +309,19 @@ ToolModal.defaultProps = {
     {
       label: 'Compactness',
       id: 'compactness',
-      startId: 'COMPACTNESS',
+      startId: 'compactness',
       value: 0.50,
     },
     {
       label: 'Partisan Gerrymandering',
       id: 'partisan_Gerrymandering',
-      startId: 'PARTISAN_GERRYMANDERING',
+      startId: 'partisan_Gerrymandering',
       value: 0.50,
     },
     {
       label: 'Population Equality',
       id: 'population_Equality',
-      startId: 'POPULATION_EQUALITY',
+      startId: 'population_Equality',
       value: 0.50,
     },
   ],
