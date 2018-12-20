@@ -6,6 +6,7 @@ import ParameterSelector from './ParameterSelector';
 import { getConstitution, saveWeights, loadWeights } from '../helpers/district-designer';
 import Alert from 'react-s-alert';
 import Select from 'react-select';
+import { ALGORITHM_STATE } from '../config/constants';
 
 class ToolModal extends Component {
 
@@ -16,10 +17,11 @@ class ToolModal extends Component {
       weights: this.props.weights,
       weightsName: '',
       algorithm: this.props.algorithms[0].value,
-      isAlgorithmRunning: false,
+      algorithmState: ALGORITHM_STATE.STOPPED,
       parameters: {},
       options: [],
       weightOptionsList: [],
+      runCount: 0,
     };
   }
 
@@ -35,14 +37,32 @@ class ToolModal extends Component {
 
   onToggle = (toggle) => {
     this.props.onToggle(toggle);
+    if(toggle) {
+      this.requestLoop();
+    }
   }
 
   onStart = () => {
-    return this.props.onStart(this.state.weights, this.state.algorithm)
+    let started = this.props.onStart(this.state.weights, this.state.algorithm, this.state.parameters);
+    this.setState({ algorithmState: (started)?ALGORITHM_STATE.RUNNING:ALGORITHM_STATE.STOPPED });
+    this.requestLoop();
   }
   
   onStop = () => {
     this.props.onStop();
+  }
+
+  onUpdate = () => {
+    console.log(this.state.runCount);
+    this.setState({ runCount: this.state.runCount + 1 });
+    return this.state.runCount < 50;
+  }
+
+  requestLoop = () => {
+    let continueAlgorithm = true;
+    while(!(this.state.algorithmState===ALGORITHM_STATE.PAUSED) && continueAlgorithm) {
+      continueAlgorithm = this.onUpdate();
+    }
   }
 
   updateAlgorithm = (value) => {
@@ -141,10 +161,10 @@ class ToolModal extends Component {
       let parameters = this.props.algorithms.filter((a) => (a.value === this.state.algorithm))[0].parameters;
       return (
         <div className="Modal ToolModal">
-        <button onClick={() => this.zoomOut()} disabled={this.state.isAlgorithmRunning}>← Return to Demographics View</button>
+        <button onClick={() => this.zoomOut()} disabled={!(this.state.algorithmState===ALGORITHM_STATE.STOPPED)}>← Return to Demographics View</button>
         <div className="scrollable inset"> 
           {
-            (!this.props.isAlgorithmRunning && this.props.user.isLoggedIn !== false)?
+            ((this.state.algorithmState===ALGORITHM_STATE.STOPPED) && this.props.user.isLoggedIn !== false)?
             <div className="weightSaveContainer">
               <Select
                 className='react-select-container'
@@ -172,7 +192,7 @@ class ToolModal extends Component {
                       name="algorithmRadio" 
                       onClick={() => {this.updateAlgorithm(item.value)}}
                       type="radio"
-                      disabled={this.state.isAlgorithmRunning}
+                      disabled={!(this.state.algorithmState===ALGORITHM_STATE.STOPPED)}
                     />
                     <span className="radio"></span>
                     <label name={"algorithmTitle"}>{item.label}</label>
@@ -184,7 +204,7 @@ class ToolModal extends Component {
           <ParameterSelector
             parameters={parameters}
             updateParameters={this.updateParameters}
-            isAlgorithmRunning={this.state.isAlgorithmRunning}
+            isAlgorithmRunning={!(this.state.algorithmState===ALGORITHM_STATE.STOPPED)}
           />:<div/>}
           {
             this.props.weights.map((item) => (
@@ -204,7 +224,7 @@ class ToolModal extends Component {
                       max={this.props.sliderMax} 
                       min={0} 
                       onChange={(value) => {this.updateWeight(item.id, value)}}
-                      disabled={this.state.isAlgorithmRunning}
+                      disabled={!(this.state.algorithmState === ALGORITHM_STATE.STOPPED)}
                     />
                     <label id={"weightLabel"+item.id}>
                       {
@@ -219,26 +239,52 @@ class ToolModal extends Component {
           }
           </div>
           {
-            (!this.state.isAlgorithmRunning)
+            (this.state.algorithmState===ALGORITHM_STATE.STOPPED)
             ?
             <button className='primaryButton' onClick={() => {
-              this.setState({ isAlgorithmRunning: this.onStart() });
+              this.onStart();
             }}>Start Algorithm</button>
-            :
+            :<div/>
+          }
+          {
+            (this.state.algorithmState===ALGORITHM_STATE.RUNNING)
+            ?
             <div className="buttonContainer">
               <button onClick={() => {
-                this.setState({ isAlgorithmRunning: false });
+                this.setState({ algorithmState: ALGORITHM_STATE.PAUSED });
                 this.onToggle(false)
               }}>
                 Pause
               </button>
               <button onClick={() => {
-                this.setState({ isAlgorithmRunning: false });
+                this.setState({ algorithmState: ALGORITHM_STATE.STOPPED });
                 this.onStop()
               }}>
                 Stop
               </button>
             </div>
+            :<div/>
+            
+          }
+          {
+            (this.state.algorithmState===ALGORITHM_STATE.PAUSED)
+            ?
+            <div className="buttonContainer">
+              <button onClick={() => {
+                this.setState({ algorithmState: ALGORITHM_STATE.RUNNING });
+                this.onToggle(true)
+              }}>
+                Resume
+              </button>
+              <button onClick={() => {
+                this.setState({ algorithmState: ALGORITHM_STATE.STOPPED });
+                this.onStop()
+              }}>
+                Stop
+              </button>
+            </div>
+            :<div/>
+            
           }
           
         </div>

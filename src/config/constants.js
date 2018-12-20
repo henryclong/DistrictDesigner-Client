@@ -23,3 +23,9 @@ export const MODAL = {
   INFO_MODAL: 1,
   TOOL_MODAL: 2,
 }
+
+export const ALGORITHM_STATE = {
+  STOPPED: 0,
+  RUNNING: 1,
+  PAUSED:2,
+}
