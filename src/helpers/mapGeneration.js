@@ -41,7 +41,7 @@ export const createMap = () => {
       'layout': {},
       'paint': {
         'line-color': '#ffffff',
-        'line-width': 0.5
+        'line-width': 1.0
       },
       'maxzoom': 5.5
     });
@@ -114,7 +114,7 @@ export const loadState = (map, shortName, id) => {
     'layout': {},
     'paint': {
       'line-color': '#ffffff',
-      'line-width': 0.5,
+      'line-width': 1.0,
       'line-opacity': 1.0,
     },
   },'districtFill');

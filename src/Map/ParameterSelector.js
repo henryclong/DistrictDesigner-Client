@@ -6,9 +6,9 @@ class ParameterSelector extends Component {
   constructor(props){
     super(props);
     const params = {};
-    if(this.props.parameters.includes('seedSelect')) params['seedSelect'] = 'RANDOM';
+    if(this.props.parameters.includes('seedSelect')) params['seedSelect'] = this.props.radioOptions.seedSelection[0].value;
     if(this.props.parameters.includes('districtCount')) params['districtCount'] = '8';
-    if(this.props.parameters.includes('moveSelect')) params['moveSelect'] = 'BEST';
+    if(this.props.parameters.includes('moveSelect')) params['moveSelect'] = this.props.radioOptions.moveSelection[0].value;
     this.state = {
       parameters: params
     };
@@ -128,12 +128,12 @@ ParameterSelector.defaultProps = {
     moveSelection: [
       {
         label: 'Best Move',
-        value: 'BEST',
+        value: 'BEST_FIT',
         default: true,
       },
       {
         label: 'Worst Move',
-        value: 'WORST',
+        value: 'WORST_FIT',
         default: false,
       },
       {

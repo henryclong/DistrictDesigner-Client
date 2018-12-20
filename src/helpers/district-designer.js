@@ -111,12 +111,14 @@ export const getUpdate = () => {
   return request.onreadystatechange();
 }
 
-export const startAlgorithm = (algoType, shortName, weights) => {
+export const startAlgorithm = (algoType, shortName, weights, parameters) => {
   const request = new XMLHttpRequest();
   const body = JSON.stringify({
     'algoType': algoType,
     'shortName': shortName,
     'weights': weights,
+    'numOfDistricts': parameters.districtCount,
+    'selectionType' : parameters.moveSelect,
   });
   request.onreadystatechange = () => {
     if (request.readyState === HTTP_STATE.DONE && request.status === HTTP_STATUS.OK) {

@@ -38,7 +38,7 @@ class ToolModal extends Component {
   }
 
   onStart = () => {
-    return this.props.onStart(this.state.weights, this.state.algorithm)
+    return this.props.onStart(this.state.weights, this.state.algorithm, this.state.parameters);
   }
   
   onStop = () => {
@@ -280,16 +280,19 @@ ToolModal.defaultProps = {
     {
       label: 'Compactness',
       id: 'compactness',
+      startId: 'COMPACTNESS',
       value: 0.50,
     },
     {
       label: 'Partisan Gerrymandering',
       id: 'partisan_Gerrymandering',
+      startId: 'PARTISAN_GERRYMANDERING',
       value: 0.50,
     },
     {
       label: 'Population Equality',
       id: 'population_Equality',
+      startId: 'POPULATION_EQUALITY',
       value: 0.50,
     },
   ],
