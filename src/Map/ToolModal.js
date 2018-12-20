@@ -22,11 +22,12 @@ class ToolModal extends Component {
       options: [],
       weightOptionsList: [],
       runCount: 0,
+      weightsToSend: [],
     };
   }
 
   componentDidMount() {
-    this.props.weights.map((item) => (this.updateWeight(item.id, (this.props.sliderMax/2).toFixed(2))));
+    this.props.weights.map((item) => (this.initWeight(item.id, (this.props.sliderMax/2).toFixed(2))));
   }
 
   toggleConstitutionView = () => {
@@ -73,17 +74,45 @@ class ToolModal extends Component {
     this.setState({ parameters: parameters });
   }
 
+  initWeight = (sliderId, newWeight) => {
+    let newWeightsToSend = [];
+    this.props.weights.map(element => {
+      newWeightsToSend.push({
+        id: element.startId,
+        value: (newWeight / this.props.sliderMax).toFixed(2),
+      });
+    });
+    this.setState({ weightsToSend: newWeightsToSend });
+  }
+
   updateWeight = (sliderId, newWeight) => {
-    this.setState({ weights: this.state.weights.map(element => {
+    let newWeights = [];
+    let newWeightsToSend = [];
+    this.state.weights.map(element => {
       if (element.id === sliderId) {
-        return {
-          label: element.label,
+        newWeights.push({
           id: element.id,
+          startId: element.startId,
           value: (newWeight / this.props.sliderMax).toFixed(2),
-        }
+        });
+        newWeightsToSend.push({
+          id: element.startId,
+          value: (newWeight / this.props.sliderMax).toFixed(2),
+        });
+      } else {
+        newWeights.push({
+          id: element.id,
+          startId: element.startId,
+          value: element.value,
+        });
+        newWeightsToSend.push({
+          id: element.startId,
+          value: element.value,
+        });
       }
-      return element;
-    })});
+    });
+    this.setState({ weights: newWeights });
+    this.setState({ weightsToSend: newWeightsToSend });
   }
 
   zoomOut = () => {
@@ -326,16 +355,19 @@ ToolModal.defaultProps = {
     {
       label: 'Compactness',
       id: 'compactness',
+      startId: 'compactness',
       value: 0.50,
     },
     {
       label: 'Partisan Gerrymandering',
       id: 'partisan_Gerrymandering',
+      startId: 'partisan_Gerrymandering',
       value: 0.50,
     },
     {
       label: 'Population Equality',
       id: 'population_Equality',
+      startId: 'population_Equality',
       value: 0.50,
     },
   ],
