@@ -1,13 +1,18 @@
 export const convertToGEOJSON = (region) => {
   const geojsonFormat = {}
   if (region.hasOwnProperty('DISTRICTS')) {
+    let i = 0;
     geojsonFormat['districts'] = {
       'type' : 'FeatureCollection',
       'features' : region['DISTRICTS'].map( district => (
         { 
           'type': 'Feature',
-          ...district 
-        }))
+          ...district, 
+          'properties': {
+            id: i++,
+          }
+        }
+        )),
     };
   }
   if (region.hasOwnProperty('PRECINCTS')) {
